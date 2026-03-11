@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아르테미스 — 미술심리분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --ink: #1a1410;
+    --parchment: #f5f0e8;
+    --gold: #b8934a;
+    --gold-light: #d4aa6a;
+    --muted: #7a6e62;
+    --line: rgba(184,147,74,0.25);
+    --shadow: rgba(26,20,16,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .logo-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .subtitle {
+    margin-top: 14px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* Main layout */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  /* Upload Zone */
+  .upload-section {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .upload-zone {
+    border: 1.5px dashed var(--gold);
+    border-radius: 2px;
+    padding: 64px 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(184,147,74,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .upload-zone::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--line);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .upload-zone:hover {
+    background: rgba(184,147,74,0.07);
+    border-color: var(--gold-light);
+  }
+
+  .upload-zone.drag-over {
+    background: rgba(184,147,74,0.12);
+    border-style: solid;
+  }
+
+  .upload-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    opacity: 0.5;
+  }
+
+  .upload-icon svg { width: 100%; height: 100%; }
+
+  .upload-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .upload-desc {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  #fileInput { display: none; }
+
+  /* Preview */
+  .preview-container {
+    display: none;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .preview-frame {
+    display: inline-block;
+    position: relative;
+    padding: 12px;
+    background: white;
+    box-shadow: 0 8px 40px var(--shadow), 0 2px 8px var(--shadow);
+  }
+
+  .preview-frame::before, .preview-frame::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--line);
+  }
+
+  .preview-frame::after {
+    inset: 6px;
+    border-color: rgba(184,147,74,0.1);
+  }
+
+  #previewImg {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+
+  .preview-caption {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Analyze Button */
+  .btn-analyze {
+    display: block;
+    margin: 36px auto 0;
+    padding: 16px 56px;
+    background: var(--ink);
+    color: var(--parchment);
+    border: none;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-analyze::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border: 1px solid rgba(184,147,74,0.3);
+    pointer-events: none;
+  }
+
+  .btn-analyze:hover {
+    background: var(--gold);
+    color: white;
+  }
+
+  .btn-analyze:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Loading */
+  .loading-section {
+    display: none;
+    text-align: center;
+    padding: 60px 0;
+  }
+
+  .loading-ornament {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 24px;
+    border: 1px solid var(--line);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .loading-steps {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    min-height: 20px;
+  }
+
+  /* Report */
+  .report-section {
+    display: none;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .report-header {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .report-badge {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .report-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .report-date {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* Sections */
+  .report-body {
+    display: grid;
+    gap: 0;
+  }
+
+  .report-block {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .report-block {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  .block-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-top: 4px;
+    position: relative;
+  }
+
+  .block-label::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    margin-top: 10px;
+    opacity: 0.5;
+  }
+
+  .block-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+
+  .block-content p {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 2;
+    color: #3a3028;
+  }
+
+  .block-content p + p {
+    margin-top: 12px;
+  }
+
+  /* Keyword tags */
+  .keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .tag {
+    padding: 5px 14px;
+    border: 1px solid var(--line);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  /* Score bar */
+  .score-grid {
+    display: grid;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .score-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 30px;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .score-name {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .score-bar-bg {
+    height: 2px;
+    background: var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .score-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--gold);
+    text-align: right;
+  }
+
+  /* Solution cards */
+  .solution-list {
+    display: grid;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .solution-card {
+    padding: 20px 24px;
+    background: white;
+    border-left: 2px solid var(--gold);
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+
+  .solution-card .sol-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .solution-card .sol-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .solution-card .sol-desc {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: #5a4e44;
+  }
+
+  /* Footer quote */
+  .report-footer {
+    text-align: center;
+    padding: 56px 0 40px;
+  }
+
+  .closing-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--line);
+    margin: 24px auto;
+  }
+
+  /* Actions */
+  .report-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .btn-action {
+    padding: 12px 32px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .btn-action:hover {
+    background: var(--ink);
+    color: var(--parchment);
+  }
+
+  .btn-action.primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+  }
+
+  .btn-action.primary:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  /* PDF Export Mode */
+  .pdf-export-mode .report-block,
+  .pdf-export-mode .score-bar-fill {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .pdf-export-mode .report-section {
+    animation: none !important;
+  }
+
+  /* Error */
+  .error-box {
+    display: none;
+    padding: 20px 24px;
+    border: 1px solid #e8a0a0;
+    background: #fff8f8;
+    color: #8b3030;
+    font-size: 13px;
+    margin-top: 24px;
+    font-family: 'Noto Serif KR', serif;
+  }
+
+
+
+  /* Scroll reveal */
+  .report-block { opacity: 0; transform: translateY(16px); }
+  .report-block.visible { 
+    animation: fadeUp 0.6s ease forwards; 
+  }
+  .report-block:nth-child(1) { animation-delay: 0.1s; }
+  .report-block:nth-child(2) { animation-delay: 0.2s; }
+  .report-block:nth-child(3) { animation-delay: 0.3s; }
+  .report-block:nth-child(4) { animation-delay: 0.4s; }
+  .report-block:nth-child(5) { animation-delay: 0.5s; }
+  .report-block:nth-child(6) { animation-delay: 0.6s; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-ornament">✦ Artemis Studio ✦</div>
+  <h1><em>Art</em>emis</h1>
+  <p class="subtitle">미술심리분석 · 내면의 언어를 해석합니다</p>
+</header>
+
+
+<main>
+
+  <!-- Upload Section -->
+  <div class="upload-section" id="uploadSection">
+    <div class="upload-zone" id="uploadZone">
+      <div class="upload-icon">
+        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="54" height="54" rx="1" stroke="#b8934a" stroke-width="1"/>
+          <path d="M28 18V38M18 28H38" stroke="#b8934a" stroke-width="1.5" stroke-linecap="square"/>
+          <circle cx="28" cy="28" r="14" stroke="#b8934a" stroke-width="0.75" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="upload-title">그림을 업로드하세요</div>
+      <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
+      <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <div class="preview-container" id="previewContainer">
+      <div class="preview-frame">
+        <img id="previewImg" alt="업로드된 그림">
+      </div>
+      <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
+    </div>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <button class="btn-analyze" id="analyzeBtn" disabled onclick="analyzeImage()">
+      심리 분석 시작
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-section" id="loadingSection">
+    <div class="loading-ornament"></div>
+    <div class="loading-text">그림을 읽고 있습니다</div>
+    <div class="loading-steps" id="loadingSteps">시각 요소 분석 중…</div>
+  </div>
+
+  <!-- Report -->
+  <div class="report-section" id="reportSection">
+    <div class="report-header">
+      <div class="report-badge">✦ Psychological Analysis Report ✦</div>
+      <div class="report-title" id="reportTitle">미술심리분석 보고서</div>
+      <div class="report-date" id="reportDate"></div>
+      <div style="margin-top: 36px;">
+        <img id="reportImage" style="max-width: 100%; max-height: 360px; border-radius: 4px; box-shadow: 0 4px 16px rgba(26,20,16,0.15);">
+      </div>
+    </div>
+
+    <div class="report-body" id="reportBody">
+      <!-- Dynamically generated -->
+    </div>
+
+    <div class="report-footer">
+      <div class="divider"></div>
+      <div class="closing-line" id="closingLine"></div>
+      <div class="divider"></div>
+    </div>
+
+    <div class="report-actions">
+      <button class="btn-action" onclick="resetApp()">새 그림 분석하기</button>
+      <button class="btn-action primary" style="background:#2b579a;border-color:#2b579a;" onclick="exportWord()">Word 다운로드</button>
+      <button class="btn-action primary" onclick="exportPDF()">PDF 다운로드</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let uploadedImageBase64 = null;
+let uploadedImageType = null;
+
+
+// Upload zone interactions
+const zone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+
+zone.addEventListener('click', () => fileInput.click());
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault();
+  zone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+
+function handleFile(file) {
+  if (!file.type.startsWith('image/')) {
+    showError('이미지 파일만 업로드 가능합니다.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    uploadedImageBase64 = dataUrl.split(',')[1];
+    uploadedImageType = file.type;
+
+    document.getElementById('previewImg').src = dataUrl;
+    document.getElementById('previewContainer').style.display = 'block';
+    document.getElementById('analyzeBtn').disabled = false;
+    hideError();
+  };
+  reader.readAsDataURL(file);
+}
+
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.textContent = msg;
+  box.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('errorBox').style.display = 'none';
+}
+
+async function analyzeImage() {
+  if (!uploadedImageBase64) return;
+
+  // Show loading
+  document.getElementById('uploadSection').style.display = 'none';
+  document.getElementById('loadingSection').style.display = 'block';
+
+  // Animate loading steps
+  const steps = [
+    '시각 요소 분석 중…',
+    '색채 심리 해석 중…',
+    '공간 구성 읽는 중…',
+    '내면 상태 도출 중…',
+    '솔루션 구성 중…',
+    '보고서 작성 중…'
+  ];
+  let stepIdx = 0;
+  const stepEl = document.getElementById('loadingSteps');
+  const stepInterval = setInterval(() => {
+    stepIdx = (stepIdx + 1) % steps.length;
+    stepEl.textContent = steps[stepIdx];
+  }, 1400);
+
+  try {
+    const OPENAI_API_KEY = ''; // 보안상 API 키를 분리했습니다. GitHub에 올릴 때는 키를 직접 넣지 마세요.
+    
+    const systemPrompt = `당신은 전문 미술 심리 분석가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 정확하게, 하지만 내용이 매우 깊이 있고 양식을 갖춘 전문가 보고서 형태로 응답하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
+{
+  "title": "보고서 제목 (예: 내면의 소리에 귀 기울이는 시간)",
+  "overview": "그림의 전반적인 특징 및 첫인상 (2~3개 문단으로 상세히 기술)",
+  "keywords": ["키워드1", "키워드2", "키워드3", "키워드4", "키워드5"],
+  "elements": {
+    "color": "색채 심리 분석 (상세히, 문단 구분 포함)",
+    "composition": "공간 및 구도 분석 (상세히, 문단 구분 포함)",
+    "form": "형태 및 선의 특징 분석 (상세히)",
+    "symbol": "주요 상징물 분석 (상세히)"
+  },
+  "scores": [
+    {"name": "스트레스 지수", "value": 0~100 사이 숫자},
+    {"name": "우울감", "value": 0~100 사이 숫자},
+    {"name": "활동성", "value": 0~100 사이 숫자},
+    {"name": "자아 존중감", "value": 0~100 사이 숫자}
+  ],
+  "core_state": "현재 내면 상태에 대한 깊이 있는 심리 분석 (2~3개 문단으로 상세 기술)",
+  "solutions": [
+    {"title": "솔루션 1 제목", "description": "구체적이고 실천 가능한 치유 솔루션 또는 조언 상세 설명"},
+    {"title": "솔루션 2 제목", "description": "구체적이고 실천 가능한 치유 솔루션 또는 조언 상세 설명"},
+    {"title": "솔루션 3 제목", "description": "구체적이고 실천 가능한 치유 솔루션 또는 조언 상세 설명"}
+  ],
+  "closing": "분석을 마무리하는 따뜻하고 가장 핵심적인 조언 한 마디"
+}
+오직 유효한 JSON 문자열만 반환하세요.`;
+
+    const payload = {
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: systemPrompt
+        },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "이 그림을 미술 심리학적 관점에서 분석해주세요." },
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:${uploadedImageType};base64,${uploadedImageBase64}`
+              }
+            }
+          ]
+        }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 2500,
+      temperature: 0.7
+    };
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    clearInterval(stepInterval);
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error?.message || '분석 중 오류가 발생했습니다.');
+    }
+
+    const resultData = await response.json();
+    const resultText = resultData.choices[0].message.content;
+    const result = JSON.parse(resultText);
+
+    renderReport(result);
+
+  } catch (err) {
+    clearInterval(stepInterval);
+    document.getElementById('loadingSection').style.display = 'none';
+    document.getElementById('uploadSection').style.display = 'block';
+    showError('분석 중 오류가 발생했습니다: ' + err.message);
+  }
+}
+
+function formatText(text) {
+  if (!text) return '';
+  return text.replace(/\\n/g, '<br/>');
+}
+
+function renderReport(data) {
+  document.getElementById('loadingSection').style.display = 'none';
+
+  // Header
+  document.getElementById('reportTitle').textContent = data.title || '미술심리분석 보고서';
+  document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ko-KR', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  }) + ' · Artemis Studio';
+  document.getElementById('closingLine').textContent = data.closing || '';
+
+  // Apply image
+  const previewImg = document.getElementById('previewImg').src;
+  document.getElementById('reportImage').src = previewImg;
+
+  const body = document.getElementById('reportBody');
+  body.innerHTML = '';
+
+  // Block 1: Overview
+  body.innerHTML += `
+    <div class="report-block visible">
+      <div class="block-label">개요<br>Overview</div>
+      <div class="block-content">
+        <h3>그림이 말하는 것</h3>
+        <p>${formatText(data.overview)}</p>
+        <div class="keyword-tags">
+          ${(data.keywords || []).map(k => `<span class="tag">${k}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // Block 2: Elements
+  const el = data.elements || {};
+  body.innerHTML += `
+    <div class="report-block visible">
+      <div class="block-label">시각 분석<br>Visual</div>
+      <div class="block-content">
+        <h3>색채 · 구성 · 형태의 심리학</h3>
+        <p><strong style="font-weight:500;color:var(--gold)">색채 —</strong><br/>${formatText(el.color)}</p>
+        <p><strong style="font-weight:500;color:var(--gold)">구성 —</strong><br/>${formatText(el.composition)}</p>
+        <p><strong style="font-weight:500;color:var(--gold)">형태 —</strong><br/>${formatText(el.form)}</p>
+        <p><strong style="font-weight:500;color:var(--gold)">상징 —</strong><br/>${formatText(el.symbol)}</p>
+      </div>
+    </div>`;
+
+  // Block 3: Scores
+  const scores = data.scores || [];
+  body.innerHTML += `
+    <div class="report-block visible" id="scoreBlock">
+      <div class="block-label">심리 지수<br>Index</div>
+      <div class="block-content">
+        <h3>내면 상태 측정</h3>
+        <div class="score-grid">
+          ${scores.map(s => `
+            <div class="score-item">
+              <div class="score-name">${s.name}</div>
+              <div class="score-bar-bg">
+                <div class="score-bar-fill" data-val="${s.value}" style="width:0%"></div>
+              </div>
+              <div class="score-val">${s.value}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // Block 4: Core state
+  body.innerHTML += `
+    <div class="report-block visible">
+      <div class="block-label">핵심 상태<br>Core State</div>
+      <div class="block-content">
+        <h3>지금 당신의 내면</h3>
+        <p style="font-style:italic;font-family:'Noto Serif KR',serif;font-size:15px;line-height:2.1;color:#4a3e34;">${formatText(data.core_state)}</p>
+      </div>
+    </div>`;
+
+  // Block 5: Solutions
+  const sols = data.solutions || [];
+  body.innerHTML += `
+    <div class="report-block visible">
+      <div class="block-label">솔루션<br>Solution</div>
+      <div class="block-content">
+        <h3>마음을 위한 처방</h3>
+        <div class="solution-list">
+          ${sols.map((s, i) => `
+            <div class="solution-card">
+              <div class="sol-num">0${i+1}</div>
+              <div class="sol-title">${s.title}</div>
+              <div class="sol-desc">${formatText(s.description)}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // Show
+  document.getElementById('reportSection').style.display = 'block';
+
+  // Animate score bars
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.val + '%';
+    });
+  }, 400);
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetApp() {
+  uploadedImageBase64 = null;
+  uploadedImageType = null;
+  document.getElementById('previewContainer').style.display = 'none';
+  document.getElementById('analyzeBtn').disabled = true;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('reportSection').style.display = 'none';
+  document.getElementById('uploadSection').style.display = 'block';
+  document.getElementById('reportBody').innerHTML = '';
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function exportPDF() {
+  const element = document.getElementById('reportSection');
+  const actions = element.querySelector('.report-actions');
+  actions.style.display = 'none'; // PDF 변환 시 버튼 숨기기
+  document.body.classList.add('pdf-export-mode');
+
+  // score bar fix for static width
+  document.querySelectorAll('.score-bar-fill').forEach(bar => {
+    bar.style.width = bar.dataset.val + '%';
+  });
+
+  const opt = {
+    margin:       15,
+    filename:     'Artemis_미술심리분석_보고서.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, windowWidth: 1000, useCORS: true, logging: false },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    actions.style.display = 'flex'; // 변환 완료 후 버튼 다시 표시
+    document.body.classList.remove('pdf-export-mode');
+  }).catch(err => {
+    console.error('PDF Generate Error:', err);
+    actions.style.display = 'flex';
+    document.body.classList.remove('pdf-export-mode');
+  });
+}
+
+function exportWord() {
+  const reportSection = document.getElementById('reportSection').cloneNode(true);
+  
+  // Remove interactive buttons before exporting
+  const actions = reportSection.querySelector('.report-actions');
+  if (actions) {
+    actions.parentNode.removeChild(actions);
+  }
+
+  // Create HTML str
+  const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>미술심리분석 보고서</title><style>body { font-family: 'Malgun Gothic', sans-serif; } .report-block { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 20px; } .score-bar-bg { background-color: #f0f0f0; height: 10px; width: 100%; } .score-bar-fill { background-color: #b8934a; height: 100%; }</style></head><body>";
+  const postHtml = "</body></html>";
+  const html = preHtml + reportSection.innerHTML + postHtml;
+
+  const blob = new Blob(['\ufeff', html], {
+    type: 'application/msword'
+  });
+  
+  // Create download link element
+  const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+  const filename = 'Artemis_미술심리분석_보고서.doc';
+  
+  const downloadLink = document.createElement("a");
+
+  document.body.appendChild(downloadLink);
+  
+  if(navigator.msSaveOrOpenBlob ){
+    navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+    downloadLink.href = url;
+    downloadLink.download = filename;
+    downloadLink.click();
+  }
+  
+  document.body.removeChild(downloadLink);
+}
+
+// Print styles
+const printStyle = document.createElement('style');
+printStyle.textContent = `
+  @media print {
+    header, .upload-section, .loading-section, .report-actions { display: none !important; }
+    body { background: white; }
+    .report-section { display: block !important; }
+    .report-block { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
+  }
+`;
+document.head.appendChild(printStyle);
+</script>
+</body>
+</html>
