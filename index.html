@@ -1044,32 +1044,89 @@ async function exportPDF() {
 }
 
 function exportWord() {
-  const reportSection = document.getElementById('reportSection').cloneNode(true);
-  
-  // Remove interactive buttons before exporting
-  const actions = reportSection.querySelector('.report-actions');
-  if (actions) {
-    actions.parentNode.removeChild(actions);
-  }
+  if (!lastReportData) return;
 
-  // Create HTML str
-  const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>미술심리분석 보고서</title><style>body { font-family: 'Malgun Gothic', sans-serif; } .report-block { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 20px; } .score-bar-bg { background-color: #f0f0f0; height: 10px; width: 100%; } .score-bar-fill { background-color: #b8934a; height: 100%; }</style></head><body>";
-  const postHtml = "</body></html>";
-  const html = preHtml + reportSection.innerHTML + postHtml;
+  const d = lastReportData;
+  const el = d.elements || {};
+  const scores = d.scores || [];
+  const sols = d.solutions || [];
+  const imgSrc = document.getElementById('previewImg').src;
 
-  const blob = new Blob(['\ufeff', html], {
-    type: 'application/msword'
+  const esc = function(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  const nl  = function(s){ return (s||'').replace(/\\n/g,'<br>'); };
+
+  const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>미술심리분석 보고서</title>
+<style>
+  body { font-family: 'Malgun Gothic', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #1a1410; }
+  h2 { text-align: center; color: #b8934a; font-size: 20pt; margin-bottom: 20pt; font-weight: bold; }
+  h3 { color: #b8934a; font-size: 14pt; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 5pt; margin-top: 25pt; margin-bottom: 10pt; }
+  p { font-size: 11pt; margin-bottom: 8pt; color: #2a2018; }
+  .img-container { text-align: center; margin-bottom: 20pt; }
+  .score-item { margin-bottom: 6pt; font-size: 11pt; }
+  .sol-item { margin-bottom: 15pt; }
+  .sol-title { font-weight: bold; font-size: 12pt; margin-bottom: 5pt; color: #1a1410; }
+  .closing { text-align: center; font-style: italic; color: #7a6e62; margin-top: 30pt; padding-top: 15pt; border-top: 1px solid #ddd; font-size: 11pt; }
+</style>
+</head>
+<body>`;
+
+  let contentHtml = `
+    <h2>${esc(d.title || '미술심리분석 보고서')}</h2>
+    
+    <div class="img-container">
+      <img src="${imgSrc}" style="width: 50%; max-width: 400px; height: auto;" alt="분석 이미지" />
+    </div>
+    
+    <h3>개요</h3>
+    <p>${nl(d.overview)}</p>
+
+    <h3>시각 분석</h3>
+    <p><strong>색채:</strong> ${nl(el.color)}</p>
+    <p><strong>구성:</strong> ${nl(el.composition)}</p>
+    <p><strong>형태:</strong> ${nl(el.form)}</p>
+    <p><strong>상징:</strong> ${nl(el.symbol)}</p>
+
+    <h3>심리 지수</h3>
+  `;
+
+  scores.forEach(s => {
+    contentHtml += `<div class="score-item"><strong>${esc(s.name)}:</strong> ${esc(String(s.value))}</div>`;
   });
-  
-  // Create download link element
-  const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+
+  contentHtml += `
+    <h3>핵심 상태</h3>
+    <p style="font-style: italic;">${nl(d.core_state)}</p>
+
+    <h3>솔루션</h3>
+  `;
+
+  sols.forEach((s, i) => {
+    contentHtml += `
+      <div class="sol-item">
+        <div class="sol-title">0${i+1}. ${esc(s.title)}</div>
+        <p>${nl(s.description)}</p>
+      </div>
+    `;
+  });
+
+  contentHtml += `
+    <div class="closing">${nl(d.closing)}</div>
+  `;
+
+  const postHtml = "</body></html>";
+  const html = preHtml + contentHtml + postHtml;
+
+  const blob = new Blob(['\\ufeff', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
   const filename = 'MantraArt_미술심리분석_보고서.doc';
   
   const downloadLink = document.createElement("a");
-
   document.body.appendChild(downloadLink);
   
-  if(navigator.msSaveOrOpenBlob ){
+  if (navigator.msSaveOrOpenBlob) {
     navigator.msSaveOrOpenBlob(blob, filename);
   } else {
     downloadLink.href = url;
@@ -1078,6 +1135,7 @@ function exportWord() {
   }
   
   document.body.removeChild(downloadLink);
+  URL.revokeObjectURL(url);
 }
 
 // Print styles
