@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아르테미스 — 미술심리분석</title>
+<title>만트라 아트-미술 심리 분석·솔루션 제공 사이트</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
@@ -603,9 +603,9 @@
 <body>
 
 <header>
-  <div class="logo-ornament">✦ Artemis Studio ✦</div>
-  <h1><em>Art</em>emis</h1>
-  <p class="subtitle">미술심리분석 · 내면의 언어를 해석합니다</p>
+  <div class="logo-ornament">✦ Mantra Art ✦</div>
+  <h1><em>Mantra</em> Art</h1>
+  <p class="subtitle">미술 심리 분석 · 솔루션 제공 사이트</p>
 </header>
 
 
@@ -885,7 +885,7 @@ function renderReport(data) {
   document.getElementById('reportTitle').textContent = data.title || '미술심리분석 보고서';
   document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ko-KR', {
     year: 'numeric', month: 'long', day: 'numeric'
-  }) + ' · Artemis Studio';
+  }) + ' · Mantra Art';
   document.getElementById('closingLine').textContent = data.closing || '';
 
   // Apply image
@@ -1011,7 +1011,7 @@ function exportPDF() {
 
   const opt = {
     margin:       [10, 0, 10, 0], 
-    filename:     'Artemis_미술심리분석_보고서.pdf',
+    filename:     'MantraArt_미술심리분석_보고서.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -1047,7 +1047,7 @@ function exportWord() {
   
   // Create download link element
   const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
-  const filename = 'Artemis_미술심리분석_보고서.doc';
+  const filename = 'MantraArt_미술심리분석_보고서.doc';
   
   const downloadLink = document.createElement("a");
 
