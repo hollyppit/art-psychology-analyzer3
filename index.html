@@ -990,150 +990,57 @@ function renderReport(data) {
 
 async function exportPDF() {
   if (!lastReportData) return;
-  
-  const actionsEl = document.querySelector('.report-actions');
-  const orgBtnHTML = actionsEl.innerHTML;
-  actionsEl.innerHTML = '<span style="padding:12px 32px;display:inline-block;">PDF 생성 중…</span>';
 
-  const pdfDiv = document.createElement('div');
-  pdfDiv.style.width = '210mm'; // A4 width
-  pdfDiv.style.padding = '15mm'; // Margin
-  pdfDiv.style.boxSizing = 'border-box';
-  pdfDiv.style.fontFamily = "'Noto Sans KR', sans-serif";
-  pdfDiv.style.color = '#1a1410';
-  pdfDiv.style.background = '#ffffff';
-  pdfDiv.style.position = 'absolute'; // To prevent affecting layout
-  pdfDiv.style.left = '-9999px'; // Hide it
-  pdfDiv.style.top = '0';
+  const d = lastReportData;
+  const el = d.elements || {};
+  const scores = d.scores || [];
+  const sols = d.solutions || [];
+  const imgSrc = document.getElementById('previewImg').src;
 
-  let html = `
-    <div style="text-align: center; margin-bottom: 20px;">
-      <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin: 0 0 10px;">Mantra Art</h1>
-      <h2 style="font-size: 20px; font-weight: 400; margin: 0 0 5px;">${lastReportData.title || '미술심리분석 보고서'}</h2>
-      <p style="font-size: 12px; color: #7a6e62;">${new Date().toLocaleDateString('ko-KR')} · Mantra Art</p>
-    </div>
-    <div style="text-align: center; margin-bottom: 20px;">
-      <img src="${document.getElementById('previewImg').src}" style="max-height: 250px; max-width: 100%; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-    </div>
-  `;
+  const pw = window.open('', '_blank', 'width=900,height=1200');
+  if (!pw) { alert('팝업이 차단되었습니다. 브라우저 팝업 허용 후 다시 시도하세요.'); return; }
 
-  // Overview
-  html += `
-    <div style="margin-bottom: 20px; page-break-inside: avoid;">
-      <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px;">개요</h3>
-      <p style="font-size: 13px; line-height: 1.6;">${formatText(lastReportData.overview)}</p>
-    </div>
-  `;
+  const esc = function(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  const nl  = function(s){ return (s||'').replace(/\\n/g,'<br>'); };
 
-  // Elements
-  const el = lastReportData.elements || {};
-  html += `
-    <div style="margin-bottom: 20px; page-break-inside: avoid;">
-      <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px;">시각 분석</h3>
-      <p style="font-size: 13px; line-height: 1.6; margin-bottom: 5px;"><strong>색채:</strong> ${formatText(el.color)}</p>
-      <p style="font-size: 13px; line-height: 1.6; margin-bottom: 5px;"><strong>구성:</strong> ${formatText(el.composition)}</p>
-      <p style="font-size: 13px; line-height: 1.6; margin-bottom: 5px;"><strong>형태:</strong> ${formatText(el.form)}</p>
-      <p style="font-size: 13px; line-height: 1.6;"><strong>상징:</strong> ${formatText(el.symbol)}</p>
-    </div>
-  `;
-
-  // Scores
-  const scores = lastReportData.scores || [];
-  let scoresHtml = scores.map(s => `<div style="display: inline-block; width: 48%; margin-bottom: 10px;"><span style="font-size: 13px; font-weight: bold;">${s.name}</span>: <span style="font-size: 13px;">${s.value}</span></div>`).join('');
-  html += `
-    <div style="margin-bottom: 20px; page-break-inside: avoid;">
-      <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px;">심리 지수</h3>
-      ${scoresHtml}
-    </div>
-  `;
-
-  // Core State
-  html += `
-    <div style="margin-bottom: 20px; page-break-inside: avoid;">
-      <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px;">핵심 상태</h3>
-      <p style="font-size: 13px; line-height: 1.6; font-style: italic;">${formatText(lastReportData.core_state)}</p>
-    </div>
-  `;
-
-  // Solutions
-  const sols = lastReportData.solutions || [];
-  let solsHtml = sols.map(s => `
-    <div style="margin-bottom: 10px;">
-      <h4 style="font-size: 14px; margin: 0 0 5px;">${s.title}</h4>
-      <p style="font-size: 13px; margin: 0; line-height: 1.6;">${formatText(s.description)}</p>
-    </div>
-  `).join('');
-  html += `
-    <div style="margin-bottom: 20px; page-break-inside: avoid;">
-      <h3 style="font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px;">솔루션</h3>
-      ${solsHtml}
-    </div>
-  `;
-
-  // Closing
-  html += `
-    <div style="text-align: center; margin-top: 30px; padding-top: 10px; border-top: 1px solid #ddd; page-break-inside: avoid;">
-      <p style="font-size: 14px; font-style: italic; color: #7a6e62;">${lastReportData.closing || ''}</p>
-    </div>
-  `;
-
-  pdfDiv.innerHTML = html;
-  document.body.appendChild(pdfDiv);
-
-  setTimeout(() => {
-    html2canvas(pdfDiv, {
-      scale: 2,
-      useCORS: true,
-      scrollY: -window.scrollY,
-      windowHeight: document.documentElement.scrollHeight,
-      logging: false,
-      backgroundColor: '#ffffff'
-    }).then(canvas => {
-      document.body.removeChild(pdfDiv);
-
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-
-      const pageW = pdf.internal.pageSize.getWidth();   // 210 mm
-      const pageH = pdf.internal.pageSize.getHeight();  // 297 mm
-      const margin = 10; // mm
-      const printW = pageW - margin * 2;  // 190 mm
-
-      // How many canvas pixels correspond to one PDF page height
-      // canvas.width → printW mm, so 1mm = canvas.width/printW px
-      const pxPerMm = canvas.width / printW;
-      const pageHeightPx = (pageH - margin * 2) * pxPerMm;
-
-      const totalPages = Math.ceil(canvas.height / pageHeightPx);
-
-      for (let i = 0; i < totalPages; i++) {
-        if (i > 0) pdf.addPage();
-
-        const srcY = Math.round(i * pageHeightPx);
-        const srcH = Math.min(pageHeightPx, canvas.height - srcY);
-
-        // Slice the canvas for this page
-        const pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = Math.ceil(pageHeightPx); // full page height in pixels
-        const ctx = pageCanvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
-        ctx.drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
-
-        const pageImg = pageCanvas.toDataURL('image/jpeg', 0.97);
-        const sliceH = (srcH / pxPerMm); // mm
-        pdf.addImage(pageImg, 'JPEG', margin, margin, printW, sliceH);
-      }
-
-      pdf.save('MantraArt_미술심리분석_보고서.pdf');
-      actionsEl.innerHTML = orgBtnHTML;
-    }).catch(err => {
-      console.error('PDF Generate Error:', err);
-      if (document.body.contains(pdfDiv)) document.body.removeChild(pdfDiv);
-      actionsEl.innerHTML = orgBtnHTML;
-    });
-  }, 500);
+  pw.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">');
+  pw.document.write('<title>만트라 아트 미술심리분석 보고서</title>');
+  pw.document.write('<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">');
+  pw.document.write('<style>');
+  pw.document.write('@page{size:A4 portrait;margin:20mm}*{margin:0;padding:0;box-sizing:border-box}');
+  pw.document.write('body{font-family:"Noto Sans KR",sans-serif;font-size:13px;color:#1a1410;background:#fff;line-height:1.7}');
+  pw.document.write('.hdr{text-align:center;border-bottom:2px solid #b8934a;padding-bottom:14px;margin-bottom:18px;page-break-inside:avoid}');
+  pw.document.write('.hdr h1{font-family:"Cormorant Garamond",serif;font-size:26px;color:#b8934a;margin-bottom:5px}');
+  pw.document.write('.hdr h2{font-size:16px;font-weight:400;margin-bottom:4px}.hdr .dt{font-size:11px;color:#7a6e62}');
+  pw.document.write('.img-wrap{text-align:center;margin-bottom:20px;page-break-inside:avoid}.img-wrap img{max-height:180px;max-width:100%;border-radius:4px}');
+  pw.document.write('.sec{margin-bottom:18px;page-break-inside:avoid}.sec h3{font-size:12px;font-weight:700;color:#b8934a;border-bottom:1px solid #e0d5c5;padding-bottom:4px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em}');
+  pw.document.write('.sec p{font-size:12px;line-height:1.8;color:#2a2018;margin-bottom:4px}.sec p:last-child{margin-bottom:0}');
+  pw.document.write('.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.si{font-size:12px}.sv{color:#b8934a;font-weight:700}');
+  pw.document.write('.sol{margin-bottom:10px;page-break-inside:avoid}.sol h4{font-size:12.5px;font-weight:700;margin-bottom:3px}.sol p{font-size:12px;line-height:1.7}');
+  pw.document.write('.closing{text-align:center;padding-top:14px;border-top:1px solid #e0d5c5;margin-top:18px;font-style:italic;color:#7a6e62;font-size:13px;page-break-inside:avoid}');
+  pw.document.write('@media print{@page{size:A4 portrait;margin:20mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}');
+  pw.document.write('</style></head><body>');
+  pw.document.write('<div class="hdr"><h1>&#10022; Mantra Art &#10022;</h1>');
+  pw.document.write('<h2>' + esc(d.title || '미술심리분석 보고서') + '</h2>');
+  pw.document.write('<div class="dt">' + new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'}) + ' &middot; Mantra Art</div></div>');
+  pw.document.write('<div class="img-wrap"><img src="' + imgSrc + '" alt="분석 이미지"></div>');
+  pw.document.write('<div class="sec"><h3>개요 &mdash; Overview</h3><p>' + nl(d.overview) + '</p></div>');
+  pw.document.write('<div class="sec"><h3>시각 분석 &mdash; Visual</h3>');
+  pw.document.write('<p><strong>색채 &mdash;</strong> ' + nl(el.color) + '</p>');
+  pw.document.write('<p><strong>구성 &mdash;</strong> ' + nl(el.composition) + '</p>');
+  pw.document.write('<p><strong>형태 &mdash;</strong> ' + nl(el.form) + '</p>');
+  pw.document.write('<p><strong>상징 &mdash;</strong> ' + nl(el.symbol) + '</p></div>');
+  pw.document.write('<div class="sec"><h3>심리 지수 &mdash; Index</h3><div class="sgrid">');
+  scores.forEach(function(s){ pw.document.write('<div class="si"><strong>' + esc(s.name) + '</strong>: <span class="sv">' + esc(String(s.value)) + '</span></div>'); });
+  pw.document.write('</div></div>');
+  pw.document.write('<div class="sec"><h3>핵심 상태 &mdash; Core State</h3><p style="font-style:italic">' + nl(d.core_state) + '</p></div>');
+  pw.document.write('<div class="sec"><h3>솔루션 &mdash; Solutions</h3>');
+  sols.forEach(function(s,i){ pw.document.write('<div class="sol"><h4>0' + (i+1) + '. ' + esc(s.title) + '</h4><p>' + nl(s.description) + '</p></div>'); });
+  pw.document.write('</div>');
+  pw.document.write('<div class="closing">' + nl(d.closing) + '</div>');
+  pw.document.write('<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();window.onafterprint=function(){window.close();};},800);};<\/scr'+'ipt>');
+  pw.document.write('</body></html>');
+  pw.document.close();
 }
 
 function exportWord() {
