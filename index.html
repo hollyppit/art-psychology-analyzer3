@@ -599,6 +599,32 @@
   .report-block:nth-child(4) { animation-delay: 0.4s; }
   .report-block:nth-child(5) { animation-delay: 0.5s; }
   .report-block:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Context Input */
+  .context-input {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: block;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    background: #faf8f5;
+    border-radius: 4px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    resize: vertical;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .context-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(184, 147, 74, 0.1);
+  }
+  .context-input::placeholder {
+    color: #a89d90;
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -632,6 +658,12 @@
         <img id="previewImg" alt="업로드된 그림">
       </div>
       <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
+    </div>
+
+    <!-- Optional Context Input -->
+    <div class="context-container" id="contextContainer" style="display: none; margin-top: 24px;">
+      <label for="imageContext" style="display: block; font-family: 'Noto Serif KR', serif; font-size: 14px; color: #5a4e44; margin-bottom: 8px; text-align: center;">그림에 대한 추가 설명 (선택)</label>
+      <textarea id="imageContext" class="context-input" placeholder="예) 8살 여자아이가 그린 가족 그림이에요. 최근 전학을 갔고, 좋아하는 색은 파란색이에요." rows="3"></textarea>
     </div>
 
     <div class="error-box" id="errorBox"></div>
@@ -720,7 +752,10 @@ function handleFile(file) {
     uploadedImageType = file.type;
 
     document.getElementById('previewImg').src = dataUrl;
+    document.getElementById('uploadZone').style.display = 'none';
     document.getElementById('previewContainer').style.display = 'block';
+    document.getElementById('contextContainer').style.display = 'block';
+    document.getElementById('imageContext').value = '';
     document.getElementById('analyzeEduBtn').disabled = false;
     document.getElementById('analyzeGenBtn').disabled = false;
     hideError();
@@ -821,6 +856,12 @@ async function analyzeImage(mode = 'general') {
 오직 유효한 JSON 문자열만 반환하세요.`;
     }
 
+    const contextText = document.getElementById('imageContext').value.trim();
+    let userPrompt = "이 그림을 미술 심리학적 관점에서 분석해주세요.";
+    if (contextText) {
+      userPrompt += `\\n\\n[그림에 대한 추가 배경 설명 (분석 시 참고하세요)]\\n${contextText}`;
+    }
+
     const payload = {
       model: "gpt-4o",
       messages: [
@@ -831,7 +872,7 @@ async function analyzeImage(mode = 'general') {
         {
           role: "user",
           content: [
-            { type: "text", text: "이 그림을 미술 심리학적 관점에서 분석해주세요." },
+            { type: "text", text: userPrompt },
             {
               type: "image_url",
               image_url: {
