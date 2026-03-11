@@ -201,10 +201,17 @@
   }
 
   /* Analyze Button */
+  .analyze-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
   .btn-analyze {
     display: block;
-    margin: 36px auto 0;
-    padding: 16px 56px;
+    padding: 16px 40px;
     background: var(--ink);
     color: var(--parchment);
     border: none;
@@ -275,6 +282,21 @@
   .report-section {
     display: none;
     animation: fadeUp 0.8s ease forwards;
+    background: white;
+    width: 210mm;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20mm;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 210mm) {
+    .report-section {
+      width: 100%;
+      padding: 24px;
+    }
   }
 
   @keyframes fadeUp {
@@ -327,6 +349,7 @@
     grid-template-columns: 180px 1fr;
     gap: 40px;
     align-items: start;
+    page-break-inside: avoid;
   }
 
   @media (max-width: 640px) {
@@ -503,6 +526,12 @@
     margin-top: 40px;
     flex-wrap: wrap;
   }
+  
+  @media print {
+    .report-actions {
+      display: none !important;
+    }
+  }
 
   .btn-action {
     padding: 12px 32px;
@@ -606,9 +635,14 @@
 
     <div class="error-box" id="errorBox"></div>
 
-    <button class="btn-analyze" id="analyzeBtn" disabled onclick="analyzeImage()">
-      심리 분석 시작
-    </button>
+    <div class="analyze-buttons">
+      <button class="btn-analyze" id="analyzeEduBtn" disabled onclick="analyzeImage('education')">
+        교육용 미술 심리 분석 시작
+      </button>
+      <button class="btn-analyze" id="analyzeGenBtn" disabled onclick="analyzeImage('general')">
+        일반 미술 심리 분석 시작
+      </button>
+    </div>
   </div>
 
   <!-- Loading -->
@@ -685,7 +719,8 @@ function handleFile(file) {
 
     document.getElementById('previewImg').src = dataUrl;
     document.getElementById('previewContainer').style.display = 'block';
-    document.getElementById('analyzeBtn').disabled = false;
+    document.getElementById('analyzeEduBtn').disabled = false;
+    document.getElementById('analyzeGenBtn').disabled = false;
     hideError();
   };
   reader.readAsDataURL(file);
@@ -701,7 +736,7 @@ function hideError() {
   document.getElementById('errorBox').style.display = 'none';
 }
 
-async function analyzeImage() {
+async function analyzeImage(mode = 'general') {
   if (!uploadedImageBase64) return;
 
   // Show loading
@@ -725,7 +760,38 @@ async function analyzeImage() {
   }, 1400);
 
   try {
-    const systemPrompt = `당신은 전문 미술 심리 분석가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 정확하게, 하지만 내용이 매우 깊이 있고 양식을 갖춘 전문가 보고서 형태로 응답하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
+    let systemPrompt = '';
+    
+    if (mode === 'education') {
+      systemPrompt = `당신은 아동 및 학생 미술 심리 분석을 전문으로 하는 교육 전문가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 학부모나 교육자가 보기에 적절한 양식을 갖춘 전문가 보고서 형태로 응답하세요. 
+주의: 아이들에게 상처가 될 수 있는 부정적이거나 극단적인 내용(우울증 심각, 스트레스 한계 등)은 절대 피하고, 성향과 잠재력을 밝고 긍정적인 방향으로 분석한 뒤에 맞춤형 학습 솔루션을 제공하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
+{
+  "title": "보고서 제목 (예: 상상력이 풍부한 우리 아이의 스케치북)",
+  "overview": "그림의 전반적인 특징 및 아이의 긍정적 성향 (2~3개 문단으로 상세히 기술)",
+  "keywords": ["키워드1", "키워드2", "키워드3", "키워드4", "키워드5"],
+  "elements": {
+    "color": "색채 심리 분석 (성향과 잠재력 측면 긍정적 분석, 문단 구분 포함)",
+    "composition": "공간 및 구도 분석 (상세히, 문단 구분 포함)",
+    "form": "형태 및 선의 특징 분석 (상세히)",
+    "symbol": "주요 상징물 분석 (상세히)"
+  },
+  "scores": [
+    {"name": "창의성 지수", "value": "0~100 사이 숫자"},
+    {"name": "학습 호기심", "value": "0~100 사이 숫자"},
+    {"name": "정서적 안정감", "value": "0~100 사이 숫자"},
+    {"name": "사회성 발달", "value": "0~100 사이 숫자"}
+  ],
+  "core_state": "현재 아이의 발달 과정과 긍정적 성향에 대한 깊이 있는 교육적 심리 분석 (2~3개 문단으로 상세 기술)",
+  "solutions": [
+    {"title": "학습 솔루션 1 제목", "description": "구체적이고 실천 가능한 맞춤형 학습법 또는 교육적 조언 상세 설명"},
+    {"title": "학습 솔루션 2 제목", "description": "구체적이고 실천 가능한 맞춤형 학습법 또는 교육적 조언 상세 설명"},
+    {"title": "학습 솔루션 3 제목", "description": "구체적이고 실천 가능한 맞춤형 학습법 또는 교육적 조언 상세 설명"}
+  ],
+  "closing": "분석을 마무리하는 따뜻하고 교육적인 조언 한 마디"
+}
+오직 유효한 JSON 문자열만 반환하세요.`;
+    } else {
+      systemPrompt = `당신은 전문 미술 심리 분석가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 정확하게, 하지만 내용이 매우 깊이 있고 양식을 갖춘 전문가 보고서 형태로 응답하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
 {
   "title": "보고서 제목 (예: 내면의 소리에 귀 기울이는 시간)",
   "overview": "그림의 전반적인 특징 및 첫인상 (2~3개 문단으로 상세히 기술)",
@@ -737,10 +803,10 @@ async function analyzeImage() {
     "symbol": "주요 상징물 분석 (상세히)"
   },
   "scores": [
-    {"name": "스트레스 지수", "value": 0~100 사이 숫자},
-    {"name": "우울감", "value": 0~100 사이 숫자},
-    {"name": "활동성", "value": 0~100 사이 숫자},
-    {"name": "자아 존중감", "value": 0~100 사이 숫자}
+    {"name": "스트레스 지수", "value": "0~100 사이 숫자"},
+    {"name": "우울감", "value": "0~100 사이 숫자"},
+    {"name": "활동성", "value": "0~100 사이 숫자"},
+    {"name": "자아 존중감", "value": "0~100 사이 숫자"}
   ],
   "core_state": "현재 내면 상태에 대한 깊이 있는 심리 분석 (2~3개 문단으로 상세 기술)",
   "solutions": [
@@ -751,6 +817,7 @@ async function analyzeImage() {
   "closing": "분석을 마무리하는 따뜻하고 가장 핵심적인 조언 한 마디"
 }
 오직 유효한 JSON 문자열만 반환하세요.`;
+    }
 
     const payload = {
       model: "gpt-4o",
@@ -921,7 +988,8 @@ function resetApp() {
   uploadedImageBase64 = null;
   uploadedImageType = null;
   document.getElementById('previewContainer').style.display = 'none';
-  document.getElementById('analyzeBtn').disabled = true;
+  document.getElementById('analyzeEduBtn').disabled = true;
+  document.getElementById('analyzeGenBtn').disabled = true;
   document.getElementById('fileInput').value = '';
   document.getElementById('reportSection').style.display = 'none';
   document.getElementById('uploadSection').style.display = 'block';
@@ -942,10 +1010,10 @@ function exportPDF() {
   });
 
   const opt = {
-    margin:       15,
+    margin:       [10, 0, 10, 0], 
     filename:     'Artemis_미술심리분석_보고서.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, windowWidth: 1000, useCORS: true, logging: false },
+    html2canvas:  { scale: 2, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
