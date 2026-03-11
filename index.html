@@ -3,158 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>만트라 아트-미술 심리 분석·솔루션 제공 사이트</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<title>만트라 아트-아이 그림 심리 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Nunito:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root {
-    --ink: #1a1410;
-    --parchment: #f5f0e8;
-    --gold: #b8934a;
-    --gold-light: #d4aa6a;
-    --muted: #7a6e62;
-    --line: rgba(184,147,74,0.25);
-    --shadow: rgba(26,20,16,0.12);
+    --ink: #333333;
+    --bg-color: #FFFDF7;
+    --primary: #FFD93D;
+    --primary-hover: #FFC000;
+    --accent: #FF6B6B;
+    --accent-hover: #FF4F4F;
+    --line: rgba(255,107,107,0.15);
+    --shadow: rgba(255,107,107,0.2);
+    --muted: #887B75;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--parchment);
+    background: var(--bg-color);
     color: var(--ink);
     font-family: 'Noto Sans KR', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* Grain texture overlay */
+  /* Fun pop-art circles background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: radial-gradient(var(--primary) 10%, transparent 11%), radial-gradient(var(--accent) 10%, transparent 11%);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    opacity: 0.04;
     pointer-events: none;
-    z-index: 9999;
-    opacity: 0.6;
+    z-index: -1;
   }
 
   /* Header */
   header {
     text-align: center;
     padding: 60px 20px 40px;
-    border-bottom: 1px solid var(--line);
     position: relative;
   }
 
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 2px;
-    background: var(--gold);
-  }
-
   .logo-ornament {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    letter-spacing: 0.4em;
-    color: var(--gold);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--accent);
     text-transform: uppercase;
-    margin-bottom: 16px;
-    opacity: 0.8;
+    margin-bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(42px, 7vw, 72px);
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    line-height: 1;
+    font-family: 'Jua', sans-serif;
+    font-size: clamp(38px, 6vw, 64px);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
     color: var(--ink);
   }
 
   h1 em {
-    font-style: italic;
-    color: var(--gold);
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+  
+  h1 em::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: var(--primary);
+    z-index: -1;
+    border-radius: 10px;
+    opacity: 0.6;
   }
 
   .subtitle {
-    margin-top: 14px;
-    font-family: 'Noto Serif KR', serif;
-    font-size: 13px;
-    font-weight: 300;
+    margin-top: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
     color: var(--muted);
-    letter-spacing: 0.15em;
   }
 
   /* Main layout */
   main {
     max-width: 900px;
     margin: 0 auto;
-    padding: 60px 24px 100px;
+    padding: 40px 24px 100px;
   }
 
-  /* Upload Zone */
+  /* Upload Zone - Color Block */
   .upload-section {
     text-align: center;
     margin-bottom: 48px;
   }
 
   .upload-zone {
-    border: 1.5px dashed var(--gold);
-    border-radius: 2px;
-    padding: 64px 40px;
+    border: 4px solid var(--primary);
+    border-radius: 32px;
+    padding: 70px 40px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background: rgba(184,147,74,0.03);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #FFFFFF;
+    box-shadow: 0 12px 0 var(--primary);
     position: relative;
     overflow: hidden;
-  }
-
-  .upload-zone::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border: 1px solid var(--line);
-    border-radius: 1px;
-    pointer-events: none;
+    margin-bottom: 24px;
   }
 
   .upload-zone:hover {
-    background: rgba(184,147,74,0.07);
-    border-color: var(--gold-light);
+    transform: translateY(-6px);
+    box-shadow: 0 18px 0 var(--primary);
+  }
+
+  .upload-zone:active {
+    transform: translateY(4px);
+    box-shadow: 0 8px 0 var(--primary);
   }
 
   .upload-zone.drag-over {
-    background: rgba(184,147,74,0.12);
-    border-style: solid;
+    background: var(--primary);
+    color: white;
   }
 
   .upload-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 20px;
-    opacity: 0.5;
+    font-size: 64px;
+    margin: 0 auto 16px;
+    line-height: 1;
+    display: inline-block;
+    animation: bounce 2s infinite;
   }
 
-  .upload-icon svg { width: 100%; height: 100%; }
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-15px);}
+    60% {transform: translateY(-7px);}
+  }
 
   .upload-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
+    font-family: 'Jua', sans-serif;
+    font-size: 28px;
     font-weight: 400;
     color: var(--ink);
     margin-bottom: 8px;
   }
+  
+  .upload-zone.drag-over .upload-title,
+  .upload-zone.drag-over .upload-desc {
+    color: #333;
+  }
 
   .upload-desc {
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--muted);
-    letter-spacing: 0.05em;
   }
 
   #fileInput { display: none; }
@@ -212,37 +229,37 @@
 
   .btn-analyze {
     display: block;
-    padding: 16px 40px;
-    background: var(--ink);
-    color: var(--parchment);
-    border: none;
-    cursor: pointer;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-analyze::before {
-    content: '';
-    position: absolute;
-    inset: 1px;
-    border: 1px solid rgba(184,147,74,0.3);
-    pointer-events: none;
-  }
-
-  .btn-analyze:hover {
-    background: var(--gold);
+    padding: 18px 40px;
+    background: var(--accent);
     color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Jua', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 6px 0 var(--accent-hover);
+    position: relative;
+  }
+
+  .btn-analyze:hover:not(:disabled) {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 var(--accent-hover);
+    background: #FF5A5A;
+  }
+  
+  .btn-analyze:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 4px 0 var(--accent-hover);
   }
 
   .btn-analyze:disabled {
-    opacity: 0.4;
+    background: #E0DCD8;
+    box-shadow: 0 6px 0 #CFCAC5;
+    color: #999;
     cursor: not-allowed;
+    transform: none;
   }
 
   /* Loading */
@@ -288,53 +305,63 @@
     max-width: 100%;
     margin: 0 auto;
     padding: 20mm;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
     position: relative;
     box-sizing: border-box;
+    border-radius: 32px;
+    border: 4px solid var(--primary);
   }
 
   @media (max-width: 210mm) {
     .report-section {
       width: 100%;
       padding: 24px;
+      border-radius: 24px;
+      border-width: 3px;
     }
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   .report-header {
     text-align: center;
-    padding: 48px 0 40px;
-    border-bottom: 1px solid var(--line);
+    padding: 32px 0 40px;
+    border-bottom: 3px dashed var(--primary);
     margin-bottom: 48px;
     position: relative;
   }
 
   .report-badge {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    color: var(--gold);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--accent);
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
+    display: inline-block;
+    background: #FFF0F0;
+    padding: 6px 16px;
+    border-radius: 20px;
   }
 
   .report-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(28px, 5vw, 46px);
-    font-weight: 300;
+    font-family: 'Jua', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 400;
     line-height: 1.2;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .report-date {
-    font-size: 11px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
     color: var(--muted);
-    letter-spacing: 0.15em;
   }
 
   /* Sections */
@@ -345,7 +372,7 @@
 
   .report-block {
     padding: 40px 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 3px dashed var(--line);
     display: grid;
     grid-template-columns: 180px 1fr;
     gap: 40px;
@@ -361,62 +388,64 @@
   }
 
   .block-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    letter-spacing: 0.3em;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--gold);
-    padding-top: 4px;
+    color: var(--accent);
+    padding-top: 6px;
     position: relative;
   }
 
   .block-label::after {
     content: '';
     display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--gold);
-    margin-top: 10px;
-    opacity: 0.5;
+    width: 32px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent);
+    margin-top: 12px;
   }
 
   .block-content h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
+    font-family: 'Jua', sans-serif;
+    font-size: 26px;
     font-weight: 400;
     color: var(--ink);
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     line-height: 1.3;
   }
 
   .block-content p {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 2;
-    color: #3a3028;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.8;
+    color: #4a423a;
   }
 
   .block-content p + p {
-    margin-top: 12px;
+    margin-top: 14px;
   }
 
   /* Keyword tags */
   .keyword-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
+    gap: 10px;
+    margin-top: 20px;
   }
 
   .tag {
-    padding: 5px 14px;
-    border: 1px solid var(--line);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
+    padding: 8px 18px;
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    background: #FFFAEB;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   /* Score bar */
@@ -428,35 +457,38 @@
 
   .score-item {
     display: grid;
-    grid-template-columns: 100px 1fr 30px;
+    grid-template-columns: 110px 1fr 40px;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
 
   .score-name {
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--muted);
-    letter-spacing: 0.05em;
   }
 
   .score-bar-bg {
-    height: 2px;
-    background: var(--line);
+    height: 12px;
+    border-radius: 6px;
+    background: #F0EBE1;
     position: relative;
     overflow: hidden;
   }
 
   .score-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    background: var(--accent);
+    border-radius: 6px;
     width: 0%;
-    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .score-val {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    color: var(--gold);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--accent);
     text-align: right;
   }
 
@@ -468,34 +500,39 @@
   }
 
   .solution-card {
-    padding: 20px 24px;
-    background: white;
-    border-left: 2px solid var(--gold);
-    box-shadow: 0 2px 12px var(--shadow);
+    padding: 24px 28px;
+    background: var(--bg-color);
+    border: 3px solid var(--primary);
+    border-radius: 24px;
+    box-shadow: 0 8px 0 var(--primary);
   }
 
   .solution-card .sol-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    margin-bottom: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: white;
+    background: var(--primary);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
   }
 
   .solution-card .sol-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
+    font-family: 'Jua', sans-serif;
+    font-size: 20px;
     font-weight: 400;
     color: var(--ink);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .solution-card .sol-desc {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1.9;
-    color: #5a4e44;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.8;
+    color: #4a423a;
   }
 
   /* Footer quote */
@@ -505,18 +542,18 @@
   }
 
   .closing-line {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-style: italic;
-    color: var(--muted);
+    font-family: 'Jua', sans-serif;
+    font-size: 24px;
+    color: var(--accent);
     line-height: 1.7;
   }
 
   .divider {
-    width: 60px;
-    height: 1px;
-    background: var(--line);
-    margin: 24px auto;
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 50%;
+    margin: 32px auto;
   }
 
   /* Actions */
@@ -535,31 +572,37 @@
   }
 
   .btn-action {
-    padding: 12px 32px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
-    letter-spacing: 0.15em;
-    cursor: pointer;
-    transition: all 0.25s;
-    border: 1px solid var(--ink);
-    background: transparent;
+    display: block;
+    padding: 16px 36px;
+    background: #FFFFFF;
     color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
+    transition: all 0.2s;
+    box-shadow: 0 6px 0 var(--ink);
+    position: relative;
   }
 
   .btn-action:hover {
-    background: var(--ink);
-    color: var(--parchment);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 var(--ink);
+    background: #F0F0F0;
+  }
+  
+  .btn-action:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 0 var(--ink);
   }
 
   .btn-action.primary {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: white;
+    background: var(--primary);
   }
 
   .btn-action.primary:hover {
-    background: var(--ink);
-    border-color: var(--ink);
+    background: var(--primary-hover);
   }
 
   /* PDF Export Mode */
@@ -606,33 +649,36 @@
     max-width: 480px;
     margin: 0 auto;
     display: block;
-    padding: 12px 16px;
-    border: 1px solid var(--line);
-    background: #faf8f5;
-    border-radius: 4px;
+    padding: 16px 20px;
+    border: 3px solid var(--primary);
+    background: #FFFAEB;
+    border-radius: 16px;
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: 500;
     color: var(--ink);
     resize: vertical;
     outline: none;
     transition: all 0.2s;
   }
   .context-input:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 2px rgba(184, 147, 74, 0.1);
+    border-color: var(--accent);
+    background: white;
+    box-shadow: 0 4px 0 var(--accent);
+    transform: translateY(-2px);
   }
   .context-input::placeholder {
-    color: #a89d90;
-    font-style: italic;
+    color: #C0B5A5;
+    font-weight: 400;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo-ornament">✦ Mantra Art ✦</div>
-  <h1><em>Mantra</em> Art</h1>
-  <p class="subtitle">미술 심리 분석 · 솔루션 제공 사이트</p>
+  <div class="logo-ornament">🖍️ Mantra Art</div>
+  <h1>우리 아이 <em>마음</em> 읽기</h1>
+  <p class="subtitle">아이의 그림 속에 숨겨진 이야기를 들려드려요</p>
 </header>
 
 
@@ -642,10 +688,10 @@
   <div class="upload-section" id="uploadSection">
     <div class="upload-zone" id="uploadZone">
       <div class="upload-icon">
-        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="54" height="54" rx="1" stroke="#b8934a" stroke-width="1"/>
-          <path d="M28 18V38M18 28H38" stroke="#b8934a" stroke-width="1.5" stroke-linecap="square"/>
-          <circle cx="28" cy="28" r="14" stroke="#b8934a" stroke-width="0.75" stroke-dasharray="3 3"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
       </div>
       <div class="upload-title">그림을 업로드하세요</div>
@@ -662,7 +708,7 @@
 
     <!-- Optional Context Input -->
     <div class="context-container" id="contextContainer" style="display: none; margin-top: 24px;">
-      <label for="imageContext" style="display: block; font-family: 'Noto Serif KR', serif; font-size: 14px; color: #5a4e44; margin-bottom: 8px; text-align: center;">그림에 대한 추가 설명 (선택)</label>
+      <label for="imageContext" style="display: block; font-family: 'Jua', sans-serif; font-size: 18px; color: var(--accent); margin-bottom: 12px; text-align: center;">그림에 대한 추가 설명 (선택)</label>
       <textarea id="imageContext" class="context-input" placeholder="예) 8살 여자아이가 그린 가족 그림이에요. 최근 전학을 갔고, 좋아하는 색은 파란색이에요." rows="3"></textarea>
     </div>
 
