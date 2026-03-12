@@ -1762,7 +1762,8 @@
 
         const resultData = await response.json();
         const resultText = resultData.choices[0].message.content;
-        const result = JSON.parse(resultText);
+      const jsonMatch = resultText.match(/\{[\s\S]*\}/);
+      const result = JSON.parse(jsonMatch ? jsonMatch[0] : resultText);
 
         lastReportData = result;
 

@@ -8,15 +8,40 @@ export async function onRequestPost(context) {
   const { request, env } = context;
   const body = await request.json();
 
-  // 프론트에서 보낸 messages 그대로 사용
   const messages = body.messages || [];
+  const maxTokens = body.max_tokens || 2500;
+  const temperature = body.temperature || 0.7;
+
   const systemMessage = messages.find(m => m.role === "system")?.content || "";
   const userMessages = messages.filter(m => m.role !== "system");
-  const maxTokens = body.max_tokens || 600;
-  const temperature = body.temperature || 0.7;
+
+  function convertMessagesForAnthropic(msgs) {
+    return msgs.map(m => {
+      if (m.role !== "user") return { role: m.role, content: m.content };
+      if (!Array.isArray(m.content)) return { role: "user", content: m.content };
+      const converted = m.content.map(block => {
+        if (block.type === "text") return { type: "text", text: block.text };
+        if (block.type === "image_url") {
+          const url = block.image_url?.url || "";
+          const match = url.match(/^data:([^;]+);base64,(.+)$/);
+          if (match) {
+            return {
+              type: "image",
+              source: { type: "base64", media_type: match[1], data: match[2] }
+            };
+          }
+        }
+        return block;
+      });
+      return { role: "user", content: converted };
+    });
+  }
 
   // ── 1순위: Anthropic Claude ──
   try {
+    const anthropicMessages = convertMessagesForAnthropic(userMessages);
+    const jsonInstruction = "You must respond with pure JSON only. No markdown code blocks, no explanation text, no prefix. Output only a valid JSON object.";
+
     const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -25,20 +50,16 @@ export async function onRequestPost(context) {
         "anthropic-version": "2023-06-01"
       },
       body: JSON.stringify({
-        model: "claude-3-5-sonnet-20240620", // Note: The snippet said claude-sonnet-4-5 which isn't a standard model name yet, usually claude-3-5-sonnet-20240620 or similar. User snippet value was "claude-sonnet-4-5". I will stick to what the user provided or slightly adjust if I'm sure it's an error, but usually user knows best for their project. Actually, "claude-sonnet-4-5" is probably a typo or future-looking. I'll use exactly what they asked.
+        model: "claude-sonnet-4-5",
         max_tokens: maxTokens,
-        system: systemMessage,
-        messages: userMessages.map(m => ({
-          role: m.role === "assistant" ? "assistant" : "user",
-          content: m.content
-        }))
+        system: jsonInstruction + "\n\n" + systemMessage,
+        messages: anthropicMessages
       })
     });
 
     if (anthropicRes.ok) {
       const anthropicData = await anthropicRes.json();
       const text = anthropicData.content?.[0]?.text || "";
-      // OpenAI 형식으로 변환해서 반환 (프론트 코드 변경 불필요)
       return new Response(JSON.stringify({
         choices: [{ message: { content: text } }],
         _provider: "anthropic"
@@ -63,6 +84,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: body.model || "gpt-4o",
         messages: messages,
+        response_format: body.response_format || undefined,
         temperature: temperature,
         max_tokens: maxTokens
       })
