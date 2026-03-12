@@ -1,817 +1,874 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>만트라 아트 - 당신의 그림을 읽습니다 | 미술심리분석 솔루션</title>
-<meta name="description" content="미술심리학 기반 교육용 그림 분석 서비스. 그림 속 색채·구성·형태·상징을 분석하여 심리 상태를 이해하고 맞춤형 솔루션을 제안합니다. 누구나 무료로 이용할 수 있는 교육용 미술심리 분석 도구입니다.">
-<meta name="keywords" content="미술심리분석, 그림심리검사, 미술치료, 심리분석, 교육, HTP검사, KFD검사, 색채심리, 미술심리, 그림분석">
-<meta name="author" content="만트라 스튜디오">
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="만트라 아트 - 당신의 그림을 읽습니다">
-<meta property="og:description" content="미술심리학 기반 교육용 그림 분석 서비스. 그림 속 색채·구성·형태·상징을 분석하여 심리 상태를 이해하고 맞춤형 솔루션을 제안합니다.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://art-psychology-analyzer4.pages.dev/">
-<meta property="og:locale" content="ko_KR">
-<link rel="canonical" href="https://art-psychology-analyzer4.pages.dev/">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-  :root {
-    --ink: #1e1e2a;
-    --bg-color: #F5F2EE;
-    --accent: #8B6F8E;
-    --accent-hover: #7a5f7d;
-    --gold: #C4956A;
-    --sage: #7A9E87;
-    --rose: #C17F88;
-    --line: rgba(30, 30, 42, 0.12);
-    --shadow: rgba(0, 0, 0, 0.06);
-    --muted: #8B8598;
-    --surface: #FFFCF9;
-  }
+  <meta name="google-site-verification" content="XattWfYDup9UgLjYoEbH5tomnT5DtIVYISAlEum3tbw" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>만트라 아트 - 당신의 그림을 읽습니다 | 미술심리분석 솔루션</title>
+  <meta name="description"
+    content="미술심리학 기반 교육용 그림 분석 서비스. 그림 속 색채·구성·형태·상징을 분석하여 심리 상태를 이해하고 맞춤형 솔루션을 제안합니다. 누구나 무료로 이용할 수 있는 교육용 미술심리 분석 도구입니다.">
+  <meta name="keywords" content="미술심리분석, 그림심리검사, 미술치료, 심리분석, 교육, HTP검사, KFD검사, 색채심리, 미술심리, 그림분석">
+  <meta name="author" content="만트라 스튜디오">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="만트라 아트 - 당신의 그림을 읽습니다">
+  <meta property="og:description" content="미술심리학 기반 교육용 그림 분석 서비스. 그림 속 색채·구성·형태·상징을 분석하여 심리 상태를 이해하고 맞춤형 솔루션을 제안합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://art-psychology-analyzer4.pages.dev/">
+  <meta property="og:locale" content="ko_KR">
+  <link rel="canonical" href="https://art-psychology-analyzer4.pages.dev/">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --ink: #1e1e2a;
+      --bg-color: #F5F2EE;
+      --accent: #8B6F8E;
+      --accent-hover: #7a5f7d;
+      --gold: #C4956A;
+      --sage: #7A9E87;
+      --rose: #C17F88;
+      --line: rgba(30, 30, 42, 0.12);
+      --shadow: rgba(0, 0, 0, 0.06);
+      --muted: #8B8598;
+      --surface: #FFFCF9;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    background: var(--bg-color);
-    color: var(--ink);
-    font-family: 'Noto Sans KR', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+    body {
+      background: var(--bg-color);
+      color: var(--ink);
+      font-family: 'Noto Sans KR', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  /* Artistic grain + subtle pattern */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: 
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-  }
+    /* Artistic grain + subtle pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200px;
-    right: -200px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(139,111,142,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139, 111, 142, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  /* Header */
-  header {
-    padding: 72px 48px 56px;
-    text-align: left;
-    max-width: 1000px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
+    /* Header */
+    header {
+      padding: 72px 48px 56px;
+      text-align: left;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
 
-  /* Decorative line above logo */
-  header::before {
-    content: '';
-    display: block;
-    width: 48px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--rose));
-    margin-bottom: 28px;
-  }
+    /* Decorative line above logo */
+    header::before {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--rose));
+      margin-bottom: 28px;
+    }
 
-  .logo-ornament {
-    font-family: 'Cormorant', serif;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.22em;
-    color: var(--accent);
-    margin-bottom: 28px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-transform: uppercase;
-  }
+    .logo-ornament {
+      font-family: 'Cormorant', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+    }
 
-  .logo-ornament span {
-    display: inline-block;
-    width: 24px;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0.5;
-  }
+    .logo-ornament span {
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
 
-  h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(24px, 3vw, 36px);
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    line-height: 1.3;
-    color: var(--ink);
-    margin-bottom: 28px;
-  }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
 
-  h1 em {
-    font-style: normal;
-    font-weight: 400;
-    color: var(--accent);
-    letter-spacing: 0.03em;
-  }
+    h1 em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+    }
 
-  h1 em::after {
-    display: none;
-  }
+    h1 em::after {
+      display: none;
+    }
 
-  .subtitle {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--muted);
-    letter-spacing: 0.01em;
-    text-align: right;
-    max-width: 75%;
-    margin-left: auto;
-    margin-top: 20px;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-  }
+    .subtitle {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+      text-align: right;
+      max-width: 75%;
+      margin-left: auto;
+      margin-top: 20px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
 
-  /* Main layout */
-  main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 24px 100px;
-  }
+    /* Main layout */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 100px;
+    }
 
-  /* Upload Zone - Minimalist */
-  .upload-section {
-    text-align: center;
-    margin-bottom: 60px;
-  }
+    /* Upload Zone - Minimalist */
+    .upload-section {
+      text-align: center;
+      margin-bottom: 60px;
+    }
 
-  .upload-zone {
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    padding: 80px 40px;
-    cursor: pointer;
-    transition: all 0.5s ease;
-    background: var(--surface);
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 32px;
-  }
+    .upload-zone {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 80px 40px;
+      cursor: pointer;
+      transition: all 0.5s ease;
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
 
-  /* Corner accents */
-  .upload-zone::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border: 1px dashed rgba(139,111,142,0.2);
-    border-radius: 1px;
-    pointer-events: none;
-    transition: border-color 0.5s ease;
-  }
+    /* Corner accents */
+    .upload-zone::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      border: 1px dashed rgba(139, 111, 142, 0.2);
+      border-radius: 1px;
+      pointer-events: none;
+      transition: border-color 0.5s ease;
+    }
 
-  .upload-zone:hover {
-    border-color: var(--accent);
-    box-shadow: 0 8px 48px rgba(139,111,142,0.12);
-  }
+    .upload-zone:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 48px rgba(139, 111, 142, 0.12);
+    }
 
-  .upload-zone:hover::before {
-    border-color: rgba(139,111,142,0.4);
-  }
+    .upload-zone:hover::before {
+      border-color: rgba(139, 111, 142, 0.4);
+    }
 
-  .upload-zone.drag-over {
-    border-color: var(--accent);
-    background: rgba(139,111,142,0.04);
-    box-shadow: 0 16px 64px rgba(139,111,142,0.15);
-  }
+    .upload-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(139, 111, 142, 0.04);
+      box-shadow: 0 16px 64px rgba(139, 111, 142, 0.15);
+    }
 
-  .upload-icon {
-    margin: 0 auto 24px;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-  }
+    .upload-icon {
+      margin: 0 auto 24px;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
 
-  .upload-zone:hover .upload-icon { opacity: 0.8; }
+    .upload-zone:hover .upload-icon {
+      opacity: 0.8;
+    }
 
-  .upload-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
+    .upload-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
 
-  .upload-desc {
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-  }
+    .upload-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
 
-  #fileInput { display: none; }
+    #fileInput {
+      display: none;
+    }
 
-  /* Preview */
-  .preview-container {
-    display: none;
-    margin-top: 32px;
-    text-align: center;
-  }
+    /* Preview */
+    .preview-container {
+      display: none;
+      margin-top: 32px;
+      text-align: center;
+    }
 
-  .preview-frame {
-    display: inline-block;
-    position: relative;
-    padding: 10px;
-    background: var(--surface);
-    box-shadow: 0 12px 48px rgba(30,30,42,0.10), 0 2px 8px rgba(30,30,42,0.05);
-  }
+    .preview-frame {
+      display: inline-block;
+      position: relative;
+      padding: 10px;
+      background: var(--surface);
+      box-shadow: 0 12px 48px rgba(30, 30, 42, 0.10), 0 2px 8px rgba(30, 30, 42, 0.05);
+    }
 
-  .preview-frame::before {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    border: 1px solid rgba(139,111,142,0.15);
-  }
+    .preview-frame::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(139, 111, 142, 0.15);
+    }
 
-  .preview-frame::after {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border-color: rgba(196,149,106,0.08);
-  }
+    .preview-frame::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border-color: rgba(196, 149, 106, 0.08);
+    }
 
-  #previewImg {
-    max-width: 100%;
-    max-height: 400px;
-    display: block;
-    position: relative;
-    z-index: 1;
-  }
+    #previewImg {
+      max-width: 100%;
+      max-height: 400px;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
 
-  .preview-caption {
-    margin-top: 12px;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
+    .preview-caption {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
 
-  /* Analyze Button */
-  .analyze-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 40px;
-    flex-wrap: wrap;
-  }
+    /* Analyze Button */
+    .analyze-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
 
-  .btn-analyze {
-    display: block;
-    padding: 16px 44px;
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    border-radius: 0;
-    cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  .btn-analyze::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--accent), var(--rose));
-    z-index: -1;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
-  }
-
-  .btn-analyze:hover:not(:disabled) {
-    color: white;
-    border-color: var(--accent);
-    letter-spacing: 0.12em;
-  }
-
-  .btn-analyze:hover:not(:disabled)::before {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-
-  .btn-analyze:disabled {
-    border-color: var(--line);
-    color: #b0a8b8;
-    cursor: not-allowed;
-  }
-
-  /* Loading */
-  .loading-section {
-    display: none;
-    text-align: center;
-    padding: 60px 0;
-  }
-
-  .loading-ornament {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 28px;
-    border: 1px solid var(--line);
-    border-top-color: var(--accent);
-    border-right-color: var(--rose);
-    border-radius: 50%;
-    animation: spin 2s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text {
-    font-family: 'Cormorant', serif;
-    font-style: italic;
-    font-size: 18px;
-    color: var(--ink);
-    letter-spacing: 0.05em;
-  }
-
-  .loading-steps {
-    margin-top: 12px;
-    font-size: 12px;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    min-height: 20px;
-  }
-
-  /* Report */
-  .report-section {
-    display: none;
-    animation: fadeUp 0.8s ease forwards;
-    background: var(--surface);
-    width: 210mm;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20mm;
-    box-shadow: 0 8px 48px rgba(30,30,42,0.08);
-    position: relative;
-    box-sizing: border-box;
-    border: 1px solid var(--line);
-    border-radius: 0;
-  }
-
-  /* Decorative top accent */
-  .report-section::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--sage), var(--accent), var(--rose));
-  }
-
-  @media (max-width: 210mm) {
-    .report-section {
-      width: 100%;
-      padding: 32px 24px;
+    .btn-analyze {
+      display: block;
+      padding: 16px 44px;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
       border-radius: 0;
-      border-left: none;
-      border-right: none;
+      cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
     }
-  }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    .btn-analyze::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent), var(--rose));
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
 
-  .report-header {
-    text-align: center;
-    padding: 24px 0 52px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 52px;
-    position: relative;
-  }
+    .btn-analyze:hover:not(:disabled) {
+      color: white;
+      border-color: var(--accent);
+      letter-spacing: 0.12em;
+    }
 
-  .report-badge {
-    font-family: 'Cormorant', serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.28em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 22px;
-    display: inline-block;
-  }
+    .btn-analyze:hover:not(:disabled)::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
 
-  .report-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(28px, 4.5vw, 42px);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1.2;
-    color: var(--ink);
-    margin-bottom: 18px;
-    letter-spacing: -0.01em;
-  }
+    .btn-analyze:disabled {
+      border-color: var(--line);
+      color: #b0a8b8;
+      cursor: not-allowed;
+    }
 
-  .report-date {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 300;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
+    /* Loading */
+    .loading-section {
+      display: none;
+      text-align: center;
+      padding: 60px 0;
+    }
 
-  /* Sections */
-  .report-body {
-    display: grid;
-    gap: 0;
-  }
+    .loading-ornament {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 28px;
+      border: 1px solid var(--line);
+      border-top-color: var(--accent);
+      border-right-color: var(--rose);
+      border-radius: 50%;
+      animation: spin 2s linear infinite;
+    }
 
-  .report-block {
-    padding: 50px 0;
-    border-bottom: 1px solid var(--line);
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 40px;
-    align-items: start;
-    page-break-inside: avoid;
-  }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
-  @media (max-width: 640px) {
+    .loading-text {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+
+    .loading-steps {
+      margin-top: 12px;
+      font-size: 12px;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      min-height: 20px;
+    }
+
+    /* Report */
+    .report-section {
+      display: none;
+      animation: fadeUp 0.8s ease forwards;
+      background: var(--surface);
+      width: 210mm;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 20mm;
+      box-shadow: 0 8px 48px rgba(30, 30, 42, 0.08);
+      position: relative;
+      box-sizing: border-box;
+      border: 1px solid var(--line);
+      border-radius: 0;
+    }
+
+    /* Decorative top accent */
+    .report-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sage), var(--accent), var(--rose));
+    }
+
+    @media (max-width: 210mm) {
+      .report-section {
+        width: 100%;
+        padding: 32px 24px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .report-header {
+      text-align: center;
+      padding: 24px 0 52px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 52px;
+      position: relative;
+    }
+
+    .report-badge {
+      font-family: 'Cormorant', serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      display: inline-block;
+    }
+
+    .report-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 4.5vw, 42px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .report-date {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* Sections */
+    .report-body {
+      display: grid;
+      gap: 0;
+    }
+
     .report-block {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding: 40px 0;
+      padding: 50px 0;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      align-items: start;
+      page-break-inside: avoid;
     }
-  }
 
-  .block-label {
-    font-family: 'Cormorant', serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    padding-top: 6px;
-    position: relative;
-  }
+    @media (max-width: 640px) {
+      .report-block {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 40px 0;
+      }
+    }
 
-  .block-label::after {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 1px;
-    background: linear-gradient(90deg, var(--accent), var(--rose));
-    margin-top: 16px;
-    opacity: 0.7;
-  }
+    .block-label {
+      font-family: 'Cormorant', serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-top: 6px;
+      position: relative;
+    }
 
-  .block-content h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 18px;
-    line-height: 1.3;
-  }
+    .block-label::after {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), var(--rose));
+      margin-top: 16px;
+      opacity: 0.7;
+    }
 
-  .block-content p {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 2;
-    color: #3d3548;
-  }
+    .block-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
 
-  .block-content p + p {
-    margin-top: 14px;
-  }
+    .block-content p {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 2;
+      color: #3d3548;
+    }
 
-  /* Keyword tags */
-  .keyword-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 24px;
-  }
+    .block-content p+p {
+      margin-top: 14px;
+    }
 
-  .tag {
-    padding: 5px 14px;
-    border: 1px solid rgba(139,111,142,0.3);
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--accent);
-    background: rgba(139,111,142,0.05);
-    font-family: 'Noto Sans KR', sans-serif;
-    letter-spacing: 0.04em;
-    border-radius: 0;
-  }
+    /* Keyword tags */
+    .keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
 
-  /* Score bar */
-  .score-grid {
-    display: grid;
-    gap: 14px;
-    margin-top: 8px;
-  }
+    .tag {
+      padding: 5px 14px;
+      border: 1px solid rgba(139, 111, 142, 0.3);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--accent);
+      background: rgba(139, 111, 142, 0.05);
+      font-family: 'Noto Sans KR', sans-serif;
+      letter-spacing: 0.04em;
+      border-radius: 0;
+    }
 
-  .score-item {
-    display: grid;
-    grid-template-columns: 120px 1fr 40px;
-    align-items: center;
-    gap: 16px;
-  }
+    /* Score bar */
+    .score-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 8px;
+    }
 
-  .score-name {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-  }
+    .score-item {
+      display: grid;
+      grid-template-columns: 120px 1fr 40px;
+      align-items: center;
+      gap: 16px;
+    }
 
-  .score-bar-bg {
-    height: 2px;
-    background: var(--line);
-    position: relative;
-    overflow: hidden;
-    border-radius: 1px;
-  }
+    .score-name {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
 
-  .score-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--sage), var(--accent));
-    width: 0%;
-    transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
-  }
+    .score-bar-bg {
+      height: 2px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+      border-radius: 1px;
+    }
 
-  .score-val {
-    font-family: 'Cormorant', serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: var(--accent);
-    text-align: right;
-  }
+    .score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sage), var(--accent));
+      width: 0%;
+      transition: width 1.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
 
-  /* Solution cards */
-  .solution-list {
-    display: grid;
-    gap: 16px;
-    margin-top: 8px;
-  }
+    .score-val {
+      font-family: 'Cormorant', serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--accent);
+      text-align: right;
+    }
 
-  .solution-card {
-    padding: 28px 32px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
-    box-shadow: 0 4px 24px rgba(30,30,42,0.05);
-    position: relative;
-    overflow: hidden;
-  }
+    /* Solution cards */
+    .solution-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 8px;
+    }
 
-  .solution-card::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 80px; height: 80px;
-    background: radial-gradient(circle at top right, rgba(139,111,142,0.06), transparent 70%);
-  }
+    .solution-card {
+      padding: 28px 32px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      box-shadow: 0 4px 24px rgba(30, 30, 42, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
 
-  .solution-card .sol-num {
-    font-family: 'Cormorant', serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    color: var(--rose);
-    display: block;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
+    .solution-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle at top right, rgba(139, 111, 142, 0.06), transparent 70%);
+    }
 
-  .solution-card .sol-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
+    .solution-card .sol-num {
+      font-family: 'Cormorant', serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: var(--rose);
+      display: block;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
 
-  .solution-card .sol-desc {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 2;
-    color: #3d3548;
-  }
+    .solution-card .sol-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
 
-  /* Footer quote */
-  .report-footer {
-    text-align: center;
-    padding: 56px 0 40px;
-  }
+    .solution-card .sol-desc {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 2;
+      color: #3d3548;
+    }
 
-  .closing-line {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 20px;
-    color: var(--accent);
-    line-height: 1.7;
-  }
+    /* Footer quote */
+    .report-footer {
+      text-align: center;
+      padding: 56px 0 40px;
+    }
 
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    margin: 40px auto;
-  }
+    .closing-line {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--accent);
+      line-height: 1.7;
+    }
 
-  /* Actions */
-  .report-actions {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 40px;
-    flex-wrap: wrap;
-  }
-  
-  @media print {
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 40px auto;
+    }
+
+    /* Actions */
     .report-actions {
-      display: none !important;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
     }
-  }
 
-  .btn-action {
-    display: block;
-    padding: 14px 36px;
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--ink);
-    border-radius: 0;
-    cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-  }
+    @media print {
+      .report-actions {
+        display: none !important;
+      }
+    }
 
-  .btn-action::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--ink);
-    z-index: -1;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
-  }
+    .btn-action {
+      display: block;
+      padding: 14px 36px;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 0;
+      cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
 
-  .btn-action:hover {
-    color: var(--bg-color);
-    letter-spacing: 0.12em;
-  }
+    .btn-action::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
 
-  .btn-action:hover::before {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
+    .btn-action:hover {
+      color: var(--bg-color);
+      letter-spacing: 0.12em;
+    }
 
-  .btn-action.primary {
-    background: var(--primary);
-  }
+    .btn-action:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
 
-  .btn-action.primary:hover {
-    background: var(--primary-hover);
-  }
+    .btn-action.primary {
+      background: var(--primary);
+    }
 
-  /* PDF Export Mode */
-  .pdf-export-mode .report-block,
-  .pdf-export-mode .score-bar-fill {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-  }
-  .pdf-export-mode .report-section {
-    animation: none !important;
-  }
+    .btn-action.primary:hover {
+      background: var(--primary-hover);
+    }
 
-  /* Error */
-  .error-box {
-    display: none;
-    padding: 20px 24px;
-    border: 1px solid #e8a0a0;
-    background: #fff8f8;
-    color: #8b3030;
-    font-size: 13px;
-    margin-top: 24px;
-    font-family: 'Noto Serif KR', serif;
-  }
+    /* PDF Export Mode */
+    .pdf-export-mode .report-block,
+    .pdf-export-mode .score-bar-fill {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .pdf-export-mode .report-section {
+      animation: none !important;
+    }
+
+    /* Error */
+    .error-box {
+      display: none;
+      padding: 20px 24px;
+      border: 1px solid #e8a0a0;
+      background: #fff8f8;
+      color: #8b3030;
+      font-size: 13px;
+      margin-top: 24px;
+      font-family: 'Noto Serif KR', serif;
+    }
 
 
 
-  /* Scroll reveal */
-  .report-block { opacity: 0; transform: translateY(16px); }
-  .report-block.visible { 
-    animation: fadeUp 0.6s ease forwards; 
-  }
-  .report-block:nth-child(1) { animation-delay: 0.1s; }
-  .report-block:nth-child(2) { animation-delay: 0.2s; }
-  .report-block:nth-child(3) { animation-delay: 0.3s; }
-  .report-block:nth-child(4) { animation-delay: 0.4s; }
-  .report-block:nth-child(5) { animation-delay: 0.5s; }
-  .report-block:nth-child(6) { animation-delay: 0.6s; }
+    /* Scroll reveal */
+    .report-block {
+      opacity: 0;
+      transform: translateY(16px);
+    }
 
-  /* Context Input */
-  .context-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: normal;
-    font-size: 17px;
-    color: var(--accent);
-    text-align: center;
-    margin-bottom: 20px;
-  }
+    .report-block.visible {
+      animation: fadeUp 0.6s ease forwards;
+    }
 
-  .context-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    max-width: 560px;
-    margin: 0 auto;
-  }
+    .report-block:nth-child(1) {
+      animation-delay: 0.1s;
+    }
 
-  .context-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+    .report-block:nth-child(2) {
+      animation-delay: 0.2s;
+    }
 
-  .context-field--full {
-    grid-column: 1 / -1;
-  }
+    .report-block:nth-child(3) {
+      animation-delay: 0.3s;
+    }
 
-  .context-field label {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
+    .report-block:nth-child(4) {
+      animation-delay: 0.4s;
+    }
 
-  .context-input-field {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--line);
-    border-bottom: 2px solid rgba(139,111,142,0.3);
-    background: var(--surface);
-    border-radius: 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--ink);
-    outline: none;
-    transition: all 0.3s;
-  }
+    .report-block:nth-child(5) {
+      animation-delay: 0.5s;
+    }
 
-  .context-input-field:focus {
-    border-color: transparent;
-    border-bottom-color: var(--accent);
-    background: white;
-    box-shadow: 0 6px 24px rgba(139,111,142,0.08);
-  }
+    .report-block:nth-child(6) {
+      animation-delay: 0.6s;
+    }
 
-  .context-input-field::placeholder {
-    color: #c0b8c8;
-    font-weight: 300;
-  }
+    /* Context Input */
+    .context-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: normal;
+      font-size: 17px;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-  .context-input-area {
-    resize: vertical;
-    min-height: 80px;
-  }
+    .context-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
 
-  @media (max-width: 480px) {
-    .context-fields { grid-template-columns: 1fr; }
-    .context-field--full { grid-column: 1; }
-  }
+    .context-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .context-field--full {
+      grid-column: 1 / -1;
+    }
+
+    .context-field label {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .context-input-field {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-bottom: 2px solid rgba(139, 111, 142, 0.3);
+      background: var(--surface);
+      border-radius: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink);
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .context-input-field:focus {
+      border-color: transparent;
+      border-bottom-color: var(--accent);
+      background: white;
+      box-shadow: 0 6px 24px rgba(139, 111, 142, 0.08);
+    }
+
+    .context-input-field::placeholder {
+      color: #c0b8c8;
+      font-weight: 300;
+    }
+
+    .context-input-area {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    @media (max-width: 480px) {
+      .context-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .context-field--full {
+        grid-column: 1;
+      }
+    }
+
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
@@ -821,386 +878,472 @@
     border-bottom: 2px solid var(--accent);
     background: var(--surface);
     border-radius: 0;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR',
+    sans-serif;
     font-size: 14px;
     font-weight: 300;
     color: var(--ink);
     resize: vertical;
     outline: none;
     transition: all 0.3s;
-  }
-  .context-input:focus {
-    border-color: transparent;
-    border-bottom-color: var(--rose);
-    background: white;
-    box-shadow: 0 8px 32px rgba(193,127,136,0.1);
-  }
-  .context-input::placeholder {
-    color: #c0b8c8;
-    font-weight: 300;
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="logo-ornament"><span></span> Mantra Art <span></span></div>
-  <h1>미술심리 분석·<em>솔루션 제공</em></h1>
-  <p class="subtitle">그림 속에 담긴 심리를 읽고, 맞춤형 솔루션을 제안합니다</p>
-</header>
-
-
-<main>
-
-  <!-- Upload Section -->
-  <div class="upload-section" id="uploadSection">
-    <div class="upload-zone" id="uploadZone">
-      <div class="upload-icon">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="1" ry="1"></rect>
-          <circle cx="8.5" cy="8.5" r="1.5"></circle>
-          <polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-      </div>
-      <div class="upload-title">그림을 업로드하세요</div>
-      <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
-      <input type="file" id="fileInput" accept="image/*">
-    </div>
-
-    <div class="preview-container" id="previewContainer">
-      <div class="preview-frame">
-        <img id="previewImg" alt="업로드된 그림">
-      </div>
-      <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
-    </div>
-
-    <!-- Optional Context Input -->
-    <div class="context-container" id="contextContainer" style="margin-top: 32px;">
-      <div class="context-label">부가 정보 <span style="font-size:11px; font-family:'Noto Sans KR'; color:var(--muted); font-style:normal; letter-spacing:0.04em;">— 선택 사항이며, 입력할수록 분석이 정확해집니다</span></div>
-      <div class="context-fields">
-        <div class="context-field">
-          <label for="infoName">이름</label>
-          <input type="text" id="infoName" class="context-input-field" placeholder="홍길동">
-        </div>
-        <div class="context-field">
-          <label for="infoAge">나이</label>
-          <input type="text" id="infoAge" class="context-input-field" placeholder="예: 7세, 32세">
-        </div>
-        <div class="context-field context-field--full">
-          <label for="infoDesc">그림 설명</label>
-          <textarea id="infoDesc" class="context-input-field context-input-area" placeholder="이 그림은 어떤 걸 그린 건가요? (예: 가족을 그렸어요, 오늘 기분을 표현한 그림이에요)" rows="3"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="error-box" id="errorBox"></div>
-
-    <div class="analyze-buttons">
-      <button class="btn-analyze" id="analyzeEduBtn" disabled onclick="analyzeImage('education')">
-        교육용 미술 심리 분석
-      </button>
-      <button class="btn-analyze" id="analyzeGenBtn" disabled onclick="analyzeImage('general')">
-        일반 미술 심리 분석
-      </button>
-    </div>
-  </div>
-
-  <!-- Loading -->
-  <div class="loading-section" id="loadingSection">
-    <div class="loading-ornament"></div>
-    <div class="loading-text">그림을 읽고 있습니다</div>
-    <div class="loading-steps" id="loadingSteps">시각 요소 분석 중…</div>
-  </div>
-
-  <!-- Report -->
-  <div class="report-section" id="reportSection">
-    <div class="report-header">
-      <div class="report-badge">✦ Psychological Analysis Report ✦</div>
-      <div class="report-title" id="reportTitle">미술심리분석 보고서</div>
-      <div class="report-date" id="reportDate"></div>
-      <div style="margin-top: 36px;">
-        <img id="reportImage" style="max-width: 100%; max-height: 360px; border-radius: 4px; box-shadow: 0 4px 16px rgba(26,20,16,0.15);">
-      </div>
-    </div>
-
-    <div class="report-body" id="reportBody">
-      <!-- Dynamically generated -->
-    </div>
-
-    <div class="report-footer">
-      <div class="divider"></div>
-      <div class="closing-line" id="closingLine"></div>
-      <div class="divider"></div>
-      <div style="font-family: 'Cormorant', serif; font-size: 11px; color: var(--muted); margin-top: 60px; letter-spacing: 0.2em; opacity: 0.6; text-transform: uppercase;">
-        Powered by AI · Mantra Art
-      </div>
-    </div>
-
-    <div class="report-actions">
-      <button class="btn-action" onclick="resetApp()">새 그림 분석하기</button>
-      <button class="btn-action primary" style="background:#2b579a;border-color:#2b579a;" onclick="exportWord()">Word 다운로드</button>
-      <button class="btn-action primary" onclick="exportPDF()">PDF 다운로드</button>
-    </div>
-  </div>
-
-</main>
-
-<!-- ── 미술심리학 교육 콘텐츠 ── -->
-<section id="learn-section" style="max-width:760px; margin:0 auto; padding:80px 32px 60px;">
-  <div style="text-align:center; margin-bottom:48px;">
-    <p style="font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:300; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:14px;">Art Psychology</p>
-    <h2 style="font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:400; color:var(--accent); letter-spacing:0.03em; margin-bottom:16px;">미술심리학 이야기</h2>
-    <p style="font-family:'Noto Sans KR',sans-serif; font-size:14px; font-weight:300; color:#7a6e8a; line-height:2;">그림 한 장에는 말로 다 못한 마음이 담겨 있어요.<br>미술심리학이 어떻게 그것을 읽어내는지 함께 알아봐요.</p>
-  </div>
-
-  <style>
-    .acc-item {
-      border-bottom: 1px solid rgba(139,111,142,0.15);
-      overflow: hidden;
     }
-    .acc-item:first-of-type { border-top: 1px solid rgba(139,111,142,0.15); }
-    .acc-btn {
-      width: 100%; background: none; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 22px 4px; text-align: left; gap: 16px;
+
+    .context-input:focus {
+      border-color: transparent;
+      border-bottom-color: var(--rose);
+      background: white;
+      box-shadow: 0 8px 32px rgba(193, 127, 136, 0.1);
     }
-    .acc-btn:hover .acc-title { color: var(--accent); }
-    .acc-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px; font-weight: 400; color: var(--rose);
-      letter-spacing: 0.1em; flex-shrink: 0; width: 28px;
-    }
-    .acc-title {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 15px; font-weight: 400; color: #3d3548;
-      flex: 1; transition: color 0.2s; letter-spacing: -0.01em;
-    }
-    .acc-arrow {
-      font-size: 18px; color: var(--accent); flex-shrink: 0;
-      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-      line-height: 1;
-    }
-    .acc-arrow.open { transform: rotate(45deg); }
-    .acc-body {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .acc-body.open { max-height: 1000px; }
-    .acc-inner {
-      padding: 0 4px 28px 44px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 14px; font-weight: 300; line-height: 2.2;
-      color: #5a5070;
-    }
-    .acc-inner strong { font-weight: 500; color: var(--accent); }
-    .acc-inner .tag {
-      display: inline-block; background: rgba(139,111,142,0.08);
-      border: 1px solid rgba(139,111,142,0.2);
-      border-radius: 100px; padding: 3px 12px;
-      font-size: 12px; color: var(--accent);
-      margin: 4px 4px 4px 0; letter-spacing: 0.03em;
-    }
-    .acc-inner .highlight-box {
-      background: rgba(193,127,136,0.06);
-      border-left: 2px solid var(--rose);
-      border-radius: 0 8px 8px 0;
-      padding: 14px 18px; margin: 16px 0;
-      font-style: italic; color: #6a5070;
+
+    .context-input::placeholder {
+      color: #c0b8c8;
+      font-weight: 300;
     }
   </style>
+</head>
 
-  <div id="accordionWrap">
+<body>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">01</span>
-        <span class="acc-title">미술심리학이 뭔가요?</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>미술심리학은 <strong>그림, 색칠, 조각 같은 시각적 표현을 통해 사람의 내면 심리를 이해하는 학문</strong>이에요. 말로는 표현하기 어려운 감정이나 무의식적인 생각들이 그림 속에 자연스럽게 드러난다는 원리를 기반으로 해요.</p>
-          <div class="highlight-box">"붓이 가는 곳에 마음이 간다" — 미술치료사들이 자주 쓰는 말이에요.</div>
-          <p>19세기 말부터 심리학자들이 환자들의 그림을 분석하기 시작했고, 20세기에 들어 미술치료(Art Therapy)라는 독립적인 분야로 발전했어요. 오늘날에는 학교 상담, 병원, 기업 코칭까지 다양한 분야에서 활용되고 있답니다.</p>
-          <div style="margin-top:14px;">
-            <span class="tag">심리학</span>
-            <span class="tag">미술치료</span>
-            <span class="tag">무의식</span>
-            <span class="tag">자기표현</span>
+  <header>
+    <div class="logo-ornament"><span></span> Mantra Art <span></span></div>
+    <h1>미술심리 분석·<em>솔루션 제공</em></h1>
+    <p class="subtitle">그림 속에 담긴 심리를 읽고, 맞춤형 솔루션을 제안합니다</p>
+  </header>
+
+
+  <main>
+
+    <!-- Upload Section -->
+    <div class="upload-section" id="uploadSection">
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="1" ry="1"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+        </div>
+        <div class="upload-title">그림을 업로드하세요</div>
+        <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
+        <input type="file" id="fileInput" accept="image/*">
+      </div>
+
+      <div class="preview-container" id="previewContainer">
+        <div class="preview-frame">
+          <img id="previewImg" alt="업로드된 그림">
+        </div>
+        <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
+      </div>
+
+      <!-- Optional Context Input -->
+      <div class="context-container" id="contextContainer" style="margin-top: 32px;">
+        <div class="context-label">부가 정보 <span
+            style="font-size:11px; font-family:'Noto Sans KR'; color:var(--muted); font-style:normal; letter-spacing:0.04em;">—
+            선택 사항이며, 입력할수록 분석이 정확해집니다</span></div>
+        <div class="context-fields">
+          <div class="context-field">
+            <label for="infoName">이름</label>
+            <input type="text" id="infoName" class="context-input-field" placeholder="홍길동">
+          </div>
+          <div class="context-field">
+            <label for="infoAge">나이</label>
+            <input type="text" id="infoAge" class="context-input-field" placeholder="예: 7세, 32세">
+          </div>
+          <div class="context-field context-field--full">
+            <label for="infoDesc">그림 설명</label>
+            <textarea id="infoDesc" class="context-input-field context-input-area"
+              placeholder="이 그림은 어떤 걸 그린 건가요? (예: 가족을 그렸어요, 오늘 기분을 표현한 그림이에요)" rows="3"></textarea>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">02</span>
-        <span class="acc-title">색깔로 마음을 읽는다고요?</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>색채 심리학에 따르면 우리가 무의식적으로 선택하는 색깔에는 현재의 감정 상태가 반영돼요. 물론 절대적인 공식은 없지만, 일반적으로 이렇게 해석되는 경향이 있어요.</p>
-          <p style="margin-top:12px;"><strong>빨간색</strong> — 강한 에너지, 열정, 때로는 분노나 긴장감을 나타내요.<br>
-          <strong>파란색</strong> — 차분함, 안정감, 내향적인 성향과 연결돼요.<br>
-          <strong>노란색</strong> — 밝은 에너지, 창의성, 활발한 사교성을 보여줘요.<br>
-          <strong>검은색</strong> — 슬픔, 고독감, 또는 강한 자기주장을 표현하기도 해요.<br>
-          <strong>초록색</strong> — 안정, 성장, 자연과의 연결 욕구를 나타내요.</p>
-          <div class="highlight-box">색깔 하나만으로 판단하는 건 위험해요. 전체적인 색의 조화와 맥락을 함께 봐야 해요.</div>
-          <p>특히 아이들의 그림에서 갑자기 어두운 색이 많아졌다면, 스트레스나 심리적 변화를 경험하고 있을 가능성이 있어 주의 깊게 살펴볼 필요가 있어요.</p>
-        </div>
+      <div class="error-box" id="errorBox"></div>
+
+      <div class="analyze-buttons">
+        <button class="btn-analyze" id="analyzeEduBtn" disabled onclick="analyzeImage('education')">
+          교육용 미술 심리 분석
+        </button>
+        <button class="btn-analyze" id="analyzeGenBtn" disabled onclick="analyzeImage('general')">
+          일반 미술 심리 분석
+        </button>
       </div>
     </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">03</span>
-        <span class="acc-title">HTP 검사 — 집·나무·사람을 그리는 이유</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>HTP는 <strong>House(집), Tree(나무), Person(사람)</strong>의 앞글자를 딴 미술심리 검사예요. 1948년 미국의 심리학자 존 벅(John Buck)이 개발했어요.</p>
-          <p style="margin-top:12px;">세 가지 대상을 그리게 하는 데는 이유가 있어요.</p>
-          <p><strong>집</strong>은 가족 관계와 가정환경에 대한 심리를 반영해요. 창문이 없거나 문이 작으면 외부와의 소통을 꺼리는 마음이 드러날 수 있어요.<br><br>
-          <strong>나무</strong>는 자아상과 성장 욕구를 나타내요. 뿌리가 튼튼하게 그려지면 심리적 안정감이 높은 편이에요.<br><br>
-          <strong>사람</strong>은 자기 자신 또는 대인관계를 투영해요. 손을 숨기거나 표정이 없다면 대인관계에서 불안감을 느끼고 있을 수 있어요.</p>
-          <div class="highlight-box">HTP 검사는 단독으로 사용되기보다 다른 심리검사와 함께 종합적으로 해석해요.</div>
+    <!-- Loading -->
+    <div class="loading-section" id="loadingSection">
+      <div class="loading-ornament"></div>
+      <div class="loading-text">그림을 읽고 있습니다</div>
+      <div class="loading-steps" id="loadingSteps">시각 요소 분석 중…</div>
+    </div>
+
+    <!-- Report -->
+    <div class="report-section" id="reportSection">
+      <div class="report-header">
+        <div class="report-badge">✦ Psychological Analysis Report ✦</div>
+        <div class="report-title" id="reportTitle">미술심리분석 보고서</div>
+        <div class="report-date" id="reportDate"></div>
+        <div style="margin-top: 36px;">
+          <img id="reportImage"
+            style="max-width: 100%; max-height: 360px; border-radius: 4px; box-shadow: 0 4px 16px rgba(26,20,16,0.15);">
         </div>
+      </div>
+
+      <div class="report-body" id="reportBody">
+        <!-- Dynamically generated -->
+      </div>
+
+      <div class="report-footer">
+        <div class="divider"></div>
+        <div class="closing-line" id="closingLine"></div>
+        <div class="divider"></div>
+        <div
+          style="font-family: 'Cormorant', serif; font-size: 11px; color: var(--muted); margin-top: 60px; letter-spacing: 0.2em; opacity: 0.6; text-transform: uppercase;">
+          Powered by AI · Mantra Art
+        </div>
+      </div>
+
+      <div class="report-actions">
+        <button class="btn-action" onclick="resetApp()">새 그림 분석하기</button>
+        <button class="btn-action primary" style="background:#2b579a;border-color:#2b579a;" onclick="exportWord()">Word
+          다운로드</button>
+        <button class="btn-action primary" onclick="exportPDF()">PDF 다운로드</button>
       </div>
     </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">04</span>
-        <span class="acc-title">아이 그림 속 숨은 신호 읽기</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>아이들은 아직 언어 표현이 서툴러서, <strong>그림이 감정을 전달하는 가장 자연스러운 통로</strong>가 되기도 해요. 부모님이나 선생님이 알아두면 좋은 신호들이 있어요.</p>
-          <p style="margin-top:12px;"><strong>가족 그림에서 특정 가족을 빠뜨리거나 작게 그리는 것</strong> — 그 가족과의 관계에서 거리감이나 갈등을 느끼고 있을 수 있어요.<br><br>
-          <strong>사람 얼굴에 표정이 없거나 입을 그리지 않는 것</strong> — 감정 표현이 억압되어 있거나 소통에 어려움을 느낄 수 있어요.<br><br>
-          <strong>그림 전체가 한쪽 구석에 몰려 있는 것</strong> — 불안감이나 위축된 자아감을 반영할 수 있어요.<br><br>
-          <strong>매우 강하게 눌러 그리거나 종이를 찢는 것</strong> — 내면에 쌓인 긴장이나 공격성을 표현하는 방식일 수 있어요.</p>
-          <div class="highlight-box">신호를 발견했다면 즉각 판단하지 말고, 아이와 편안하게 대화하는 시간을 먼저 가져보세요.</div>
-        </div>
-      </div>
+  </main>
+
+  <!-- ── 미술심리학 교육 콘텐츠 ── -->
+  <section id="learn-section" style="max-width:760px; margin:0 auto; padding:80px 32px 60px;">
+    <div style="text-align:center; margin-bottom:48px;">
+      <p
+        style="font-family:'Noto Sans KR',sans-serif; font-size:12px; font-weight:300; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:14px;">
+        Art Psychology</p>
+      <h2
+        style="font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:400; color:var(--accent); letter-spacing:0.03em; margin-bottom:16px;">
+        미술심리학 이야기</h2>
+      <p style="font-family:'Noto Sans KR',sans-serif; font-size:14px; font-weight:300; color:#7a6e8a; line-height:2;">
+        그림 한 장에는 말로 다 못한 마음이 담겨 있어요.<br>미술심리학이 어떻게 그것을 읽어내는지 함께 알아봐요.</p>
     </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">05</span>
-        <span class="acc-title">선과 형태가 말하는 것들</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>색깔뿐 아니라 그림의 <strong>선의 두께, 방향, 형태</strong>도 심리를 반영해요.</p>
-          <p style="margin-top:12px;"><strong>굵고 힘 있는 선</strong> — 자신감, 강한 의지, 또는 공격적 에너지를 나타내요.<br>
-          <strong>가늘고 약한 선</strong> — 소심함, 불안, 에너지 저하를 보여줄 수 있어요.<br>
-          <strong>둥근 형태가 많은 그림</strong> — 따뜻함, 관계 지향, 감성적인 성격을 나타내요.<br>
-          <strong>직선과 각진 형태가 많은 그림</strong> — 논리적 사고, 규칙 지향, 때로는 긴장감을 반영해요.<br>
-          <strong>선이 끊기거나 불완전한 형태</strong> — 결정을 내리기 어렵거나 혼란스러운 심리 상태일 수 있어요.</p>
-          <div class="highlight-box">그림을 그릴 때의 필압(연필을 누르는 힘)도 중요한 분석 요소예요. 강한 필압은 에너지가 넘치거나 긴장된 상태를, 약한 필압은 피로하거나 위축된 상태를 반영할 수 있어요.</div>
+    <style>
+      .acc-item {
+        border-bottom: 1px solid rgba(139, 111, 142, 0.15);
+        overflow: hidden;
+      }
+
+      .acc-item:first-of-type {
+        border-top: 1px solid rgba(139, 111, 142, 0.15);
+      }
+
+      .acc-btn {
+        width: 100%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 4px;
+        text-align: left;
+        gap: 16px;
+      }
+
+      .acc-btn:hover .acc-title {
+        color: var(--accent);
+      }
+
+      .acc-num {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--rose);
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+        width: 28px;
+      }
+
+      .acc-title {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #3d3548;
+        flex: 1;
+        transition: color 0.2s;
+        letter-spacing: -0.01em;
+      }
+
+      .acc-arrow {
+        font-size: 18px;
+        color: var(--accent);
+        flex-shrink: 0;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        line-height: 1;
+      }
+
+      .acc-arrow.open {
+        transform: rotate(45deg);
+      }
+
+      .acc-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .acc-body.open {
+        max-height: 1000px;
+      }
+
+      .acc-inner {
+        padding: 0 4px 28px 44px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 2.2;
+        color: #5a5070;
+      }
+
+      .acc-inner strong {
+        font-weight: 500;
+        color: var(--accent);
+      }
+
+      .acc-inner .tag {
+        display: inline-block;
+        background: rgba(139, 111, 142, 0.08);
+        border: 1px solid rgba(139, 111, 142, 0.2);
+        border-radius: 100px;
+        padding: 3px 12px;
+        font-size: 12px;
+        color: var(--accent);
+        margin: 4px 4px 4px 0;
+        letter-spacing: 0.03em;
+      }
+
+      .acc-inner .highlight-box {
+        background: rgba(193, 127, 136, 0.06);
+        border-left: 2px solid var(--rose);
+        border-radius: 0 8px 8px 0;
+        padding: 14px 18px;
+        margin: 16px 0;
+        font-style: italic;
+        color: #6a5070;
+      }
+    </style>
+
+    <div id="accordionWrap">
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">01</span>
+          <span class="acc-title">미술심리학이 뭔가요?</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>미술심리학은 <strong>그림, 색칠, 조각 같은 시각적 표현을 통해 사람의 내면 심리를 이해하는 학문</strong>이에요. 말로는 표현하기 어려운 감정이나 무의식적인 생각들이 그림
+              속에 자연스럽게 드러난다는 원리를 기반으로 해요.</p>
+            <div class="highlight-box">"붓이 가는 곳에 마음이 간다" — 미술치료사들이 자주 쓰는 말이에요.</div>
+            <p>19세기 말부터 심리학자들이 환자들의 그림을 분석하기 시작했고, 20세기에 들어 미술치료(Art Therapy)라는 독립적인 분야로 발전했어요. 오늘날에는 학교 상담, 병원, 기업 코칭까지
+              다양한 분야에서 활용되고 있답니다.</p>
+            <div style="margin-top:14px;">
+              <span class="tag">심리학</span>
+              <span class="tag">미술치료</span>
+              <span class="tag">무의식</span>
+              <span class="tag">자기표현</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">06</span>
-        <span class="acc-title">그림의 위치와 공간 배치의 비밀</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>그림을 종이의 어디에 그리느냐도 의미가 있어요. <strong>공간 상징(Space Symbolism)</strong>이라고 불리는 이 개념은 여러 미술심리 검사에서 활용돼요.</p>
-          <p style="margin-top:12px;"><strong>종이 상단에 집중된 그림</strong> — 이상주의적 성향, 높은 목표 의식, 또는 현실을 벗어나고 싶은 욕구를 나타낼 수 있어요.<br>
-          <strong>종이 하단에 집중된 그림</strong> — 현실적·실용적 성향, 안정 추구, 또는 불안과 위축감을 반영해요.<br>
-          <strong>왼쪽에 치우친 그림</strong> — 과거 지향적이거나 내향적인 성향과 연관돼요.<br>
-          <strong>오른쪽에 치우친 그림</strong> — 미래 지향적이고 외향적인 성향을 보여줘요.<br>
-          <strong>종이 한가운데에 그린 그림</strong> — 자기중심적 성향이거나 안정감을 찾고 있는 상태예요.</p>
-          <div class="highlight-box">공간 배치는 문화적 영향도 받아요. 글을 왼쪽에서 오른쪽으로 읽는 문화권과 오른쪽에서 왼쪽으로 읽는 문화권에서 해석이 달라질 수 있어요.</div>
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">02</span>
+          <span class="acc-title">색깔로 마음을 읽는다고요?</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>색채 심리학에 따르면 우리가 무의식적으로 선택하는 색깔에는 현재의 감정 상태가 반영돼요. 물론 절대적인 공식은 없지만, 일반적으로 이렇게 해석되는 경향이 있어요.</p>
+            <p style="margin-top:12px;"><strong>빨간색</strong> — 강한 에너지, 열정, 때로는 분노나 긴장감을 나타내요.<br>
+              <strong>파란색</strong> — 차분함, 안정감, 내향적인 성향과 연결돼요.<br>
+              <strong>노란색</strong> — 밝은 에너지, 창의성, 활발한 사교성을 보여줘요.<br>
+              <strong>검은색</strong> — 슬픔, 고독감, 또는 강한 자기주장을 표현하기도 해요.<br>
+              <strong>초록색</strong> — 안정, 성장, 자연과의 연결 욕구를 나타내요.
+            </p>
+            <div class="highlight-box">색깔 하나만으로 판단하는 건 위험해요. 전체적인 색의 조화와 맥락을 함께 봐야 해요.</div>
+            <p>특히 아이들의 그림에서 갑자기 어두운 색이 많아졌다면, 스트레스나 심리적 변화를 경험하고 있을 가능성이 있어 주의 깊게 살펴볼 필요가 있어요.</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">07</span>
-        <span class="acc-title">KFD 검사 — 가족을 움직이는 그림으로 그리기</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>KFD(Kinetic Family Drawing)는 <strong>"가족 모두가 무언가를 하고 있는 그림을 그려주세요"</strong>라고 요청하는 검사예요. 1970년 번스와 카우프만이 개발했어요.</p>
-          <p style="margin-top:12px;">단순히 가족을 나란히 세워 그리는 것과 달리, <strong>각자가 행동하는 모습</strong>을 그리게 해서 가족 역동(Family Dynamics)을 파악해요.</p>
-          <p style="margin-top:12px;"><strong>가족이 서로 멀리 떨어져 있거나 장벽이 있는 경우</strong> — 가족 간 심리적 거리감이나 소통 단절을 반영해요.<br>
-          <strong>특정 가족만 유독 크게 그려진 경우</strong> — 그 가족 구성원이 심리적으로 강한 영향을 미치고 있다는 뜻이에요.<br>
-          <strong>가족이 함께 같은 활동을 하는 경우</strong> — 가족 결속력이 강하고 편안한 관계임을 보여줘요.</p>
-          <div class="highlight-box">KFD는 아동 상담에서 특히 많이 사용돼요. 말로 표현하기 어려운 가족 내 갈등을 그림을 통해 자연스럽게 드러낼 수 있기 때문이에요.</div>
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">03</span>
+          <span class="acc-title">HTP 검사 — 집·나무·사람을 그리는 이유</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>HTP는 <strong>House(집), Tree(나무), Person(사람)</strong>의 앞글자를 딴 미술심리 검사예요. 1948년 미국의 심리학자 존 벅(John Buck)이
+              개발했어요.</p>
+            <p style="margin-top:12px;">세 가지 대상을 그리게 하는 데는 이유가 있어요.</p>
+            <p><strong>집</strong>은 가족 관계와 가정환경에 대한 심리를 반영해요. 창문이 없거나 문이 작으면 외부와의 소통을 꺼리는 마음이 드러날 수 있어요.<br><br>
+              <strong>나무</strong>는 자아상과 성장 욕구를 나타내요. 뿌리가 튼튼하게 그려지면 심리적 안정감이 높은 편이에요.<br><br>
+              <strong>사람</strong>은 자기 자신 또는 대인관계를 투영해요. 손을 숨기거나 표정이 없다면 대인관계에서 불안감을 느끼고 있을 수 있어요.
+            </p>
+            <div class="highlight-box">HTP 검사는 단독으로 사용되기보다 다른 심리검사와 함께 종합적으로 해석해요.</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">08</span>
-        <span class="acc-title">그림에서 자주 보이는 상징들</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>그림 속에 등장하는 특정 사물이나 형태는 <strong>상징적인 의미</strong>를 품고 있는 경우가 많아요.</p>
-          <p style="margin-top:12px;"><strong>태양 ☀️</strong> — 따뜻함, 권위적 존재(부모), 또는 긍정적 에너지를 나타내요. 구름에 가려진 태양은 지지받고 싶은 욕구를 반영하기도 해요.<br><br>
-          <strong>물, 비, 바다 🌊</strong> — 감정과 무의식의 세계를 상징해요. 격렬한 파도는 감정의 혼란을, 잔잔한 호수는 내면의 평온을 나타낼 수 있어요.<br><br>
-          <strong>길, 다리 🛤️</strong> — 삶의 방향성과 전환점을 상징해요. 끊어진 길은 앞이 보이지 않는 답답함을 표현하기도 해요.<br><br>
-          <strong>울타리, 벽 🧱</strong> — 자신을 보호하려는 욕구, 또는 외부와의 단절감을 나타내요.<br><br>
-          <strong>새 🐦</strong> — 자유에 대한 갈망, 또는 현실을 떠나고 싶은 마음을 반영해요.</p>
-          <div class="highlight-box">상징은 개인의 경험과 문화에 따라 의미가 달라질 수 있어요. 같은 그림이라도 맥락과 함께 해석해야 해요.</div>
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">04</span>
+          <span class="acc-title">아이 그림 속 숨은 신호 읽기</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>아이들은 아직 언어 표현이 서툴러서, <strong>그림이 감정을 전달하는 가장 자연스러운 통로</strong>가 되기도 해요. 부모님이나 선생님이 알아두면 좋은 신호들이 있어요.</p>
+            <p style="margin-top:12px;"><strong>가족 그림에서 특정 가족을 빠뜨리거나 작게 그리는 것</strong> — 그 가족과의 관계에서 거리감이나 갈등을 느끼고 있을 수
+              있어요.<br><br>
+              <strong>사람 얼굴에 표정이 없거나 입을 그리지 않는 것</strong> — 감정 표현이 억압되어 있거나 소통에 어려움을 느낄 수 있어요.<br><br>
+              <strong>그림 전체가 한쪽 구석에 몰려 있는 것</strong> — 불안감이나 위축된 자아감을 반영할 수 있어요.<br><br>
+              <strong>매우 강하게 눌러 그리거나 종이를 찢는 것</strong> — 내면에 쌓인 긴장이나 공격성을 표현하는 방식일 수 있어요.
+            </p>
+            <div class="highlight-box">신호를 발견했다면 즉각 판단하지 말고, 아이와 편안하게 대화하는 시간을 먼저 가져보세요.</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">09</span>
-        <span class="acc-title">미술치료는 어떻게 진행되나요?</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>미술치료는 단순히 그림을 분석하는 것을 넘어, <strong>창작 과정 자체를 치유의 도구로 사용</strong>해요. 크게 두 가지 접근 방식이 있어요.</p>
-          <p style="margin-top:12px;"><strong>진단적 접근</strong> — 그림을 통해 심리 상태를 파악하고 분석하는 방식이에요. HTP, KFD 같은 표준화된 검사를 활용해요.</p>
-          <p><strong>치료적 접근</strong> — 그림을 그리는 행위 자체가 감정을 해소하고 자아를 표현하는 치료 과정이 돼요. 완성도나 미적 수준은 중요하지 않아요.</p>
-          <p style="margin-top:12px;">일반적인 세션 흐름은 이렇게 진행돼요.</p>
-          <p>① 치료사와 라포(신뢰 관계) 형성<br>
-          ② 자유롭게 그리거나 주어진 주제로 그리기<br>
-          ③ 완성된 작품에 대해 이야기 나누기<br>
-          ④ 그림 속 감정과 의미 탐색<br>
-          ⑤ 치료사와 함께 해석 및 인사이트 도출</p>
-          <div class="highlight-box">미술치료는 언어 치료가 어려운 아동, 트라우마 경험자, 치매 노인, 발달장애인 등에게 특히 효과적으로 활용되고 있어요.</div>
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">05</span>
+          <span class="acc-title">선과 형태가 말하는 것들</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>색깔뿐 아니라 그림의 <strong>선의 두께, 방향, 형태</strong>도 심리를 반영해요.</p>
+            <p style="margin-top:12px;"><strong>굵고 힘 있는 선</strong> — 자신감, 강한 의지, 또는 공격적 에너지를 나타내요.<br>
+              <strong>가늘고 약한 선</strong> — 소심함, 불안, 에너지 저하를 보여줄 수 있어요.<br>
+              <strong>둥근 형태가 많은 그림</strong> — 따뜻함, 관계 지향, 감성적인 성격을 나타내요.<br>
+              <strong>직선과 각진 형태가 많은 그림</strong> — 논리적 사고, 규칙 지향, 때로는 긴장감을 반영해요.<br>
+              <strong>선이 끊기거나 불완전한 형태</strong> — 결정을 내리기 어렵거나 혼란스러운 심리 상태일 수 있어요.
+            </p>
+            <div class="highlight-box">그림을 그릴 때의 필압(연필을 누르는 힘)도 중요한 분석 요소예요. 강한 필압은 에너지가 넘치거나 긴장된 상태를, 약한 필압은 피로하거나 위축된
+              상태를 반영할 수 있어요.</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="acc-item">
-      <button class="acc-btn" onclick="toggleAcc(this)">
-        <span class="acc-num">10</span>
-        <span class="acc-title">오늘 내 그림을 직접 분석해보고 싶다면</span>
-        <span class="acc-arrow">+</span>
-      </button>
-      <div class="acc-body">
-        <div class="acc-inner">
-          <p>전문가가 아니더라도 <strong>내 그림을 스스로 들여다보는 습관</strong>은 자기 이해에 큰 도움이 돼요. 간단한 셀프 체크 방법을 소개할게요.</p>
-          <p style="margin-top:12px;"><strong>Step 1. 자유롭게 그리기</strong><br>주제 없이 지금 마음 가는 대로 5~10분 동안 그려보세요. 잘 그리려 하지 않아도 돼요.</p>
-          <p><strong>Step 2. 거리를 두고 바라보기</strong><br>다 그린 후 잠깐 눈을 감았다 뜨고, 처음 보는 그림처럼 바라보세요. 어디에 시선이 가나요?</p>
-          <p><strong>Step 3. 스스로에게 질문하기</strong><br>이 그림에서 가장 눈에 띄는 게 뭔가요? 어떤 감정이 드나요? 이 색깔을 고른 이유가 있나요?</p>
-          <p><strong>Step 4. AI 분석 활용하기</strong><br>만트라 아트에 그림을 업로드하면 색채, 구성, 형태, 상징 측면에서 심층 분석 결과를 받아볼 수 있어요.</p>
-          <div class="highlight-box" style="margin-top:16px;">분석 결과는 참고용이에요. 가장 중요한 건 그림을 그리는 과정에서 느끼는 감정 그 자체랍니다. 🎨</div>
-          <div style="text-align:center; margin-top:24px;">
-            <a href="#uploadSection" style="
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">06</span>
+          <span class="acc-title">그림의 위치와 공간 배치의 비밀</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>그림을 종이의 어디에 그리느냐도 의미가 있어요. <strong>공간 상징(Space Symbolism)</strong>이라고 불리는 이 개념은 여러 미술심리 검사에서 활용돼요.</p>
+            <p style="margin-top:12px;"><strong>종이 상단에 집중된 그림</strong> — 이상주의적 성향, 높은 목표 의식, 또는 현실을 벗어나고 싶은 욕구를 나타낼 수
+              있어요.<br>
+              <strong>종이 하단에 집중된 그림</strong> — 현실적·실용적 성향, 안정 추구, 또는 불안과 위축감을 반영해요.<br>
+              <strong>왼쪽에 치우친 그림</strong> — 과거 지향적이거나 내향적인 성향과 연관돼요.<br>
+              <strong>오른쪽에 치우친 그림</strong> — 미래 지향적이고 외향적인 성향을 보여줘요.<br>
+              <strong>종이 한가운데에 그린 그림</strong> — 자기중심적 성향이거나 안정감을 찾고 있는 상태예요.
+            </p>
+            <div class="highlight-box">공간 배치는 문화적 영향도 받아요. 글을 왼쪽에서 오른쪽으로 읽는 문화권과 오른쪽에서 왼쪽으로 읽는 문화권에서 해석이 달라질 수 있어요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">07</span>
+          <span class="acc-title">KFD 검사 — 가족을 움직이는 그림으로 그리기</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>KFD(Kinetic Family Drawing)는 <strong>"가족 모두가 무언가를 하고 있는 그림을 그려주세요"</strong>라고 요청하는 검사예요. 1970년 번스와 카우프만이
+              개발했어요.</p>
+            <p style="margin-top:12px;">단순히 가족을 나란히 세워 그리는 것과 달리, <strong>각자가 행동하는 모습</strong>을 그리게 해서 가족 역동(Family
+              Dynamics)을 파악해요.</p>
+            <p style="margin-top:12px;"><strong>가족이 서로 멀리 떨어져 있거나 장벽이 있는 경우</strong> — 가족 간 심리적 거리감이나 소통 단절을 반영해요.<br>
+              <strong>특정 가족만 유독 크게 그려진 경우</strong> — 그 가족 구성원이 심리적으로 강한 영향을 미치고 있다는 뜻이에요.<br>
+              <strong>가족이 함께 같은 활동을 하는 경우</strong> — 가족 결속력이 강하고 편안한 관계임을 보여줘요.
+            </p>
+            <div class="highlight-box">KFD는 아동 상담에서 특히 많이 사용돼요. 말로 표현하기 어려운 가족 내 갈등을 그림을 통해 자연스럽게 드러낼 수 있기 때문이에요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">08</span>
+          <span class="acc-title">그림에서 자주 보이는 상징들</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>그림 속에 등장하는 특정 사물이나 형태는 <strong>상징적인 의미</strong>를 품고 있는 경우가 많아요.</p>
+            <p style="margin-top:12px;"><strong>태양 ☀️</strong> — 따뜻함, 권위적 존재(부모), 또는 긍정적 에너지를 나타내요. 구름에 가려진 태양은 지지받고 싶은
+              욕구를 반영하기도 해요.<br><br>
+              <strong>물, 비, 바다 🌊</strong> — 감정과 무의식의 세계를 상징해요. 격렬한 파도는 감정의 혼란을, 잔잔한 호수는 내면의 평온을 나타낼 수 있어요.<br><br>
+              <strong>길, 다리 🛤️</strong> — 삶의 방향성과 전환점을 상징해요. 끊어진 길은 앞이 보이지 않는 답답함을 표현하기도 해요.<br><br>
+              <strong>울타리, 벽 🧱</strong> — 자신을 보호하려는 욕구, 또는 외부와의 단절감을 나타내요.<br><br>
+              <strong>새 🐦</strong> — 자유에 대한 갈망, 또는 현실을 떠나고 싶은 마음을 반영해요.
+            </p>
+            <div class="highlight-box">상징은 개인의 경험과 문화에 따라 의미가 달라질 수 있어요. 같은 그림이라도 맥락과 함께 해석해야 해요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">09</span>
+          <span class="acc-title">미술치료는 어떻게 진행되나요?</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>미술치료는 단순히 그림을 분석하는 것을 넘어, <strong>창작 과정 자체를 치유의 도구로 사용</strong>해요. 크게 두 가지 접근 방식이 있어요.</p>
+            <p style="margin-top:12px;"><strong>진단적 접근</strong> — 그림을 통해 심리 상태를 파악하고 분석하는 방식이에요. HTP, KFD 같은 표준화된 검사를
+              활용해요.</p>
+            <p><strong>치료적 접근</strong> — 그림을 그리는 행위 자체가 감정을 해소하고 자아를 표현하는 치료 과정이 돼요. 완성도나 미적 수준은 중요하지 않아요.</p>
+            <p style="margin-top:12px;">일반적인 세션 흐름은 이렇게 진행돼요.</p>
+            <p>① 치료사와 라포(신뢰 관계) 형성<br>
+              ② 자유롭게 그리거나 주어진 주제로 그리기<br>
+              ③ 완성된 작품에 대해 이야기 나누기<br>
+              ④ 그림 속 감정과 의미 탐색<br>
+              ⑤ 치료사와 함께 해석 및 인사이트 도출</p>
+            <div class="highlight-box">미술치료는 언어 치료가 어려운 아동, 트라우마 경험자, 치매 노인, 발달장애인 등에게 특히 효과적으로 활용되고 있어요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="toggleAcc(this)">
+          <span class="acc-num">10</span>
+          <span class="acc-title">오늘 내 그림을 직접 분석해보고 싶다면</span>
+          <span class="acc-arrow">+</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-inner">
+            <p>전문가가 아니더라도 <strong>내 그림을 스스로 들여다보는 습관</strong>은 자기 이해에 큰 도움이 돼요. 간단한 셀프 체크 방법을 소개할게요.</p>
+            <p style="margin-top:12px;"><strong>Step 1. 자유롭게 그리기</strong><br>주제 없이 지금 마음 가는 대로 5~10분 동안 그려보세요. 잘 그리려 하지
+              않아도 돼요.</p>
+            <p><strong>Step 2. 거리를 두고 바라보기</strong><br>다 그린 후 잠깐 눈을 감았다 뜨고, 처음 보는 그림처럼 바라보세요. 어디에 시선이 가나요?</p>
+            <p><strong>Step 3. 스스로에게 질문하기</strong><br>이 그림에서 가장 눈에 띄는 게 뭔가요? 어떤 감정이 드나요? 이 색깔을 고른 이유가 있나요?</p>
+            <p><strong>Step 4. AI 분석 활용하기</strong><br>만트라 아트에 그림을 업로드하면 색채, 구성, 형태, 상징 측면에서 심층 분석 결과를 받아볼 수 있어요.</p>
+            <div class="highlight-box" style="margin-top:16px;">분석 결과는 참고용이에요. 가장 중요한 건 그림을 그리는 과정에서 느끼는 감정 그 자체랍니다. 🎨
+            </div>
+            <div style="text-align:center; margin-top:24px;">
+              <a href="#uploadSection" style="
               display:inline-block; padding:12px 32px;
               background:transparent; border:1px solid var(--accent);
               color:var(--accent); border-radius:100px;
@@ -1208,275 +1351,308 @@
               font-size:13px; font-weight:400; letter-spacing:0.08em;
               text-decoration:none; transition:all 0.3s;
             " onmouseover="this.style.background='var(--accent)';this.style.color='white'"
-               onmouseout="this.style.background='transparent';this.style.color='var(--accent)'">
-              ✦ 지금 바로 분석해보기
-            </a>
+                onmouseout="this.style.background='transparent';this.style.color='var(--accent)'">
+                ✦ 지금 바로 분석해보기
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </div><!-- /accordionWrap -->
+    </div><!-- /accordionWrap -->
 
-  <script>
-    function toggleAcc(btn) {
-      const body = btn.nextElementSibling;
-      const arrow = btn.querySelector('.acc-arrow');
-      const isOpen = body.classList.contains('open');
-      // 모두 닫기
-      document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
-      document.querySelectorAll('.acc-arrow').forEach(a => a.classList.remove('open'));
-      // 클릭한 것만 토글
-      if (!isOpen) {
-        body.classList.add('open');
-        arrow.classList.add('open');
+    <script>
+      function toggleAcc(btn) {
+        const body = btn.nextElementSibling;
+        const arrow = btn.querySelector('.acc-arrow');
+        const isOpen = body.classList.contains('open');
+        // 모두 닫기
+        document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.acc-arrow').forEach(a => a.classList.remove('open'));
+        // 클릭한 것만 토글
+        if (!isOpen) {
+          body.classList.add('open');
+          arrow.classList.add('open');
+        }
       }
-    }
-  </script>
-</section>
+    </script>
+  </section>
 
-<!-- ── 서비스 소개 ── -->
-<section id="about-section" style="
+  <!-- ── 서비스 소개 ── -->
+  <section id="about-section" style="
   max-width: 760px; margin: 0 auto; padding: 80px 32px 60px;
   border-top: 1px solid rgba(139,111,142,0.12);
 ">
-  <h2 style="
+    <h2 style="
     font-family: 'Cormorant Garamond', serif;
     font-size: 26px; font-weight: 400; color: var(--accent);
     letter-spacing: 0.04em; margin-bottom: 24px; text-align: center;
   ">만트라 아트란?</h2>
-  <div style="
+    <div style="
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px; font-weight: 300; line-height: 2.2;
     color: #4a4460; text-align: left;
   ">
-    <p style="margin-bottom: 16px;">만트라 아트는 미술심리학을 기반으로 한 <strong style="font-weight:500;">교육용 그림 분석 서비스</strong>입니다. 그림 속에 담긴 색채, 구성, 형태, 상징을 분석하여 심리 상태를 이해하고 맞춤형 솔루션을 제안합니다.</p>
-    <p style="margin-bottom: 16px;">미술심리학은 그림이 언어로 표현하기 어려운 내면의 감정과 심리 상태를 드러낸다는 원리에 기반합니다. HTP(집·나무·사람) 검사, KFD(동적 가족화) 검사 등 다양한 미술심리 검사 이론을 참고하여 분석 결과를 제공합니다.</p>
-    <p style="margin-bottom: 16px;">본 서비스는 <strong style="font-weight:500;">교육 및 자기 이해 목적</strong>으로 제공됩니다. 분석 결과는 참고용이며, 전문적인 심리상담이나 심리치료를 대체하지 않습니다. 심리적 어려움이 있으신 경우 전문 상담사와 상담하시길 권장합니다.</p>
-    <p>서비스 이용 문의: <a href="mailto:mantra.studio.kr@gmail.com" style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a></p>
-  </div>
-</section>
+      <p style="margin-bottom: 16px;">만트라 아트는 미술심리학을 기반으로 한 <strong style="font-weight:500;">교육용 그림 분석 서비스</strong>입니다.
+        그림 속에 담긴 색채, 구성, 형태, 상징을 분석하여 심리 상태를 이해하고 맞춤형 솔루션을 제안합니다.</p>
+      <p style="margin-bottom: 16px;">미술심리학은 그림이 언어로 표현하기 어려운 내면의 감정과 심리 상태를 드러낸다는 원리에 기반합니다. HTP(집·나무·사람) 검사, KFD(동적
+        가족화) 검사 등 다양한 미술심리 검사 이론을 참고하여 분석 결과를 제공합니다.</p>
+      <p style="margin-bottom: 16px;">본 서비스는 <strong style="font-weight:500;">교육 및 자기 이해 목적</strong>으로 제공됩니다. 분석 결과는
+        참고용이며, 전문적인 심리상담이나 심리치료를 대체하지 않습니다. 심리적 어려움이 있으신 경우 전문 상담사와 상담하시길 권장합니다.</p>
+      <p>서비스 이용 문의: <a href="mailto:mantra.studio.kr@gmail.com"
+          style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a></p>
+    </div>
+  </section>
 
-<!-- ── 개인정보처리방침 ── -->
-<section id="privacy-section" style="
+  <!-- ── 개인정보처리방침 ── -->
+  <section id="privacy-section" style="
   max-width: 760px; margin: 0 auto; padding: 60px 32px;
   border-top: 1px solid rgba(139,111,142,0.12);
 ">
-  <h2 style="
+    <h2 style="
     font-family: 'Cormorant Garamond', serif;
     font-size: 26px; font-weight: 400; color: var(--accent);
     letter-spacing: 0.04em; margin-bottom: 24px; text-align: center;
   ">개인정보처리방침</h2>
-  <div style="
+    <div style="
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px; font-weight: 300; line-height: 2.2;
     color: #4a4460;
   ">
-    <p style="margin-bottom: 8px;"><strong style="font-weight:500;">시행일: 2025년 1월 1일</strong></p>
-    <p style="margin-bottom: 20px;">만트라 스튜디오(이하 "회사")는 이용자의 개인정보를 소중히 여기며, 아래와 같이 개인정보처리방침을 운영합니다.</p>
+      <p style="margin-bottom: 8px;"><strong style="font-weight:500;">시행일: 2025년 1월 1일</strong></p>
+      <p style="margin-bottom: 20px;">만트라 스튜디오(이하 "회사")는 이용자의 개인정보를 소중히 여기며, 아래와 같이 개인정보처리방침을 운영합니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">1. 수집하는 정보</h3>
-    <p style="margin-bottom: 16px;">본 서비스는 이용자가 직접 업로드한 이미지를 분석 목적으로만 사용합니다. 업로드된 이미지는 분석 완료 즉시 처리되며 서버에 저장되지 않습니다. 별도의 회원가입이나 개인정보 입력을 요구하지 않습니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        1. 수집하는 정보</h3>
+      <p style="margin-bottom: 16px;">본 서비스는 이용자가 직접 업로드한 이미지를 분석 목적으로만 사용합니다. 업로드된 이미지는 분석 완료 즉시 처리되며 서버에 저장되지 않습니다.
+        별도의 회원가입이나 개인정보 입력을 요구하지 않습니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">2. 정보의 이용 목적</h3>
-    <p style="margin-bottom: 16px;">수집된 이미지 정보는 미술심리 분석 결과 생성에만 사용되며, 마케팅·광고·제3자 제공 등 다른 목적으로 사용되지 않습니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        2. 정보의 이용 목적</h3>
+      <p style="margin-bottom: 16px;">수집된 이미지 정보는 미술심리 분석 결과 생성에만 사용되며, 마케팅·광고·제3자 제공 등 다른 목적으로 사용되지 않습니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">3. 제3자 제공</h3>
-    <p style="margin-bottom: 16px;">회사는 이용자의 정보를 제3자에게 제공하지 않습니다. 단, AI 분석 기능 제공을 위해 Anthropic API를 사용하며, 이 과정에서 업로드된 이미지 데이터가 처리될 수 있습니다. Anthropic의 개인정보처리방침은 <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">anthropic.com/privacy</a>에서 확인하실 수 있습니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        3. 제3자 제공</h3>
+      <p style="margin-bottom: 16px;">회사는 이용자의 정보를 제3자에게 제공하지 않습니다. 단, AI 분석 기능 제공을 위해 Anthropic API를 사용하며, 이 과정에서 업로드된
+        이미지 데이터가 처리될 수 있습니다. Anthropic의 개인정보처리방침은 <a href="https://www.anthropic.com/privacy" target="_blank"
+          rel="noopener" style="color:var(--accent);">anthropic.com/privacy</a>에서 확인하실 수 있습니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">4. 쿠키 및 추적 기술</h3>
-    <p style="margin-bottom: 16px;">본 서비스는 서비스 개선을 위해 Google Analytics 등 분석 도구를 사용할 수 있으며, 광고 서비스 제공을 위해 Google AdSense를 사용할 수 있습니다. 이에 따라 쿠키가 설치될 수 있으며, 브라우저 설정을 통해 쿠키를 거부할 수 있습니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        4. 쿠키 및 추적 기술</h3>
+      <p style="margin-bottom: 16px;">본 서비스는 서비스 개선을 위해 Google Analytics 등 분석 도구를 사용할 수 있으며, 광고 서비스 제공을 위해 Google
+        AdSense를 사용할 수 있습니다. 이에 따라 쿠키가 설치될 수 있으며, 브라우저 설정을 통해 쿠키를 거부할 수 있습니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">5. 문의</h3>
-    <p>개인정보 관련 문의사항은 아래로 연락 주시기 바랍니다.<br>
-    이메일: <a href="mailto:mantra.studio.kr@gmail.com" style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a><br>
-    운영자: 만트라 스튜디오</p>
-  </div>
-</section>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        5. 문의</h3>
+      <p>개인정보 관련 문의사항은 아래로 연락 주시기 바랍니다.<br>
+        이메일: <a href="mailto:mantra.studio.kr@gmail.com"
+          style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a><br>
+        운영자: 만트라 스튜디오</p>
+    </div>
+  </section>
 
-<!-- ── 이용약관 ── -->
-<section id="terms-section" style="
+  <!-- ── 이용약관 ── -->
+  <section id="terms-section" style="
   max-width: 760px; margin: 0 auto; padding: 60px 32px;
   border-top: 1px solid rgba(139,111,142,0.12);
 ">
-  <h2 style="
+    <h2 style="
     font-family: 'Cormorant Garamond', serif;
     font-size: 26px; font-weight: 400; color: var(--accent);
     letter-spacing: 0.04em; margin-bottom: 24px; text-align: center;
   ">이용약관</h2>
-  <div style="
+    <div style="
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px; font-weight: 300; line-height: 2.2;
     color: #4a4460;
   ">
-    <p style="margin-bottom: 8px;"><strong style="font-weight:500;">시행일: 2025년 1월 13일</strong></p>
-    <p style="margin-bottom: 20px;">본 약관은 만트라 스튜디오가 제공하는 만트라 아트 서비스 이용에 관한 조건을 규정합니다.</p>
+      <p style="margin-bottom: 8px;"><strong style="font-weight:500;">시행일: 2025년 1월 13일</strong></p>
+      <p style="margin-bottom: 20px;">본 약관은 만트라 스튜디오가 제공하는 만트라 아트 서비스 이용에 관한 조건을 규정합니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">1. 서비스 목적</h3>
-    <p style="margin-bottom: 16px;">본 서비스는 미술심리학 이론에 기반한 <strong style="font-weight:500;">교육 및 자기 이해 목적</strong>으로 제공됩니다. 전문적인 심리상담, 심리치료, 정신과적 진단을 대체하지 않습니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        1. 서비스 목적</h3>
+      <p style="margin-bottom: 16px;">본 서비스는 미술심리학 이론에 기반한 <strong style="font-weight:500;">교육 및 자기 이해 목적</strong>으로
+        제공됩니다. 전문적인 심리상담, 심리치료, 정신과적 진단을 대체하지 않습니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">2. 분석 결과의 한계</h3>
-    <p style="margin-bottom: 16px;">제공되는 분석 결과는 AI 기술을 활용한 참고용 정보이며, 의학적·임상적 진단의 효력을 갖지 않습니다. 심리적 어려움이 있으신 경우 반드시 전문 상담사나 의료기관을 이용하시기 바랍니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        2. 분석 결과의 한계</h3>
+      <p style="margin-bottom: 16px;">제공되는 분석 결과는 AI 기술을 활용한 참고용 정보이며, 의학적·임상적 진단의 효력을 갖지 않습니다. 심리적 어려움이 있으신 경우 반드시 전문
+        상담사나 의료기관을 이용하시기 바랍니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">3. 이용자 의무</h3>
-    <p style="margin-bottom: 16px;">이용자는 타인의 초상권이나 저작권을 침해하는 이미지를 업로드해서는 안 됩니다. 서비스를 악의적 목적으로 사용하거나 시스템에 부하를 주는 행위를 금지합니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        3. 이용자 의무</h3>
+      <p style="margin-bottom: 16px;">이용자는 타인의 초상권이나 저작권을 침해하는 이미지를 업로드해서는 안 됩니다. 서비스를 악의적 목적으로 사용하거나 시스템에 부하를 주는 행위를
+        금지합니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">4. 책임 제한</h3>
-    <p style="margin-bottom: 16px;">만트라 스튜디오는 서비스 이용 중 발생하는 분석 결과의 정확성, 서비스 중단, 데이터 손실 등에 대해 법적 책임을 지지 않습니다.</p>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        4. 책임 제한</h3>
+      <p style="margin-bottom: 16px;">만트라 스튜디오는 서비스 이용 중 발생하는 분석 결과의 정확성, 서비스 중단, 데이터 손실 등에 대해 법적 책임을 지지 않습니다.</p>
 
-    <h3 style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">5. 약관 변경</h3>
-    <p>본 약관은 서비스 운영 방침에 따라 변경될 수 있으며, 변경 시 서비스 내 공지를 통해 안내합니다.<br>
-    문의: <a href="mailto:mantra.studio.kr@gmail.com" style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a></p>
-  </div>
-</section>
+      <h3
+        style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
+        5. 약관 변경</h3>
+      <p>본 약관은 서비스 운영 방침에 따라 변경될 수 있으며, 변경 시 서비스 내 공지를 통해 안내합니다.<br>
+        문의: <a href="mailto:mantra.studio.kr@gmail.com"
+          style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a></p>
+    </div>
+  </section>
 
-<!-- ── 사이트 푸터 ── -->
-<footer style="
+  <!-- ── 사이트 푸터 ── -->
+  <footer style="
   border-top: 1px solid rgba(139,111,142,0.15);
   padding: 40px 32px;
   text-align: center;
   background: rgba(248,245,242,0.6);
   margin-top: 20px;
 ">
-  <div style="
+    <div style="
     font-family: 'Cormorant Garamond', serif;
     font-size: 16px; font-weight: 400; color: var(--accent);
     letter-spacing: 0.1em; margin-bottom: 20px;
   ">✦ Mantra Art ✦</div>
 
-  <nav style="
+    <nav style="
     display: flex; justify-content: center; gap: 32px;
     flex-wrap: wrap; margin-bottom: 24px;
   ">
-    <a href="#learn-section" style="
+      <a href="#learn-section" style="
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 12px; font-weight: 300; color: #7a6e8a;
       text-decoration: none; letter-spacing: 0.05em;
       transition: color 0.2s;
     " onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#7a6e8a'">미술심리학 이야기</a>
-    <a href="#about-section" style="
+      <a href="#about-section" style="
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 12px; font-weight: 300; color: #7a6e8a;
       text-decoration: none; letter-spacing: 0.05em;
       transition: color 0.2s;
     " onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#7a6e8a'">서비스 소개</a>
-    <a href="#privacy-section" style="
+      <a href="#privacy-section" style="
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 12px; font-weight: 300; color: #7a6e8a;
       text-decoration: none; letter-spacing: 0.05em;
       transition: color 0.2s;
     " onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#7a6e8a'">개인정보처리방침</a>
-    <a href="#terms-section" style="
+      <a href="#terms-section" style="
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 12px; font-weight: 300; color: #7a6e8a;
       text-decoration: none; letter-spacing: 0.05em;
       transition: color 0.2s;
     " onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#7a6e8a'">이용약관</a>
-    <a href="mailto:mantra.studio.kr@gmail.com" style="
+      <a href="mailto:mantra.studio.kr@gmail.com" style="
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 12px; font-weight: 300; color: #7a6e8a;
       text-decoration: none; letter-spacing: 0.05em;
       transition: color 0.2s;
     " onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#7a6e8a'">문의하기</a>
-  </nav>
+    </nav>
 
-  <p style="
+    <p style="
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 11px; font-weight: 300; color: #a89eb8;
     letter-spacing: 0.04em; line-height: 1.8;
   ">
-    © 2025 만트라 스튜디오. All rights reserved.<br>
-    본 서비스는 교육 목적으로 제공되며, 전문 심리상담을 대체하지 않습니다.
-  </p>
-</footer>
+      © 2025 만트라 스튜디오. All rights reserved.<br>
+      본 서비스는 교육 목적으로 제공되며, 전문 심리상담을 대체하지 않습니다.
+    </p>
+  </footer>
 
-<script>
-let uploadedImageBase64 = null;
-let uploadedImageType = null;
-let lastReportData = null;
+  <script>
+    let uploadedImageBase64 = null;
+    let uploadedImageType = null;
+    let lastReportData = null;
 
 
-// Upload zone interactions
-const zone = document.getElementById('uploadZone');
-const fileInput = document.getElementById('fileInput');
+    // Upload zone interactions
+    const zone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
 
-zone.addEventListener('click', () => fileInput.click());
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-zone.addEventListener('drop', e => {
-  e.preventDefault();
-  zone.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file) handleFile(file);
-});
+    zone.addEventListener('click', () => fileInput.click());
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
 
-fileInput.addEventListener('change', e => {
-  if (e.target.files[0]) handleFile(e.target.files[0]);
-});
+    fileInput.addEventListener('change', e => {
+      if (e.target.files[0]) handleFile(e.target.files[0]);
+    });
 
-function handleFile(file) {
-  if (!file.type.startsWith('image/')) {
-    showError('이미지 파일만 업로드 가능합니다.');
-    return;
-  }
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showError('이미지 파일만 업로드 가능합니다.');
+        return;
+      }
 
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const dataUrl = e.target.result;
-    uploadedImageBase64 = dataUrl.split(',')[1];
-    uploadedImageType = file.type;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        uploadedImageBase64 = dataUrl.split(',')[1];
+        uploadedImageType = file.type;
 
-    document.getElementById('previewImg').src = dataUrl;
-    document.getElementById('uploadZone').style.display = 'none';
-    document.getElementById('previewContainer').style.display = 'block';
-    document.getElementById('infoName').value = '';
-    document.getElementById('infoAge').value = '';
-    document.getElementById('infoDesc').value = '';
-    document.getElementById('analyzeEduBtn').disabled = false;
-    document.getElementById('analyzeGenBtn').disabled = false;
-    hideError();
-  };
-  reader.readAsDataURL(file);
-}
+        document.getElementById('previewImg').src = dataUrl;
+        document.getElementById('uploadZone').style.display = 'none';
+        document.getElementById('previewContainer').style.display = 'block';
+        document.getElementById('infoName').value = '';
+        document.getElementById('infoAge').value = '';
+        document.getElementById('infoDesc').value = '';
+        document.getElementById('analyzeEduBtn').disabled = false;
+        document.getElementById('analyzeGenBtn').disabled = false;
+        hideError();
+      };
+      reader.readAsDataURL(file);
+    }
 
-function showError(msg) {
-  const box = document.getElementById('errorBox');
-  box.textContent = msg;
-  box.style.display = 'block';
-}
+    function showError(msg) {
+      const box = document.getElementById('errorBox');
+      box.textContent = msg;
+      box.style.display = 'block';
+    }
 
-function hideError() {
-  document.getElementById('errorBox').style.display = 'none';
-}
+    function hideError() {
+      document.getElementById('errorBox').style.display = 'none';
+    }
 
-async function analyzeImage(mode = 'general') {
-  if (!uploadedImageBase64) return;
+    async function analyzeImage(mode = 'general') {
+      if (!uploadedImageBase64) return;
 
-  // Show loading
-  document.getElementById('uploadSection').style.display = 'none';
-  document.getElementById('loadingSection').style.display = 'block';
+      // Show loading
+      document.getElementById('uploadSection').style.display = 'none';
+      document.getElementById('loadingSection').style.display = 'block';
 
-  // Animate loading steps
-  const steps = [
-    '시각 요소 분석 중…',
-    '색채 심리 해석 중…',
-    '공간 구성 읽는 중…',
-    '내면 상태 도출 중…',
-    '솔루션 구성 중…',
-    '보고서 작성 중…'
-  ];
-  let stepIdx = 0;
-  const stepEl = document.getElementById('loadingSteps');
-  const stepInterval = setInterval(() => {
-    stepIdx = (stepIdx + 1) % steps.length;
-    stepEl.textContent = steps[stepIdx];
-  }, 1400);
+      // Animate loading steps
+      const steps = [
+        '시각 요소 분석 중…',
+        '색채 심리 해석 중…',
+        '공간 구성 읽는 중…',
+        '내면 상태 도출 중…',
+        '솔루션 구성 중…',
+        '보고서 작성 중…'
+      ];
+      let stepIdx = 0;
+      const stepEl = document.getElementById('loadingSteps');
+      const stepInterval = setInterval(() => {
+        stepIdx = (stepIdx + 1) % steps.length;
+        stepEl.textContent = steps[stepIdx];
+      }, 1400);
 
-  try {
-    let systemPrompt = '';
-    
-    if (mode === 'education') {
-      systemPrompt = `당신은 어린이 미술 심리 분석을 전문으로 하는 전문가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 학부모나 교육자가 보기에 적절한 전문가 보고서 형태로 응답하세요. 
+      try {
+        let systemPrompt = '';
+
+        if (mode === 'education') {
+          systemPrompt = `당신은 어린이 미술 심리 분석을 전문으로 하는 전문가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 학부모나 교육자가 보기에 적절한 전문가 보고서 형태로 응답하세요. 
 주의: 상처가 될 수 있는 부정적이거나 극단적인 내용(우울증 심각, 스트레스 한계 등)은 절대 피하고, 성향과 잠재력을 밝고 긍정적인 방향으로 분석한 뒤에 맞춤형 성장 솔루션을 제공하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
 {
   "title": "보고서 제목 (예: 상상력이 풍부한 캔버스)",
@@ -1503,8 +1679,8 @@ async function analyzeImage(mode = 'general') {
   "closing": "분석을 마무리하는 따뜻한 조언 한 마디"
 }
 오직 유효한 JSON 문자열만 반환하세요.`;
-    } else {
-      systemPrompt = `당신은 전문 미술 심리 분석가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 정확하게, 하지만 내용이 매우 깊이 있고 양식을 갖춘 전문가 보고서 형태로 응답하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
+        } else {
+          systemPrompt = `당신은 전문 미술 심리 분석가입니다. 사용자가 업로드한 그림을 분석하여 다음 JSON 형식으로 정확하게, 하지만 내용이 매우 깊이 있고 양식을 갖춘 전문가 보고서 형태로 응답하세요. 필요 시 \\n 문자를 적극 활용해서 문단 구분을 확실히 해주세요.
 {
   "title": "보고서 제목 (예: 내면의 소리에 귀 기울이는 시간)",
   "overview": "그림의 전반적인 특징 및 첫인상 (2~3개 문단으로 상세히 기술)",
@@ -1530,100 +1706,100 @@ async function analyzeImage(mode = 'general') {
   "closing": "분석을 마무리하는 따뜻하고 가장 핵심적인 조언 한 마디"
 }
 오직 유효한 JSON 문자열만 반환하세요.`;
-    }
-
-    const infoName = document.getElementById('infoName').value.trim();
-    const infoAge  = document.getElementById('infoAge').value.trim();
-    const infoDesc = document.getElementById('infoDesc').value.trim();
-    let userPrompt = "이 그림을 미술 심리학적 관점에서 분석해주세요.";
-    const extras = [];
-    if (infoName) extras.push(`이름: ${infoName}`);
-    if (infoAge)  extras.push(`나이: ${infoAge}`);
-    if (infoDesc) extras.push(`그림 설명: ${infoDesc}`);
-    if (extras.length > 0) {
-      userPrompt += `\n\n[부가 정보 (분석 시 참고하세요)]\n${extras.join('\n')}`;
-    }
-
-    const payload = {
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt
-        },
-        {
-          role: "user",
-          content: [
-            { type: "text", text: userPrompt },
-            {
-              type: "image_url",
-              image_url: {
-                url: `data:${uploadedImageType};base64,${uploadedImageBase64}`
-              }
-            }
-          ]
         }
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 2500,
-      temperature: 0.7
-    };
 
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+        const infoName = document.getElementById('infoName').value.trim();
+        const infoAge = document.getElementById('infoAge').value.trim();
+        const infoDesc = document.getElementById('infoDesc').value.trim();
+        let userPrompt = "이 그림을 미술 심리학적 관점에서 분석해주세요.";
+        const extras = [];
+        if (infoName) extras.push(`이름: ${infoName}`);
+        if (infoAge) extras.push(`나이: ${infoAge}`);
+        if (infoDesc) extras.push(`그림 설명: ${infoDesc}`);
+        if (extras.length > 0) {
+          userPrompt += `\n\n[부가 정보 (분석 시 참고하세요)]\n${extras.join('\n')}`;
+        }
 
-    clearInterval(stepInterval);
+        const payload = {
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "system",
+              content: systemPrompt
+            },
+            {
+              role: "user",
+              content: [
+                { type: "text", text: userPrompt },
+                {
+                  type: "image_url",
+                  image_url: {
+                    url: `data:${uploadedImageType};base64,${uploadedImageBase64}`
+                  }
+                }
+              ]
+            }
+          ],
+          response_format: { type: "json_object" },
+          max_tokens: 2500,
+          temperature: 0.7
+        };
 
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error?.message || '분석 중 오류가 발생했습니다.');
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        clearInterval(stepInterval);
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error?.message || '분석 중 오류가 발생했습니다.');
+        }
+
+        const resultData = await response.json();
+        const resultText = resultData.choices[0].message.content;
+        const result = JSON.parse(resultText);
+
+        lastReportData = result;
+
+        renderReport(result);
+
+      } catch (err) {
+        clearInterval(stepInterval);
+        document.getElementById('loadingSection').style.display = 'none';
+        document.getElementById('uploadSection').style.display = 'block';
+        showError('분석 중 오류가 발생했습니다: ' + err.message);
+      }
     }
 
-    const resultData = await response.json();
-    const resultText = resultData.choices[0].message.content;
-    const result = JSON.parse(resultText);
-    
-    lastReportData = result;
+    function formatText(text) {
+      if (!text) return '';
+      return text.replace(/\\n/g, '<br/>');
+    }
 
-    renderReport(result);
+    function renderReport(data) {
+      document.getElementById('loadingSection').style.display = 'none';
 
-  } catch (err) {
-    clearInterval(stepInterval);
-    document.getElementById('loadingSection').style.display = 'none';
-    document.getElementById('uploadSection').style.display = 'block';
-    showError('분석 중 오류가 발생했습니다: ' + err.message);
-  }
-}
+      // Header
+      document.getElementById('reportTitle').textContent = data.title || '미술심리분석 보고서';
+      document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ko-KR', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      }) + ' · Mantra Art';
+      document.getElementById('closingLine').textContent = data.closing || '';
 
-function formatText(text) {
-  if (!text) return '';
-  return text.replace(/\\n/g, '<br/>');
-}
+      // Apply image
+      const previewImg = document.getElementById('previewImg').src;
+      document.getElementById('reportImage').src = previewImg;
 
-function renderReport(data) {
-  document.getElementById('loadingSection').style.display = 'none';
+      const body = document.getElementById('reportBody');
+      body.innerHTML = '';
 
-  // Header
-  document.getElementById('reportTitle').textContent = data.title || '미술심리분석 보고서';
-  document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ko-KR', {
-    year: 'numeric', month: 'long', day: 'numeric'
-  }) + ' · Mantra Art';
-  document.getElementById('closingLine').textContent = data.closing || '';
-
-  // Apply image
-  const previewImg = document.getElementById('previewImg').src;
-  document.getElementById('reportImage').src = previewImg;
-
-  const body = document.getElementById('reportBody');
-  body.innerHTML = '';
-
-  // Block 1: Overview
-  body.innerHTML += `
+      // Block 1: Overview
+      body.innerHTML += `
     <div class="report-block visible">
       <div class="block-label">개요<br>Overview</div>
       <div class="block-content">
@@ -1635,9 +1811,9 @@ function renderReport(data) {
       </div>
     </div>`;
 
-  // Block 2: Elements
-  const el = data.elements || {};
-  body.innerHTML += `
+      // Block 2: Elements
+      const el = data.elements || {};
+      body.innerHTML += `
     <div class="report-block visible">
       <div class="block-label">시각 분석<br>Visual</div>
       <div class="block-content">
@@ -1649,9 +1825,9 @@ function renderReport(data) {
       </div>
     </div>`;
 
-  // Block 3: Scores
-  const scores = data.scores || [];
-  body.innerHTML += `
+      // Block 3: Scores
+      const scores = data.scores || [];
+      body.innerHTML += `
     <div class="report-block visible" id="scoreBlock">
       <div class="block-label">심리 지수<br>Index</div>
       <div class="block-content">
@@ -1669,8 +1845,8 @@ function renderReport(data) {
       </div>
     </div>`;
 
-  // Block 4: Core state
-  body.innerHTML += `
+      // Block 4: Core state
+      body.innerHTML += `
     <div class="report-block visible">
       <div class="block-label">핵심 상태<br>Core State</div>
       <div class="block-content">
@@ -1679,9 +1855,9 @@ function renderReport(data) {
       </div>
     </div>`;
 
-  // Block 5: Solutions
-  const sols = data.solutions || [];
-  body.innerHTML += `
+      // Block 5: Solutions
+      const sols = data.solutions || [];
+      body.innerHTML += `
     <div class="report-block visible">
       <div class="block-label">솔루션<br>Solution</div>
       <div class="block-content">
@@ -1689,7 +1865,7 @@ function renderReport(data) {
         <div class="solution-list">
           ${sols.map((s, i) => `
             <div class="solution-card">
-              <div class="sol-num">0${i+1}</div>
+              <div class="sol-num">0${i + 1}</div>
               <div class="sol-title">${s.title}</div>
               <div class="sol-desc">${formatText(s.description)}</div>
             </div>`).join('')}
@@ -1697,88 +1873,88 @@ function renderReport(data) {
       </div>
     </div>`;
 
-  // Show
-  document.getElementById('reportSection').style.display = 'block';
+      // Show
+      document.getElementById('reportSection').style.display = 'block';
 
-  // Animate score bars
-  setTimeout(() => {
-    document.querySelectorAll('.score-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.val + '%';
-    });
-  }, 400);
+      // Animate score bars
+      setTimeout(() => {
+        document.querySelectorAll('.score-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.val + '%';
+        });
+      }, 400);
 
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-async function exportPDF() {
-  if (!lastReportData) return;
+    async function exportPDF() {
+      if (!lastReportData) return;
 
-  const d = lastReportData;
-  const el = d.elements || {};
-  const scores = d.scores || [];
-  const sols = d.solutions || [];
-  const imgSrc = document.getElementById('previewImg').src;
+      const d = lastReportData;
+      const el = d.elements || {};
+      const scores = d.scores || [];
+      const sols = d.solutions || [];
+      const imgSrc = document.getElementById('previewImg').src;
 
-  const pw = window.open('', '_blank', 'width=900,height=1200');
-  if (!pw) { alert('팝업이 차단되었습니다. 브라우저 팝업 허용 후 다시 시도하세요.'); return; }
+      const pw = window.open('', '_blank', 'width=900,height=1200');
+      if (!pw) { alert('팝업이 차단되었습니다. 브라우저 팝업 허용 후 다시 시도하세요.'); return; }
 
-  const esc = function(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
-  const nl  = function(s){ return (s||'').replace(/\\n/g,'<br>'); };
+      const esc = function (s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+      const nl = function (s) { return (s || '').replace(/\\n/g, '<br>'); };
 
-  pw.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">');
-  pw.document.write('<title>만트라 아트 미술심리분석 보고서</title>');
-  pw.document.write('<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">');
-  pw.document.write('<style>');
-  pw.document.write('@page{size:A4 portrait;margin:20mm}*{margin:0;padding:0;box-sizing:border-box}');
-  pw.document.write('body{font-family:"Noto Sans KR",sans-serif;font-size:13px;color:#1a1410;background:#fff;line-height:1.7}');
-  pw.document.write('.hdr{text-align:center;border-bottom:2px solid #b8934a;padding-bottom:14px;margin-bottom:18px;page-break-inside:avoid}');
-  pw.document.write('.hdr h1{font-family:"Cormorant Garamond",serif;font-size:26px;color:#b8934a;margin-bottom:5px}');
-  pw.document.write('.hdr h2{font-size:16px;font-weight:400;margin-bottom:4px}.hdr .dt{font-size:11px;color:#7a6e62}');
-  pw.document.write('.img-wrap{text-align:center;margin-bottom:20px;page-break-inside:avoid}.img-wrap img{max-height:180px;max-width:100%;border-radius:4px}');
-  pw.document.write('.sec{margin-bottom:18px;page-break-inside:avoid}.sec h3{font-size:12px;font-weight:700;color:#b8934a;border-bottom:1px solid #e0d5c5;padding-bottom:4px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em}');
-  pw.document.write('.sec p{font-size:12px;line-height:1.8;color:#2a2018;margin-bottom:4px}.sec p:last-child{margin-bottom:0}');
-  pw.document.write('.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.si{font-size:12px}.sv{color:#b8934a;font-weight:700}');
-  pw.document.write('.sol{margin-bottom:10px;page-break-inside:avoid}.sol h4{font-size:12.5px;font-weight:700;margin-bottom:3px}.sol p{font-size:12px;line-height:1.7}');
-  pw.document.write('.closing{text-align:center;padding-top:14px;border-top:1px solid #e0d5c5;margin-top:18px;font-style:italic;color:#7a6e62;font-size:13px;page-break-inside:avoid}');
-  pw.document.write('@media print{@page{size:A4 portrait;margin:20mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}');
-  pw.document.write('</style></head><body>');
-  pw.document.write('<div class="hdr"><h1>&#10022; Mantra Art &#10022;</h1>');
-  pw.document.write('<h2>' + esc(d.title || '미술심리분석 보고서') + '</h2>');
-  pw.document.write('<div class="dt">' + new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'}) + ' &middot; Mantra Art</div></div>');
-  pw.document.write('<div class="img-wrap"><img src="' + imgSrc + '" alt="분석 이미지"></div>');
-  pw.document.write('<div class="sec"><h3>개요 &mdash; Overview</h3><p>' + nl(d.overview) + '</p></div>');
-  pw.document.write('<div class="sec"><h3>시각 분석 &mdash; Visual</h3>');
-  pw.document.write('<p><strong>색채 &mdash;</strong> ' + nl(el.color) + '</p>');
-  pw.document.write('<p><strong>구성 &mdash;</strong> ' + nl(el.composition) + '</p>');
-  pw.document.write('<p><strong>형태 &mdash;</strong> ' + nl(el.form) + '</p>');
-  pw.document.write('<p><strong>상징 &mdash;</strong> ' + nl(el.symbol) + '</p></div>');
-  pw.document.write('<div class="sec"><h3>심리 지수 &mdash; Index</h3><div class="sgrid">');
-  scores.forEach(function(s){ pw.document.write('<div class="si"><strong>' + esc(s.name) + '</strong>: <span class="sv">' + esc(String(s.value)) + '</span></div>'); });
-  pw.document.write('</div></div>');
-  pw.document.write('<div class="sec"><h3>핵심 상태 &mdash; Core State</h3><p style="font-style:italic">' + nl(d.core_state) + '</p></div>');
-  pw.document.write('<div class="sec"><h3>솔루션 &mdash; Solutions</h3>');
-  sols.forEach(function(s,i){ pw.document.write('<div class="sol"><h4>0' + (i+1) + '. ' + esc(s.title) + '</h4><p>' + nl(s.description) + '</p></div>'); });
-  pw.document.write('</div>');
-  pw.document.write('<div class="closing">' + nl(d.closing) + '</div>');
-  pw.document.write('<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();window.onafterprint=function(){window.close();};},800);};<\/scr'+'ipt>');
-  pw.document.write('</body></html>');
-  pw.document.close();
-}
+      pw.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">');
+      pw.document.write('<title>만트라 아트 미술심리분석 보고서</title>');
+      pw.document.write('<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">');
+      pw.document.write('<style>');
+      pw.document.write('@page{size:A4 portrait;margin:20mm}*{margin:0;padding:0;box-sizing:border-box}');
+      pw.document.write('body{font-family:"Noto Sans KR",sans-serif;font-size:13px;color:#1a1410;background:#fff;line-height:1.7}');
+      pw.document.write('.hdr{text-align:center;border-bottom:2px solid #b8934a;padding-bottom:14px;margin-bottom:18px;page-break-inside:avoid}');
+      pw.document.write('.hdr h1{font-family:"Cormorant Garamond",serif;font-size:26px;color:#b8934a;margin-bottom:5px}');
+      pw.document.write('.hdr h2{font-size:16px;font-weight:400;margin-bottom:4px}.hdr .dt{font-size:11px;color:#7a6e62}');
+      pw.document.write('.img-wrap{text-align:center;margin-bottom:20px;page-break-inside:avoid}.img-wrap img{max-height:180px;max-width:100%;border-radius:4px}');
+      pw.document.write('.sec{margin-bottom:18px;page-break-inside:avoid}.sec h3{font-size:12px;font-weight:700;color:#b8934a;border-bottom:1px solid #e0d5c5;padding-bottom:4px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em}');
+      pw.document.write('.sec p{font-size:12px;line-height:1.8;color:#2a2018;margin-bottom:4px}.sec p:last-child{margin-bottom:0}');
+      pw.document.write('.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.si{font-size:12px}.sv{color:#b8934a;font-weight:700}');
+      pw.document.write('.sol{margin-bottom:10px;page-break-inside:avoid}.sol h4{font-size:12.5px;font-weight:700;margin-bottom:3px}.sol p{font-size:12px;line-height:1.7}');
+      pw.document.write('.closing{text-align:center;padding-top:14px;border-top:1px solid #e0d5c5;margin-top:18px;font-style:italic;color:#7a6e62;font-size:13px;page-break-inside:avoid}');
+      pw.document.write('@media print{@page{size:A4 portrait;margin:20mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}');
+      pw.document.write('</style></head><body>');
+      pw.document.write('<div class="hdr"><h1>&#10022; Mantra Art &#10022;</h1>');
+      pw.document.write('<h2>' + esc(d.title || '미술심리분석 보고서') + '</h2>');
+      pw.document.write('<div class="dt">' + new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) + ' &middot; Mantra Art</div></div>');
+      pw.document.write('<div class="img-wrap"><img src="' + imgSrc + '" alt="분석 이미지"></div>');
+      pw.document.write('<div class="sec"><h3>개요 &mdash; Overview</h3><p>' + nl(d.overview) + '</p></div>');
+      pw.document.write('<div class="sec"><h3>시각 분석 &mdash; Visual</h3>');
+      pw.document.write('<p><strong>색채 &mdash;</strong> ' + nl(el.color) + '</p>');
+      pw.document.write('<p><strong>구성 &mdash;</strong> ' + nl(el.composition) + '</p>');
+      pw.document.write('<p><strong>형태 &mdash;</strong> ' + nl(el.form) + '</p>');
+      pw.document.write('<p><strong>상징 &mdash;</strong> ' + nl(el.symbol) + '</p></div>');
+      pw.document.write('<div class="sec"><h3>심리 지수 &mdash; Index</h3><div class="sgrid">');
+      scores.forEach(function (s) { pw.document.write('<div class="si"><strong>' + esc(s.name) + '</strong>: <span class="sv">' + esc(String(s.value)) + '</span></div>'); });
+      pw.document.write('</div></div>');
+      pw.document.write('<div class="sec"><h3>핵심 상태 &mdash; Core State</h3><p style="font-style:italic">' + nl(d.core_state) + '</p></div>');
+      pw.document.write('<div class="sec"><h3>솔루션 &mdash; Solutions</h3>');
+      sols.forEach(function (s, i) { pw.document.write('<div class="sol"><h4>0' + (i + 1) + '. ' + esc(s.title) + '</h4><p>' + nl(s.description) + '</p></div>'); });
+      pw.document.write('</div>');
+      pw.document.write('<div class="closing">' + nl(d.closing) + '</div>');
+      pw.document.write('<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();window.onafterprint=function(){window.close();};},800);};<\/scr' + 'ipt>');
+      pw.document.write('</body></html>');
+      pw.document.close();
+    }
 
-function exportWord() {
-  if (!lastReportData) return;
+    function exportWord() {
+      if (!lastReportData) return;
 
-  const d = lastReportData;
-  const el = d.elements || {};
-  const scores = d.scores || [];
-  const sols = d.solutions || [];
-  const imgSrc = document.getElementById('previewImg').src;
+      const d = lastReportData;
+      const el = d.elements || {};
+      const scores = d.scores || [];
+      const sols = d.solutions || [];
+      const imgSrc = document.getElementById('previewImg').src;
 
-  const esc = function(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
-  const nl  = function(s){ return (s||'').replace(/\\n/g,'<br>'); };
+      const esc = function (s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+      const nl = function (s) { return (s || '').replace(/\\n/g, '<br>'); };
 
-  const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
 <head>
 <meta charset='utf-8'>
 <title>미술심리분석 보고서</title>
@@ -1796,7 +1972,7 @@ function exportWord() {
 </head>
 <body>`;
 
-  let contentHtml = `
+      let contentHtml = `
     <h2>${esc(d.title || '미술심리분석 보고서')}</h2>
     
     <div class="img-container">
@@ -1815,55 +1991,55 @@ function exportWord() {
     <h3>심리 지수</h3>
   `;
 
-  scores.forEach(s => {
-    contentHtml += `<div class="score-item"><strong>${esc(s.name)}:</strong> ${esc(String(s.value))}</div>`;
-  });
+      scores.forEach(s => {
+        contentHtml += `<div class="score-item"><strong>${esc(s.name)}:</strong> ${esc(String(s.value))}</div>`;
+      });
 
-  contentHtml += `
+      contentHtml += `
     <h3>핵심 상태</h3>
     <p style="font-style: italic;">${nl(d.core_state)}</p>
 
     <h3>솔루션</h3>
   `;
 
-  sols.forEach((s, i) => {
-    contentHtml += `
+      sols.forEach((s, i) => {
+        contentHtml += `
       <div class="sol-item">
-        <div class="sol-title">0${i+1}. ${esc(s.title)}</div>
+        <div class="sol-title">0${i + 1}. ${esc(s.title)}</div>
         <p>${nl(s.description)}</p>
       </div>
     `;
-  });
+      });
 
-  contentHtml += `
+      contentHtml += `
     <div class="closing">${nl(d.closing)}</div>
   `;
 
-  const postHtml = "</body></html>";
-  const html = preHtml + contentHtml + postHtml;
+      const postHtml = "</body></html>";
+      const html = preHtml + contentHtml + postHtml;
 
-  const blob = new Blob(['\\ufeff', html], { type: 'application/msword' });
-  const url = URL.createObjectURL(blob);
-  const filename = 'MantraArt_미술심리분석_보고서.doc';
-  
-  const downloadLink = document.createElement("a");
-  document.body.appendChild(downloadLink);
-  
-  if (navigator.msSaveOrOpenBlob) {
-    navigator.msSaveOrOpenBlob(blob, filename);
-  } else {
-    downloadLink.href = url;
-    downloadLink.download = filename;
-    downloadLink.click();
-  }
-  
-  document.body.removeChild(downloadLink);
-  URL.revokeObjectURL(url);
-}
+      const blob = new Blob(['\\ufeff', html], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const filename = 'MantraArt_미술심리분석_보고서.doc';
 
-// Print styles
-const printStyle = document.createElement('style');
-printStyle.textContent = `
+      const downloadLink = document.createElement("a");
+      document.body.appendChild(downloadLink);
+
+      if (navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, filename);
+      } else {
+        downloadLink.href = url;
+        downloadLink.download = filename;
+        downloadLink.click();
+      }
+
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(url);
+    }
+
+    // Print styles
+    const printStyle = document.createElement('style');
+    printStyle.textContent = `
   @media print {
     header, .upload-section, .loading-section, .report-actions { display: none !important; }
     body { background: white; }
@@ -1871,7 +2047,8 @@ printStyle.textContent = `
     .report-block { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
   }
 `;
-document.head.appendChild(printStyle);
-</script>
+    document.head.appendChild(printStyle);
+  </script>
 </body>
+
 </html>
