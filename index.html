@@ -1640,6 +1640,28 @@
       document.getElementById('errorBox').style.display = 'none';
     }
 
+    function robustJSONParse(text) {
+      if (!text) return null;
+      try {
+        // 1. Try direct parse
+        return JSON.parse(text);
+      } catch (e) {
+        try {
+          // 2. Extract JSON using regex
+          const jsonMatch = text.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            let cleanJson = jsonMatch[0];
+            // 3. Remove trailing commas in arrays/objects
+            cleanJson = cleanJson.replace(/,(\s*[\]}])/g, '$1');
+            return JSON.parse(cleanJson);
+          }
+        } catch (e2) {
+          console.error("JSON parsing failed even after cleanup:", e2);
+        }
+      }
+      return null;
+    }
+
     async function analyzeImage(mode = 'general') {
       if (!uploadedImageBase64) return;
 
@@ -1779,8 +1801,11 @@
 
         const resultData = await response.json();
         const resultText = resultData.choices[0].message.content;
-      const jsonMatch = resultText.match(/\{[\s\S]*\}/);
-      const result = JSON.parse(jsonMatch ? jsonMatch[0] : resultText);
+        const result = robustJSONParse(resultText);
+
+        if (!result) {
+          throw new Error('AI 응답 형식이 올바르지 않거나 분석 내용이 너무 깁니다. 다시 시도해 주세요.');
+        }
 
         lastReportData = result;
 
