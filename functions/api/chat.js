@@ -48,7 +48,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: body.model || "gpt-4o",
         messages: messages,
-        response_format: body.response_format || undefined,
+        response_format: { type: "json_object" },
         temperature: temperature,
         max_tokens: maxTokens
       })
