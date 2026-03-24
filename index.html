@@ -878,23 +878,23 @@
       }
     }
 
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    display: block;
-    padding: 16px 20px;
-    border: 1px solid var(--line);
-    border-bottom: 2px solid var(--accent);
-    background: var(--surface);
-    border-radius: 0;
-    font-family: 'Noto Sans KR',
-    sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--ink);
-    resize: vertical;
-    outline: none;
-    transition: all 0.3s;
+    .context-input {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      display: block;
+      padding: 16px 20px;
+      border: 1px solid var(--line);
+      border-bottom: 2px solid var(--accent);
+      background: var(--surface);
+      border-radius: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      transition: all 0.3s;
     }
 
     .context-input:focus {
@@ -2048,4 +2048,10 @@
       } else {
         downloadLink.href = url;
         downloadLink.download = filename;
-        downloadLink.click()
+        downloadLink.click();
+      }
+    }
+  </script>
+</body>
+
+</html>
