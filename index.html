@@ -231,13 +231,7 @@
     }
 
     #fileInput {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-      z-index: 10;
+      display: none;
     }
 
     /* Preview */
@@ -930,7 +924,7 @@
 
     <!-- Upload Section -->
     <div class="upload-section" id="uploadSection">
-      <div class="upload-zone" id="uploadZone">
+      <label class="upload-zone" id="uploadZone" for="fileInput">
         <div class="upload-icon">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"
             stroke-linecap="round" stroke-linejoin="round">
@@ -942,7 +936,7 @@
         <div class="upload-title">그림을 업로드하세요</div>
         <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
         <input type="file" id="fileInput" accept="image/*">
-      </div>
+      </label>
 
       <div class="preview-container" id="previewContainer">
         <div class="preview-frame">
