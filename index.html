@@ -1651,9 +1651,26 @@
           const jsonMatch = text.match(/\{[\s\S]*\}/);
           if (jsonMatch) {
             let cleanJson = jsonMatch[0];
-            // 3. Remove trailing commas in arrays/objects
+            // 3. Remove trailing commas
             cleanJson = cleanJson.replace(/,(\s*[\]}])/g, '$1');
-            return JSON.parse(cleanJson);
+            try {
+              return JSON.parse(cleanJson);
+            } catch (e3) {
+              // 4. Try to fix truncated JSON by balancing braces/brackets
+              let openBraces = (cleanJson.match(/\{/g) || []).length;
+              let closeBraces = (cleanJson.match(/\}/g) || []).length;
+              while (openBraces > closeBraces) {
+                cleanJson += '}';
+                closeBraces++;
+              }
+              let openBrackets = (cleanJson.match(/\[/g) || []).length;
+              let closeBrackets = (cleanJson.match(/\]/g) || []).length;
+              while (openBrackets > closeBrackets) {
+                cleanJson += ']';
+                closeBrackets++;
+              }
+              return JSON.parse(cleanJson);
+            }
           }
         } catch (e2) {
           console.error("JSON parsing failed even after cleanup:", e2);
@@ -1801,10 +1818,12 @@
 
         const resultData = await response.json();
         const resultText = resultData.choices[0].message.content;
+        const provider = resultData._provider || 'unknown';
         const result = robustJSONParse(resultText);
 
         if (!result) {
-          throw new Error('AI 응답 형식이 올바르지 않거나 분석 내용이 너무 깁니다. 다시 시도해 주세요.');
+          console.error("Failed to parse AI response:", resultText);
+          throw new Error(`AI 응답 분석 실패 (${provider}). 응답 내용이 너무 길거나 형식이 올바르지 않습니다. 다시 시도해 주세요.`);
         }
 
         lastReportData = result;

@@ -37,7 +37,38 @@ export async function onRequestPost(context) {
     });
   }
 
-  // ── 1순위: Anthropic Claude ──
+  // ── 1순위: OpenAI ──
+  try {
+    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${env.OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: body.model || "gpt-4o",
+        messages: messages,
+        response_format: body.response_format || undefined,
+        temperature: temperature,
+        max_tokens: maxTokens
+      })
+    });
+
+    if (openaiRes.ok) {
+      const openaiData = await openaiRes.json();
+      return new Response(JSON.stringify({
+        ...openaiData,
+        _provider: "openai"
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+    console.error("OpenAI 실패, Anthropic으로 폴백:", openaiRes.status);
+  } catch (err) {
+    console.error("OpenAI 연결 오류, Anthropic으로 폴백:", err.message);
+  }
+
+  // ── 2순위 폴백: Anthropic Claude ──
   try {
     const anthropicMessages = convertMessagesForAnthropic(userMessages);
     const jsonInstruction = "You must respond with pure JSON only. No markdown code blocks, no explanation text, no prefix. Output only a valid JSON object.";
@@ -50,7 +81,7 @@ export async function onRequestPost(context) {
         "anthropic-version": "2023-06-01"
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-5",
+        model: "claude-3-5-sonnet-latest",
         max_tokens: maxTokens,
         system: jsonInstruction + "\n\n" + systemMessage,
         messages: anthropicMessages
@@ -68,43 +99,10 @@ export async function onRequestPost(context) {
       });
     }
 
-    console.error("Anthropic 실패, OpenAI로 폴백:", anthropicRes.status);
-  } catch (err) {
-    console.error("Anthropic 연결 오류, OpenAI로 폴백:", err.message);
-  }
-
-  // ── 2순위 폴백: OpenAI ──
-  try {
-    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: body.model || "gpt-4o",
-        messages: messages,
-        response_format: body.response_format || undefined,
-        temperature: temperature,
-        max_tokens: maxTokens
-      })
-    });
-
-    const openaiData = await openaiRes.json();
-
-    if (!openaiRes.ok) {
-      return new Response(JSON.stringify({
-        error: openaiData.error?.message || "OpenAI 오류"
-      }), {
-        status: openaiRes.status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-
     return new Response(JSON.stringify({
-      ...openaiData,
-      _provider: "openai"
+      error: "모든 API 호출 실패"
     }), {
+      status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" }
     });
 
