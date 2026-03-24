@@ -1417,8 +1417,7 @@
         가족화) 검사 등 다양한 미술심리 검사 이론을 참고하여 분석 결과를 제공합니다.</p>
       <p style="margin-bottom: 16px;">본 서비스는 <strong style="font-weight:500;">교육 및 자기 이해 목적</strong>으로 제공됩니다. 분석 결과는
         참고용이며, 전문적인 심리상담이나 심리치료를 대체하지 않습니다. 심리적 어려움이 있으신 경우 전문 상담사와 상담하시길 권장합니다.</p>
-      <p>서비스 이용 문의: <a href="mailto:mantra.studio.kr@gmail.com"
-          style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a></p>
+      <p>서비스 이용 문의: <a href="/cdn-cgi/l/email-protection#8ae7ebe4fef8eba4f9feffeee3e5a4e1f8caede7ebe3e6a4e9e5e7" style="color:var(--accent); text-decoration:none;"><span class="__cf_email__" data-cfemail="284549465c5a49065b5c5d4c414706435a684f45494144064b4745">[email&#160;protected]</span></a></p>
     </div>
   </section>
 
@@ -1468,8 +1467,7 @@
         style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
         5. 문의</h3>
       <p>개인정보 관련 문의사항은 아래로 연락 주시기 바랍니다.<br>
-        이메일: <a href="mailto:mantra.studio.kr@gmail.com"
-          style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a><br>
+        이메일: <a href="/cdn-cgi/l/email-protection#701d111e0402115e03040514191f5e1b0230171d11191c5e131f1d" style="color:var(--accent); text-decoration:none;"><span class="__cf_email__" data-cfemail="402d212e3432216e33343524292f6e2b3200272d21292c6e232f2d">[email&#160;protected]</span></a><br>
         운영자: 만트라 스튜디오</p>
     </div>
   </section>
@@ -1519,8 +1517,7 @@
         style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
         5. 약관 변경</h3>
       <p>본 약관은 서비스 운영 방침에 따라 변경될 수 있으며, 변경 시 서비스 내 공지를 통해 안내합니다.<br>
-        문의: <a href="mailto:mantra.studio.kr@gmail.com"
-          style="color:var(--accent); text-decoration:none;">mantra.studio.kr@gmail.com</a></p>
+        문의: <a href="/cdn-cgi/l/email-protection#513c303f2523307f22252435383e7f3a2311363c30383d7f323e3c" style="color:var(--accent); text-decoration:none;"><span class="__cf_email__" data-cfemail="e78a8689939586c9949392838e88c98c95a7808a868e8bc984888a">[email&#160;protected]</span></a></p>
     </div>
   </section>
 
@@ -1566,7 +1563,7 @@
       text-decoration: none; letter-spacing: 0.05em;
       transition: color 0.2s;
     " onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#7a6e8a'">이용약관</a>
-      <a href="mailto:mantra.studio.kr@gmail.com" style="
+      <a href="/cdn-cgi/l/email-protection#4c212d22383e2d623f383928252362273e0c2b212d2520622f2321" style="
       font-family: 'Noto Sans KR', sans-serif;
       font-size: 12px; font-weight: 300; color: #7a6e8a;
       text-decoration: none; letter-spacing: 0.05em;
@@ -1584,7 +1581,7 @@
     </p>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     let uploadedImageBase64 = null;
     let uploadedImageType = null;
     let lastReportData = null;
@@ -1762,7 +1759,7 @@
             }
           ],
           response_format: { type: "json_object" },
-          max_tokens: 2500,
+          max_tokens: 4000,
           temperature: 0.7
         };
 
@@ -2052,25 +2049,4 @@
       } else {
         downloadLink.href = url;
         downloadLink.download = filename;
-        downloadLink.click();
-      }
-
-      document.body.removeChild(downloadLink);
-      URL.revokeObjectURL(url);
-    }
-
-    // Print styles
-    const printStyle = document.createElement('style');
-    printStyle.textContent = `
-  @media print {
-    header, .upload-section, .loading-section, .report-actions { display: none !important; }
-    body { background: white; }
-    .report-section { display: block !important; }
-    .report-block { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
-  }
-`;
-    document.head.appendChild(printStyle);
-  </script>
-</body>
-
-</html>
+        downloadLink.click()
