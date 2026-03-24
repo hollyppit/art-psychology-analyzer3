@@ -37,6 +37,9 @@ export async function onRequestPost(context) {
     });
   }
 
+  let openaiError = null;
+  let anthropicError = null;
+
   // ── 1순위: OpenAI ──
   try {
     const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -65,12 +68,12 @@ export async function onRequestPost(context) {
           headers: { ...corsHeaders, "Content-Type": "application/json" }
         });
       }
-      console.warn("OpenAI returned null content (possibly a refusal). Falling back to Anthropic. Refusal:", msg?.refusal);
+      openaiError = `Refusal: ${msg?.refusal || "Empty content"}`;
     } else {
-      console.warn("OpenAI API error. Falling back to Anthropic. Status:", openaiRes.status);
+      openaiError = `HTTP ${openaiRes.status}: ${await openaiRes.text()}`;
     }
   } catch (err) {
-    console.error("OpenAI connection error. Falling back to Anthropic:", err.message);
+    openaiError = err.message;
   }
 
   // ── 2순위 폴백: Anthropic Claude ──
@@ -102,23 +105,19 @@ export async function onRequestPost(context) {
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" }
       });
+    } else {
+      anthropicError = `HTTP ${anthropicRes.status}: ${await anthropicRes.text()}`;
     }
-
-    return new Response(JSON.stringify({
-      error: "모든 API 호출 실패"
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" }
-    });
-
   } catch (err) {
-    return new Response(JSON.stringify({
-      error: `모든 API 연결 실패: ${err.message}`
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" }
-    });
+    anthropicError = err.message;
   }
+
+  return new Response(JSON.stringify({
+    error: `(OpenAI) ${openaiError} / (Anthropic) ${anthropicError}`
+  }), {
+    status: 500,
+    headers: { ...corsHeaders, "Content-Type": "application/json" }
+  });
 }
 
 export async function onRequestOptions() {
