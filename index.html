@@ -231,7 +231,13 @@
     }
 
     #fileInput {
-      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 10;
     }
 
     /* Preview */
@@ -1591,7 +1597,6 @@
     const zone = document.getElementById('uploadZone');
     const fileInput = document.getElementById('fileInput');
 
-    zone.addEventListener('click', () => fileInput.click());
     zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
     zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
     zone.addEventListener('drop', e => {
