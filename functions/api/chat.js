@@ -56,16 +56,21 @@ export async function onRequestPost(context) {
 
     if (openaiRes.ok) {
       const openaiData = await openaiRes.json();
-      return new Response(JSON.stringify({
-        ...openaiData,
-        _provider: "openai"
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
+      const msg = openaiData.choices?.[0]?.message;
+      if (msg && msg.content) {
+        return new Response(JSON.stringify({
+          ...openaiData,
+          _provider: "openai"
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+      console.warn("OpenAI returned null content (possibly a refusal). Falling back to Anthropic. Refusal:", msg?.refusal);
+    } else {
+      console.warn("OpenAI API error. Falling back to Anthropic. Status:", openaiRes.status);
     }
-    console.error("OpenAI 실패, Anthropic으로 폴백:", openaiRes.status);
   } catch (err) {
-    console.error("OpenAI 연결 오류, Anthropic으로 폴백:", err.message);
+    console.error("OpenAI connection error. Falling back to Anthropic:", err.message);
   }
 
   // ── 2순위 폴백: Anthropic Claude ──
