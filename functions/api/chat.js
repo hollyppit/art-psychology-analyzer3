@@ -70,7 +70,8 @@ async function callAnthropic(messages, apiKey) {
           return { type: 'text', text: item.text };
         } else if (item.type === 'image_url') {
           const url = item.image_url.url;
-          const match = url.match(/^data:(image\/\w+);base64,(.+)$/);
+          // Allow any image media type up to the semicolon
+          const match = url.match(/^data:(image\/[^;]+);base64,(.+)$/);
           if (match) {
             return {
               type: 'image',

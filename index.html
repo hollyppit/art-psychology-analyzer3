@@ -1820,12 +1820,22 @@
         }
 
         const resultData = await response.json();
-        const resultText = resultData.choices[0].message.content;
+        const choice = resultData.choices && resultData.choices[0];
+        if (!choice) throw new Error("AI 응답 형식이 올바르지 않습니다.");
+
+        const finishReason = choice.finish_reason;
+        const refusal = choice.message?.refusal;
+        const resultText = choice.message?.content;
         const provider = resultData._provider || 'unknown';
+
+        if (finishReason === 'content_filter' || (!resultText && refusal)) {
+          throw new Error(`이미지가 AI 안전 정책(저작권, 폭력성 등)에 의해 분석이 차단되었습니다. 다른 이미지를 사용해 주세요. (${provider})`);
+        }
+
         const result = robustJSONParse(resultText);
 
         if (!result) {
-          console.error("Failed to parse AI response:", resultText);
+          console.error("Failed to parse AI response:", resultText, "Full response:", resultData);
           throw new Error(`AI 응답 분석 실패 (${provider}). 응답 내용이 너무 길거나 형식이 올바르지 않습니다. 다시 시도해 주세요.`);
         }
 
