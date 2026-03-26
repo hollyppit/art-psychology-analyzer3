@@ -39,10 +39,30 @@ export async function onRequestPost(context) {
 
     // 2. OpenAI Fallback
     if (env.OPENAI_API_KEY) {
-      const openaiResponse = await callOpenAI(body, env.OPENAI_API_KEY);
-      return new Response(JSON.stringify(openaiResponse), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      try {
+        const openaiResponse = await callOpenAI(body, env.OPENAI_API_KEY);
+        return new Response(JSON.stringify(openaiResponse), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      } catch (openaiError) {
+        const msg = openaiError.message || '';
+
+        // OpenAI 안전 정책 차단이면 Anthropic으로 재시도
+        if (msg.includes('safety') || msg.includes('policy') || msg.includes('content_policy_violation') || msg.includes('400')) {
+          if (env.ANTHROPIC_API_KEY) {
+            try {
+              const retryResponse = await callAnthropic(messages, env.ANTHROPIC_API_KEY);
+              return new Response(JSON.stringify(retryResponse), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+              });
+            } catch (retryError) {
+              console.error("Anthropic retry also failed:", retryError);
+            }
+          }
+        }
+
+        throw openaiError;
+      }
     }
 
     return new Response(JSON.stringify({ error: "No API keys configured or providers failed" }), {
