@@ -1766,6 +1766,8 @@
       ctx.fillRect(0, 0, w, h);
       undoStack = [];
       saveUndo();
+      document.getElementById('analyzeEduBtn').disabled = false;
+      document.getElementById('analyzeGenBtn').disabled = false;
       document.getElementById('brushSize').addEventListener('input', function() {
         brushSize = parseInt(this.value);
         document.getElementById('brushSizeLabel').textContent = brushSize + 'px';
@@ -1899,13 +1901,11 @@
       const dataURL = canvas.toDataURL('image/png');
       uploadedImageBase64 = dataURL.split(',')[1];
       uploadedImageType = 'image/png';
-      // 프리뷰 표시
       document.getElementById('previewImg').src = dataURL;
       document.getElementById('previewContainer').style.display = 'block';
-      // 분석 버튼 활성화
       document.getElementById('analyzeEduBtn').disabled = false;
       document.getElementById('analyzeGenBtn').disabled = false;
-      window.scrollTo({ top: document.getElementById('uploadSection').offsetTop - 40, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     document.addEventListener('DOMContentLoaded', initCanvas);
