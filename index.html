@@ -910,6 +910,136 @@
       color: #c0b8c8;
       font-weight: 300;
     }
+
+    /* ── 탭 ── */
+    .input-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .input-tab {
+      padding: 12px 28px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-bottom: -1px;
+    }
+    .input-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .input-tab:hover:not(.active) {
+      color: var(--ink);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── 캔버스 드로잉 ── */
+    .draw-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-bottom: none;
+    }
+    .draw-toolbar label {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .tool-btn {
+      padding: 6px 14px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .tool-btn.active, .tool-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(139,111,142,0.06);
+    }
+    .size-slider {
+      -webkit-appearance: none;
+      width: 80px;
+      height: 2px;
+      background: var(--line);
+      outline: none;
+      cursor: pointer;
+    }
+    .size-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    .color-swatches {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .swatch:hover { transform: scale(1.15); }
+    .swatch.active { border-color: var(--ink); }
+    #colorPicker {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--line);
+      padding: 0;
+      cursor: pointer;
+      background: none;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .draw-canvas-wrap {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    #drawCanvas {
+      display: block;
+      width: 100%;
+      height: 420px;
+      cursor: crosshair;
+      border: 1px solid var(--line);
+      background: #fff;
+      touch-action: none;
+    }
+    .draw-hint {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      letter-spacing: 0.04em;
+    }
   </style>
 </head>
 
@@ -926,25 +1056,73 @@
 
     <!-- Upload Section -->
     <div class="upload-section" id="uploadSection">
-      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
-        <div class="upload-icon">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="1" ry="1"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-          </svg>
-        </div>
-        <div class="upload-title">그림을 업로드하세요</div>
-        <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
-      </div>
-      <input type="file" id="fileInput" accept="image/*" style="display:none">
 
-      <div class="preview-container" id="previewContainer">
-        <div class="preview-frame">
-          <img id="previewImg" alt="업로드된 그림">
+      <!-- 탭 -->
+      <div class="input-tabs">
+        <button class="input-tab active" onclick="switchTab('upload')">그림 업로드</button>
+        <button class="input-tab" onclick="switchTab('draw')">직접 그리기</button>
+      </div>
+
+      <!-- 탭 1: 업로드 -->
+      <div class="tab-panel active" id="tabUpload">
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="1" ry="1"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+          <div class="upload-title">그림을 업로드하세요</div>
+          <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
         </div>
-        <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+
+        <div class="preview-container" id="previewContainer">
+          <div class="preview-frame">
+            <img id="previewImg" alt="업로드된 그림">
+          </div>
+          <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
+        </div>
+      </div>
+
+      <!-- 탭 2: 직접 그리기 -->
+      <div class="tab-panel" id="tabDraw" style="margin-top:24px;">
+        <!-- 툴바 -->
+        <div class="draw-toolbar">
+          <label>도구</label>
+          <button class="tool-btn active" id="toolPen" onclick="setTool('pen')">펜</button>
+          <button class="tool-btn" id="toolFill" onclick="setTool('fill')">채우기</button>
+          <button class="tool-btn" id="toolEraser" onclick="setTool('eraser')">지우개</button>
+
+          <label style="margin-left:4px;">굵기</label>
+          <input type="range" class="size-slider" id="brushSize" min="1" max="40" value="4">
+          <span id="brushSizeLabel" style="font-size:11px;color:var(--muted);min-width:24px;">4px</span>
+
+          <label style="margin-left:4px;">색상</label>
+          <div class="color-swatches" id="swatchList">
+            <div class="swatch active" data-color="#1e1e2a" style="background:#1e1e2a;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#C17F88" style="background:#C17F88;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#8B6F8E" style="background:#8B6F8E;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#7A9E87" style="background:#7A9E87;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#C4956A" style="background:#C4956A;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#5b8ecf" style="background:#5b8ecf;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#e8c84a" style="background:#e8c84a;" onclick="setSwatch(this)"></div>
+            <div class="swatch" data-color="#ffffff" style="background:#ffffff;border:1px solid #ddd;" onclick="setSwatch(this)"></div>
+            <input type="color" id="colorPicker" value="#1e1e2a" title="직접 선택" onchange="setCustomColor(this.value)">
+          </div>
+
+          <button class="tool-btn" style="margin-left:auto;" onclick="clearCanvas()">전체 지우기</button>
+          <button class="tool-btn" onclick="undoCanvas()">되돌리기</button>
+          <button class="tool-btn" style="border-color:var(--accent);color:var(--accent);" onclick="useDrawingForAnalysis()">이 그림으로 분석</button>
+        </div>
+
+        <!-- 캔버스 -->
+        <div class="draw-canvas-wrap">
+          <canvas id="drawCanvas"></canvas>
+        </div>
+        <p class="draw-hint">마우스 또는 터치로 자유롭게 그려보세요 · 채우기 도구는 같은 색 영역을 한 번에 칠합니다</p>
       </div>
 
       <!-- Optional Context Input -->
@@ -1523,8 +1701,7 @@
         style="font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; color:var(--accent); margin:24px 0 10px;">
         5. 약관 변경</h3>
       <p>본 약관은 서비스 운영 방침에 따라 변경될 수 있으며, 변경 시 서비스 내 공지를 통해 안내합니다.<br>
-        문의: <a href="mailto:admin@mantra.studio"
-          style="color:var(--accent); text-decoration:none;">admin@mantra.studio</a></p>
+        문의: <a href="/cdn-cgi/l/email-protection#29484d444047694448475d5b48075a5d5c4d4046" style="color:var(--accent); text-decoration:none;"><span class="__cf_email__" data-cfemail="39585d545057795458574d4b58174a4d4c5d5056">[email&#160;protected]</span></a></p>
     </div>
   </section>
 
@@ -1588,13 +1765,207 @@
     </p>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
     let uploadedImageBase64 = null;
     let uploadedImageType = null;
     let lastReportData = null;
 
+    /* ──────────────────────────────────────────
+       탭 전환
+    ────────────────────────────────────────── */
+    function switchTab(tab) {
+      document.querySelectorAll('.input-tab').forEach((el, i) => {
+        el.classList.toggle('active', (tab === 'upload' && i === 0) || (tab === 'draw' && i === 1));
+      });
+      document.getElementById('tabUpload').classList.toggle('active', tab === 'upload');
+      document.getElementById('tabDraw').classList.toggle('active', tab === 'draw');
+      if (tab === 'draw') {
+        setTimeout(initCanvas, 100);
+      }
+    }
 
+    /* ──────────────────────────────────────────
+       캔버스 드로잉
+    ────────────────────────────────────────── */
+    let canvas, ctx;
+    let drawTool = 'pen';   // 'pen' | 'fill' | 'eraser'
+    let drawColor = '#1e1e2a';
+    let brushSize = 4;
+    let isDrawing = false;
+    let undoStack = [];
+    let canvasInited = false;
+
+    function initCanvas() {
+      if (canvasInited) return;
+      canvasInited = true;
+      canvas = document.getElementById('drawCanvas');
+      // 실제 픽셀 크기 맞추기
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = (rect.width > 0 ? rect.width : canvas.parentElement.offsetWidth) || 800;
+      const h = 420;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      saveUndo();
+
+      // 슬라이더
+      const slider = document.getElementById('brushSize');
+      slider.addEventListener('input', () => {
+        brushSize = parseInt(slider.value);
+        document.getElementById('brushSizeLabel').textContent = brushSize + 'px';
+      });
+
+      // 마우스 이벤트
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', moveDraw);
+      canvas.addEventListener('mouseup', endDraw);
+      canvas.addEventListener('mouseleave', endDraw);
+
+      // 터치 이벤트
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e.touches[0]); }, { passive: false });
+      canvas.addEventListener('touchmove', e => { e.preventDefault(); moveDraw(e.touches[0]); }, { passive: false });
+      canvas.addEventListener('touchend', endDraw);
+    }
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: (e.clientX || e.pageX) - rect.left,
+        y: (e.clientY || e.pageY) - rect.top
+      };
+    }
+
+    function startDraw(e) {
+      const pos = getPos(e);
+      if (drawTool === 'fill') {
+        floodFill(Math.round(pos.x), Math.round(pos.y), hexToRgb(drawColor));
+        saveUndo();
+        return;
+      }
+      isDrawing = true;
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      ctx.lineWidth = drawTool === 'eraser' ? brushSize * 3 : brushSize;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = drawTool === 'eraser' ? '#ffffff' : drawColor;
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function endDraw() {
+      if (!isDrawing) return;
+      isDrawing = false;
+      saveUndo();
+    }
+
+    function saveUndo() {
+      if (!ctx) return;
+      undoStack.push(canvas.toDataURL());
+      if (undoStack.length > 30) undoStack.shift();
+    }
+
+    function undoCanvas() {
+      if (undoStack.length <= 1) return;
+      undoStack.pop();
+      const img = new Image();
+      img.src = undoStack[undoStack.length - 1];
+      img.onload = () => {
+        const dpr = window.devicePixelRatio || 1;
+        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        ctx.drawImage(img, 0, 0, canvas.width / dpr, canvas.height / dpr);
+      };
+    }
+
+    function clearCanvas() {
+      if (!ctx) return;
+      const dpr = window.devicePixelRatio || 1;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+      saveUndo();
+    }
+
+    function setTool(tool) {
+      drawTool = tool;
+      document.getElementById('toolPen').classList.toggle('active', tool === 'pen');
+      document.getElementById('toolFill').classList.toggle('active', tool === 'fill');
+      document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
+      canvas.style.cursor = tool === 'eraser' ? 'cell' : 'crosshair';
+    }
+
+    function setSwatch(el) {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+      drawColor = el.dataset.color;
+      document.getElementById('colorPicker').value = drawColor;
+      if (drawTool === 'eraser') setTool('pen');
+    }
+
+    function setCustomColor(val) {
+      drawColor = val;
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      if (drawTool === 'eraser') setTool('pen');
+    }
+
+    // 플러드필 (채우기 도구)
+    function hexToRgb(hex) {
+      const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      return [r, g, b];
+    }
+    function floodFill(startX, startY, fillRgb) {
+      const dpr = window.devicePixelRatio || 1;
+      const w = Math.round(canvas.width), h = Math.round(canvas.height);
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const data = imgData.data;
+      const sx = Math.round(startX * dpr), sy = Math.round(startY * dpr);
+      const idx = (sy * w + sx) * 4;
+      const target = [data[idx], data[idx+1], data[idx+2], data[idx+3]];
+      const fill = [...fillRgb, 255];
+      if (target.every((v,i) => v === fill[i])) return;
+      const stack = [[sx, sy]];
+      while (stack.length) {
+        const [x, y] = stack.pop();
+        if (x < 0 || x >= w || y < 0 || y >= h) continue;
+        const i = (y * w + x) * 4;
+        if (!target.every((v, j) => Math.abs(data[i+j] - v) < 30)) continue;
+        data[i] = fill[0]; data[i+1] = fill[1]; data[i+2] = fill[2]; data[i+3] = fill[3];
+        stack.push([x+1,y],[x-1,y],[x,y+1],[x,y-1]);
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    // 그린 그림을 분석에 사용
+    function useDrawingForAnalysis() {
+      if (!canvas) { alert('먼저 그림을 그려주세요.'); return; }
+      const dataURL = canvas.toDataURL('image/png');
+      uploadedImageBase64 = dataURL.split(',')[1];
+      uploadedImageType = 'image/png';
+      // 프리뷰 표시
+      document.getElementById('previewImg').src = dataURL;
+      document.getElementById('previewContainer').style.display = 'block';
+      // 분석 버튼 활성화
+      document.getElementById('analyzeEduBtn').disabled = false;
+      document.getElementById('analyzeGenBtn').disabled = false;
+      // 업로드 탭으로 전환해서 프리뷰 보여주기
+      switchTab('upload');
+      window.scrollTo({ top: document.getElementById('uploadSection').offsetTop - 40, behavior: 'smooth' });
+    }
+
+    /* ──────────────────────────────────────────
+       Upload zone interactions
+    ────────────────────────────────────────── */
     // Upload zone interactions
     const zone = document.getElementById('uploadZone');
     const fileInput = document.getElementById('fileInput');
@@ -2100,15 +2471,4 @@
       const downloadLink = document.createElement("a");
       document.body.appendChild(downloadLink);
 
-      if (navigator.msSaveOrOpenBlob) {
-        navigator.msSaveOrOpenBlob(blob, filename);
-      } else {
-        downloadLink.href = url;
-        downloadLink.download = filename;
-        downloadLink.click();
-      }
-    }
-  </script>
-</body>
-
-</html>
+      if (navigator.m
