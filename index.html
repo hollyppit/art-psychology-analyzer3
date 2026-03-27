@@ -911,36 +911,19 @@
       font-weight: 300;
     }
 
-    /* ── 탭 ── */
-    .input-tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 0;
-      border-bottom: 1px solid var(--line);
+    .draw-section {
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid var(--line);
     }
-    .input-tab {
-      padding: 12px 28px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.04em;
+    .draw-section-label {
+      font-family: 'Cormorant', serif;
+      font-size: 12px;
+      letter-spacing: 0.18em;
       color: var(--muted);
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      transition: all 0.25s;
-      margin-bottom: -1px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
     }
-    .input-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-    .input-tab:hover:not(.active) {
-      color: var(--ink);
-    }
-    .tab-panel { display: none !important; }
-    .tab-panel.active { display: block !important; }
 
     /* ── 캔버스 드로잉 ── */
     .draw-toolbar {
@@ -1057,18 +1040,10 @@
     <!-- Upload Section -->
     <div class="upload-section" id="uploadSection">
 
-      <!-- 탭 -->
-      <div class="input-tabs">
-        <button class="input-tab active" id="tabBtnUpload">그림 업로드</button>
-        <button class="input-tab" id="tabBtnDraw">직접 그리기</button>
-      </div>
-
-      <!-- 탭 1: 업로드 -->
-      <div class="tab-panel active" id="tabUpload">
+      <div id="uploadArea">
         <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
           <div class="upload-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="1" ry="1"></rect>
               <circle cx="8.5" cy="8.5" r="1.5"></circle>
               <polyline points="21 15 16 10 5 21"></polyline>
@@ -1078,28 +1053,21 @@
           <div class="upload-desc">드래그 앤 드롭 또는 클릭하여 선택 · JPG, PNG, WEBP, GIF 지원</div>
         </div>
         <input type="file" id="fileInput" accept="image/*" style="display:none">
-
         <div class="preview-container" id="previewContainer">
-          <div class="preview-frame">
-            <img id="previewImg" alt="업로드된 그림">
-          </div>
+          <div class="preview-frame"><img id="previewImg" alt="업로드된 그림"></div>
           <p class="preview-caption">분석할 이미지가 준비되었습니다</p>
         </div>
       </div>
-
-      <!-- 탭 2: 직접 그리기 -->
-      <div class="tab-panel" id="tabDraw" style="margin-top:24px;">
-        <!-- 툴바 -->
+      <div class="draw-section" id="drawSection">
+        <div class="draw-section-label">또는 직접 그리기</div>
         <div class="draw-toolbar">
           <label>도구</label>
           <button class="tool-btn active" id="toolPen" onclick="setTool('pen')">펜</button>
           <button class="tool-btn" id="toolFill" onclick="setTool('fill')">채우기</button>
           <button class="tool-btn" id="toolEraser" onclick="setTool('eraser')">지우개</button>
-
           <label style="margin-left:4px;">굵기</label>
           <input type="range" class="size-slider" id="brushSize" min="1" max="40" value="4">
           <span id="brushSizeLabel" style="font-size:11px;color:var(--muted);min-width:24px;">4px</span>
-
           <label style="margin-left:4px;">색상</label>
           <div class="color-swatches" id="swatchList">
             <div class="swatch active" data-color="#1e1e2a" style="background:#1e1e2a;" onclick="setSwatch(this)"></div>
@@ -1112,17 +1080,12 @@
             <div class="swatch" data-color="#ffffff" style="background:#ffffff;border:1px solid #ddd;" onclick="setSwatch(this)"></div>
             <input type="color" id="colorPicker" value="#1e1e2a" title="직접 선택" onchange="setCustomColor(this.value)">
           </div>
-
           <button class="tool-btn" style="margin-left:auto;" onclick="clearCanvas()">전체 지우기</button>
           <button class="tool-btn" onclick="undoCanvas()">되돌리기</button>
           <button class="tool-btn" style="border-color:var(--accent);color:var(--accent);" onclick="useDrawingForAnalysis()">이 그림으로 분석</button>
         </div>
-
-        <!-- 캔버스 -->
-        <div class="draw-canvas-wrap">
-          <canvas id="drawCanvas"></canvas>
-        </div>
-        <p class="draw-hint">마우스 또는 터치로 자유롭게 그려보세요 · 채우기 도구는 같은 색 영역을 한 번에 칠합니다</p>
+        <div class="draw-canvas-wrap"><canvas id="drawCanvas"></canvas></div>
+        <p class="draw-hint">마우스 또는 터치로 자유롭게 그려보세요</p>
       </div>
 
       <!-- Optional Context Input -->
@@ -1774,44 +1737,23 @@
     /* ──────────────────────────────────────────
        탭 전환
     ────────────────────────────────────────── */
-    function switchTab(tab) {
-      var tabUpload = document.getElementById('tabUpload');
-      var tabDraw = document.getElementById('tabDraw');
-      var btnUpload = document.getElementById('tabBtnUpload');
-      var btnDraw = document.getElementById('tabBtnDraw');
-      tabUpload.classList.remove('active');
-      tabDraw.classList.remove('active');
-      btnUpload.classList.remove('active');
-      btnDraw.classList.remove('active');
-      if (tab === 'upload') {
-        tabUpload.classList.add('active');
-        btnUpload.classList.add('active');
-      } else {
-        tabDraw.classList.add('active');
-        btnDraw.classList.add('active');
-        setTimeout(initCanvas, 150);
-      }
-    }
+
 
     /* ──────────────────────────────────────────
        캔버스 드로잉
     ────────────────────────────────────────── */
     let canvas, ctx;
-    let drawTool = 'pen';   // 'pen' | 'fill' | 'eraser'
+    let drawTool = 'pen';
     let drawColor = '#1e1e2a';
     let brushSize = 4;
     let isDrawing = false;
     let undoStack = [];
-    let canvasInited = false;
 
     function initCanvas() {
-      if (canvasInited) return;
-      canvasInited = true;
       canvas = document.getElementById('drawCanvas');
-      // 실제 픽셀 크기 맞추기
+      if (!canvas) return;
       const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      const w = (rect.width > 0 ? rect.width : canvas.parentElement.offsetWidth) || 800;
+      const w = canvas.offsetWidth || 800;
       const h = 420;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
@@ -1819,24 +1761,18 @@
       ctx.scale(dpr, dpr);
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, w, h);
+      undoStack = [];
       saveUndo();
-
-      // 슬라이더
-      const slider = document.getElementById('brushSize');
-      slider.addEventListener('input', () => {
-        brushSize = parseInt(slider.value);
+      document.getElementById('brushSize').addEventListener('input', function() {
+        brushSize = parseInt(this.value);
         document.getElementById('brushSizeLabel').textContent = brushSize + 'px';
       });
-
-      // 마우스 이벤트
       canvas.addEventListener('mousedown', startDraw);
       canvas.addEventListener('mousemove', moveDraw);
       canvas.addEventListener('mouseup', endDraw);
       canvas.addEventListener('mouseleave', endDraw);
-
-      // 터치 이벤트
-      canvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e.touches[0]); }, { passive: false });
-      canvas.addEventListener('touchmove', e => { e.preventDefault(); moveDraw(e.touches[0]); }, { passive: false });
+      canvas.addEventListener('touchstart', function(e){ e.preventDefault(); startDraw(e.touches[0]); }, { passive: false });
+      canvas.addEventListener('touchmove', function(e){ e.preventDefault(); moveDraw(e.touches[0]); }, { passive: false });
       canvas.addEventListener('touchend', endDraw);
     }
 
@@ -1910,7 +1846,7 @@
       document.getElementById('toolPen').classList.toggle('active', tool === 'pen');
       document.getElementById('toolFill').classList.toggle('active', tool === 'fill');
       document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
-      canvas.style.cursor = tool === 'eraser' ? 'cell' : 'crosshair';
+      if (canvas) canvas.style.cursor = tool === 'eraser' ? 'cell' : 'crosshair';
     }
 
     function setSwatch(el) {
@@ -1966,13 +1902,10 @@
       // 분석 버튼 활성화
       document.getElementById('analyzeEduBtn').disabled = false;
       document.getElementById('analyzeGenBtn').disabled = false;
-      // 업로드 탭으로 전환해서 프리뷰 보여주기
-      switchTab('upload');
       window.scrollTo({ top: document.getElementById('uploadSection').offsetTop - 40, behavior: 'smooth' });
     }
 
-    document.getElementById('tabBtnUpload').addEventListener('click', function(){ switchTab('upload'); });
-    document.getElementById('tabBtnDraw').addEventListener('click', function(){ switchTab('draw'); });
+    document.addEventListener('DOMContentLoaded', initCanvas);
 
     /* ──────────────────────────────────────────
        Upload zone interactions
