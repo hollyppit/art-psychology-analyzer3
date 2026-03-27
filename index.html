@@ -939,8 +939,8 @@
     .input-tab:hover:not(.active) {
       color: var(--ink);
     }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
+    .tab-panel { display: none !important; }
+    .tab-panel.active { display: block !important; }
 
     /* ── 캔버스 드로잉 ── */
     .draw-toolbar {
@@ -1059,8 +1059,8 @@
 
       <!-- 탭 -->
       <div class="input-tabs">
-        <button class="input-tab active" onclick="switchTab('upload')">그림 업로드</button>
-        <button class="input-tab" onclick="switchTab('draw')">직접 그리기</button>
+        <button class="input-tab active" id="tabBtnUpload">그림 업로드</button>
+        <button class="input-tab" id="tabBtnDraw">직접 그리기</button>
       </div>
 
       <!-- 탭 1: 업로드 -->
@@ -1775,12 +1775,14 @@
        탭 전환
     ────────────────────────────────────────── */
     function switchTab(tab) {
-      document.querySelectorAll('.input-tab').forEach((el, i) => {
-        el.classList.toggle('active', (tab === 'upload' && i === 0) || (tab === 'draw' && i === 1));
-      });
-      document.getElementById('tabUpload').classList.toggle('active', tab === 'upload');
-      document.getElementById('tabDraw').classList.toggle('active', tab === 'draw');
-      if (tab === 'draw') {
+      var panels = [document.getElementById('tabUpload'), document.getElementById('tabDraw')];
+      var btns = document.querySelectorAll('.input-tab');
+      if (tab === 'upload') {
+        panels[0].classList.add('active'); panels[1].classList.remove('active');
+        btns[0].classList.add('active'); btns[1].classList.remove('active');
+      } else {
+        panels[1].classList.add('active'); panels[0].classList.remove('active');
+        btns[1].classList.add('active'); btns[0].classList.remove('active');
         setTimeout(initCanvas, 100);
       }
     }
@@ -1962,6 +1964,9 @@
       switchTab('upload');
       window.scrollTo({ top: document.getElementById('uploadSection').offsetTop - 40, behavior: 'smooth' });
     }
+
+    document.getElementById('tabBtnUpload').addEventListener('click', function(){ switchTab('upload'); });
+    document.getElementById('tabBtnDraw').addEventListener('click', function(){ switchTab('draw'); });
 
     /* ──────────────────────────────────────────
        Upload zone interactions
