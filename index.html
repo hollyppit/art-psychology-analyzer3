@@ -1775,15 +1775,21 @@
        탭 전환
     ────────────────────────────────────────── */
     function switchTab(tab) {
-      var panels = [document.getElementById('tabUpload'), document.getElementById('tabDraw')];
-      var btns = document.querySelectorAll('.input-tab');
+      var tabUpload = document.getElementById('tabUpload');
+      var tabDraw = document.getElementById('tabDraw');
+      var btnUpload = document.getElementById('tabBtnUpload');
+      var btnDraw = document.getElementById('tabBtnDraw');
+      tabUpload.classList.remove('active');
+      tabDraw.classList.remove('active');
+      btnUpload.classList.remove('active');
+      btnDraw.classList.remove('active');
       if (tab === 'upload') {
-        panels[0].classList.add('active'); panels[1].classList.remove('active');
-        btns[0].classList.add('active'); btns[1].classList.remove('active');
+        tabUpload.classList.add('active');
+        btnUpload.classList.add('active');
       } else {
-        panels[1].classList.add('active'); panels[0].classList.remove('active');
-        btns[1].classList.add('active'); btns[0].classList.remove('active');
-        setTimeout(initCanvas, 100);
+        tabDraw.classList.add('active');
+        btnDraw.classList.add('active');
+        setTimeout(initCanvas, 150);
       }
     }
 
@@ -1812,7 +1818,7 @@
       ctx = canvas.getContext('2d');
       ctx.scale(dpr, dpr);
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, w, h);
       saveUndo();
 
       // 슬라이더
