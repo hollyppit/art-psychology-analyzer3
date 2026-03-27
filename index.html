@@ -2415,4 +2415,16 @@
       const downloadLink = document.createElement("a");
       document.body.appendChild(downloadLink);
 
-      if (navigator.m
+      if (navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, filename);
+      } else {
+        downloadLink.href = url;
+        downloadLink.download = filename;
+        downloadLink.click();
+      }
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
