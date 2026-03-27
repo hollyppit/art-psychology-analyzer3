@@ -1766,8 +1766,7 @@
       ctx.fillRect(0, 0, w, h);
       undoStack = [];
       saveUndo();
-      document.getElementById('analyzeEduBtn').disabled = false;
-      document.getElementById('analyzeGenBtn').disabled = false;
+
       document.getElementById('brushSize').addEventListener('input', function() {
         brushSize = parseInt(this.value);
         document.getElementById('brushSizeLabel').textContent = brushSize + 'px';
@@ -1906,6 +1905,9 @@
       document.getElementById('analyzeEduBtn').disabled = false;
       document.getElementById('analyzeGenBtn').disabled = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(function() {
+        alert('그림이 등록됐어요! 위의 분석 버튼을 눌러주세요.');
+      }, 400);
     }
 
     document.addEventListener('DOMContentLoaded', initCanvas);
