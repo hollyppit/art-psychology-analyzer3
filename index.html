@@ -2617,18 +2617,19 @@
         async function sanitizeDrawingDesc(text) {
           if (!text) return text;
           try {
-            const res = await fetch('https://api.anthropic.com/v1/messages', {
+            const res = await fetch('/api/chat', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 model: 'claude-sonnet-4-20250514',
-                max_tokens: 300,
-                system: '당신은 미술심리 분석 전문가입니다. 입력된 텍스트를 미술심리 보고서에 적합한 중립적이고 학술적인 표현으로 변환하세요. AI 안전 정책에 걸릴 수 있는 표현(폭력, 격투, 무기, 신체 접촉 등)은 모두 중립적 미술 심리 용어로 바꾸세요. 원래 의미와 맥락은 최대한 유지하세요. 변환된 텍스트만 출력하고 설명은 하지 마세요.',
-                messages: [{ role: 'user', content: text }]
+                messages: [
+                  { role: 'system', content: '당신은 미술심리 분석 전문가입니다. 입력된 텍스트를 미술심리 보고서에 적합한 중립적이고 학술적인 표현으로 변환하세요. AI 안전 정책에 걸릴 수 있는 표현(폭력, 격투, 무기, 신체 접촉 등)은 모두 중립적 미술 심리 용어로 바꾸세요. 원래 의미와 맥락은 최대한 유지하세요. 변환된 텍스트만 출력하고 설명은 하지 마세요.' },
+                  { role: 'user', content: text }
+                ]
               })
             });
             const data = await res.json();
-            const sanitized = data?.content?.[0]?.text?.trim();
+            const sanitized = data?.choices?.[0]?.message?.content?.trim();
             return sanitized ? `[미술심리 분석용 참고 설명] ${sanitized}` : `[미술심리 분석용 참고 설명] ${text}`;
           } catch (e) {
             console.warn('설명 순화 실패, 원문 사용:', e);

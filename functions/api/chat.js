@@ -11,171 +11,81 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestPost(context) {
-  const { request, env } = context;
+  const body = await context.request.json();
 
-  // CORS headers
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  };
-
+  // 1순위: Anthropic Claude
   try {
-    const body = await request.json();
-    const { messages, model, stream, ...rest } = body;
-
-    // 1. Try Anthropic
-    if (env.ANTHROPIC_API_KEY) {
-      try {
-        const anthropicResponse = await callAnthropic(messages, env.ANTHROPIC_API_KEY);
-        return new Response(JSON.stringify(anthropicResponse), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      } catch (error) {
-        console.error("Anthropic Error:", error);
-        // Fallback to OpenAI if Anthropic fails
-      }
-    }
-
-    // 2. OpenAI Fallback
-    if (env.OPENAI_API_KEY) {
-      try {
-        const openaiResponse = await callOpenAI(body, env.OPENAI_API_KEY);
-        return new Response(JSON.stringify(openaiResponse), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      } catch (openaiError) {
-        const msg = openaiError.message || '';
-
-        // OpenAI 안전 정책 차단이면 Anthropic으로 재시도
-        if (msg.includes('safety') || msg.includes('policy') || msg.includes('content_policy_violation') || msg.includes('400')) {
-          if (env.ANTHROPIC_API_KEY) {
-            try {
-              const retryResponse = await callAnthropic(messages, env.ANTHROPIC_API_KEY);
-              return new Response(JSON.stringify(retryResponse), {
-                headers: { ...corsHeaders, "Content-Type": "application/json" },
-              });
-            } catch (retryError) {
-              console.error("Anthropic retry also failed:", retryError);
-            }
-          }
+    const anthropicPayload = {
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4000,
+      system: body.messages?.find(m => m.role === 'system')?.content || '',
+      messages: body.messages?.filter(m => m.role !== 'system').map(m => {
+        // OpenAI image_url 형식을 Anthropic 형식으로 변환
+        if (Array.isArray(m.content)) {
+          return {
+            role: m.role,
+            content: m.content.map(c => {
+              if (c.type === 'image_url') {
+                const base64 = c.image_url.url.split(',')[1];
+                const mediaType = c.image_url.url.split(';')[0].split(':')[1];
+                return { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } };
+              }
+              return c;
+            })
+          };
         }
+        return m;
+      }) || []
+    };
 
-        throw openaiError;
-      }
-    }
-
-    return new Response(JSON.stringify({ error: "No API keys configured or providers failed" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
-}
-
-async function callAnthropic(messages, apiKey) {
-  // Extract system message
-  const systemMessage = messages.find(m => m.role === 'system')?.content || "";
-  const filteredMessages = messages.filter(m => m.role !== 'system');
-
-  // Convert messages to Anthropic format
-  const anthropicMessages = filteredMessages.map(msg => {
-    if (Array.isArray(msg.content)) {
-      const content = msg.content.map(item => {
-        if (item.type === 'text') {
-          return { type: 'text', text: item.text };
-        } else if (item.type === 'image_url') {
-          const url = item.image_url.url;
-          // Allow any image media type up to the semicolon
-          const match = url.match(/^data:(image\/[^;]+);base64,(.+)$/);
-          if (match) {
-            return {
-              type: 'image',
-              source: {
-                type: 'base64',
-                media_type: match[1],
-                data: match[2],
-              },
-            };
-          }
-        }
-        return item;
-      });
-      return { role: msg.role === 'assistant' ? 'assistant' : 'user', content };
-    }
-    return { role: msg.role === 'assistant' ? 'assistant' : 'user', content: msg.content };
-  });
-
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "claude-3-opus-20240229",
-      max_tokens: 4096,
-      system: systemMessage,
-      messages: anthropicMessages,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(`Anthropic API error: ${JSON.stringify(errorData)}`);
-  }
-
-  const data = await response.json();
-  
-  // Convert to OpenAI format
-  return {
-    id: data.id,
-    object: "chat.completion",
-    created: Math.floor(Date.now() / 1000),
-    model: data.model,
-    _provider: "anthropic",
-    choices: [
-      {
-        index: 0,
-        message: {
-          role: "assistant",
-          content: data.content[0].text,
-        },
-        finish_reason: data.stop_reason === "end_turn" ? "stop" : data.stop_reason,
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': context.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
       },
-    ],
-    usage: {
-      prompt_tokens: data.usage.input_tokens,
-      completion_tokens: data.usage.output_tokens,
-      total_tokens: data.usage.input_tokens + data.usage.output_tokens,
-    },
-  };
-}
+      body: JSON.stringify(anthropicPayload)
+    });
 
-async function callOpenAI(body, apiKey) {
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ...body,
-      model: "gpt-4o", // Ensure we use gpt-4o as requested
-    }),
-  });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || 'Anthropic error');
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(`OpenAI API error: ${JSON.stringify(errorData)}`);
+    const text = data?.content?.[0]?.text;
+    if (!text) throw new Error('Anthropic 응답 없음');
+
+    // OpenAI 형식으로 변환해서 반환 (기존 프론트 코드 호환)
+    return new Response(JSON.stringify({
+      choices: [{ message: { content: text }, finish_reason: 'stop' }],
+      _provider: 'anthropic'
+    }), { headers: { 'Content-Type': 'application/json' } });
+
+  } catch (e) {
+    console.warn('Anthropic 실패, OpenAI fallback:', e.message);
   }
 
-  const data = await response.json();
-  data._provider = "openai";
-  return data;
+  // 2순위: OpenAI fallback
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${context.env.OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({ ...body, model: 'gpt-4o' })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || 'OpenAI error');
+
+    return new Response(JSON.stringify({ ...data, _provider: 'openai' }), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+  } catch (e) {
+    return new Response(JSON.stringify({ error: { message: `분석 실패: ${e.message}` } }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 }
