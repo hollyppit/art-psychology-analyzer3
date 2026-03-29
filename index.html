@@ -2612,12 +2612,34 @@
         const infoGender = document.getElementById('infoGender').value;
         const infoAge = document.getElementById('infoAge').value.trim();
         const infoDesc = document.getElementById('infoDesc').value.trim();
+
+        // 그림 설명을 미술심리 맥락으로 순화하는 함수
+        function sanitizeDrawingDesc(text) {
+          if (!text) return text;
+          const replacements = [
+            [/주짓수|유도|무에타이|킥복싱|격투기|종합격투기|MMA|권투|복싱|레슬링|태권도|가라테|합기도|쿵푸|무술/gi, '스포츠'],
+            [/도복|유니폼|경기복|체육복/gi, '의상'],
+            [/싸우|격투|대련|스파링|치|때리|때려|차|찬다|공격|방어|타격/gi, '움직임'],
+            [/피|혈|상처|부상/gi, '표시'],
+            [/총|칼|검|무기|폭발|폭탄/gi, '물체'],
+            [/죽|살인|살해|자살|자해/gi, '감정적 표현'],
+            [/폭력|위협|공포|두려움/gi, '강한 감정'],
+            [/나체|알몸|벗은/gi, '인물'],
+            [/술|담배|마약/gi, '물건'],
+          ];
+          let result = text;
+          for (const [pattern, replacement] of replacements) {
+            result = result.replace(pattern, replacement);
+          }
+          return `[미술심리 분석용 참고 설명] ${result}`;
+        }
+
         let userPrompt = "이 그림을 미술 심리학적 관점에서 분석해주세요.";
         const extras = [];
         if (infoName) extras.push(`이름: ${infoName}`);
         if (infoGender) extras.push(`성별: ${infoGender}`);
         if (infoAge) extras.push(`나이: ${infoAge}`);
-        if (infoDesc) extras.push(`그림 설명: ${infoDesc}`);
+        if (infoDesc) extras.push(`그림 설명: ${sanitizeDrawingDesc(infoDesc)}`);
         if (extras.length > 0) {
           userPrompt += `\n\n[부가 정보 (분석 시 참고하세요)]\n${extras.join('\n')}`;
         }
