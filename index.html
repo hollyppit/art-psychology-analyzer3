@@ -376,6 +376,336 @@
       cursor: not-allowed;
     }
 
+    .btn-analyze.btn-diary {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-analyze.btn-diary::before {
+      background: linear-gradient(135deg, var(--gold), #e8b97e);
+    }
+
+    .btn-analyze.btn-diary:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    /* Diary Report */
+    .diary-report-section {
+      display: none;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .diary-report-container {
+      background: var(--surface);
+      border-top: 3px solid var(--gold);
+      box-shadow: 0 2px 40px var(--shadow);
+      padding: 60px 56px 56px;
+    }
+
+    @media (max-width: 600px) {
+      .diary-report-container { padding: 36px 24px 40px; }
+    }
+
+    .diary-report-header {
+      text-align: center;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 48px;
+    }
+
+    .diary-badge {
+      font-family: 'Cormorant', serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .diary-date {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .diary-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+
+    .diary-block {
+      margin-bottom: 52px;
+    }
+
+    .diary-section-num {
+      font-family: 'Cormorant', serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .diary-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(196,149,106,0.3);
+    }
+
+    .diary-psych-summary {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .diary-keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .diary-keyword-tags .tag {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      border: 1px solid rgba(196,149,106,0.5);
+      padding: 4px 12px;
+    }
+
+    .diary-elements {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 500px) {
+      .diary-elements { grid-template-columns: 1fr; }
+    }
+
+    .diary-element-item {
+      padding: 14px 16px;
+      background: rgba(196,149,106,0.05);
+      border-left: 2px solid rgba(196,149,106,0.4);
+    }
+
+    .diary-element-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .diary-element-text {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+
+    .diary-score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 32px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 500px) {
+      .diary-score-grid { grid-template-columns: 1fr; }
+    }
+
+    .diary-score-item { }
+
+    .diary-score-name {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .diary-score-bar-bg {
+      height: 3px;
+      background: var(--line);
+      border-radius: 0;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .diary-score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), #e8b97e);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .diary-score-val {
+      font-family: 'Cormorant', serif;
+      font-size: 13px;
+      color: var(--gold);
+      text-align: right;
+    }
+
+    .diary-core-analysis {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      line-height: 2.0;
+      color: #3d3548;
+      font-style: italic;
+    }
+
+    .diary-success-card {
+      background: rgba(122,158,135,0.06);
+      border: 1px solid rgba(122,158,135,0.25);
+      padding: 28px 28px 24px;
+    }
+
+    .diary-success-person {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--sage);
+      margin-bottom: 4px;
+    }
+
+    .diary-success-era {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .diary-success-background {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .diary-success-story {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.95;
+      margin-bottom: 20px;
+    }
+
+    .diary-success-connection {
+      font-size: 13px;
+      color: var(--sage);
+      line-height: 1.8;
+      padding-top: 16px;
+      border-top: 1px solid rgba(122,158,135,0.3);
+      font-weight: 400;
+    }
+
+    .diary-quote-block {
+      text-align: center;
+      padding: 40px 32px;
+      border: 1px solid rgba(196,149,106,0.3);
+      position: relative;
+      background: rgba(196,149,106,0.03);
+    }
+
+    .diary-quote-mark {
+      font-family: 'Cormorant', serif;
+      font-size: 64px;
+      line-height: 1;
+      color: rgba(196,149,106,0.2);
+      position: absolute;
+      top: 8px;
+      left: 20px;
+    }
+
+    .diary-quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .diary-quote-author {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .diary-quote-meaning {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .diary-motivation-message {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 2.0;
+      margin-bottom: 28px;
+    }
+
+    .diary-motivation-action {
+      padding: 20px 24px;
+      background: rgba(139,111,142,0.07);
+      border-left: 3px solid var(--accent);
+      margin-bottom: 32px;
+    }
+
+    .diary-motivation-action-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .diary-motivation-action-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+
+    .diary-motivation-closing {
+      font-family: 'Cormorant', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--muted);
+      text-align: center;
+    }
+
     /* Loading */
     .loading-section {
       display: none;
@@ -1198,6 +1528,9 @@
         <button class="btn-analyze" id="analyzeGenBtn" disabled onclick="analyzeImage('general')" data-i18n="btn_gen_analyze">
           일반 미술 심리 분석
         </button>
+        <button class="btn-analyze btn-diary" id="analyzeDiaryBtn" disabled onclick="analyzeDiary()">
+          오늘의 그림 일기
+        </button>
       </div>
     </div>
 
@@ -1239,6 +1572,64 @@
         <button class="btn-action primary" style="background:#2b579a;border-color:#2b579a;" onclick="exportWord()" data-i18n="btn_word">Word
           다운로드</button>
         <button class="btn-action primary" onclick="exportPDF()" data-i18n="btn_pdf">PDF 다운로드</button>
+      </div>
+    </div>
+
+    <!-- Diary Report -->
+    <div class="diary-report-section" id="diaryReportSection">
+      <div class="diary-report-container">
+
+        <div class="diary-report-header">
+          <div class="diary-badge">✦ 오늘의 그림 일기 ✦</div>
+          <div class="diary-date" id="diaryReportDate"></div>
+          <div class="diary-title" id="diaryReportTitle"></div>
+          <div style="margin-top:28px;">
+            <img id="diaryReportImage" style="max-width:100%;max-height:280px;border-radius:4px;box-shadow:0 4px 16px rgba(26,20,16,0.15);">
+          </div>
+        </div>
+
+        <!-- Section 1: Psychological State -->
+        <div class="diary-block" id="diaryPsychBlock">
+          <div class="diary-section-num">Section 01</div>
+          <div class="diary-section-title">오늘의 심리 초상</div>
+          <div class="diary-psych-summary" id="diaryPsychSummary"></div>
+          <div class="diary-keyword-tags" id="diaryKeywords"></div>
+          <div class="diary-elements" id="diaryElements"></div>
+          <div class="diary-score-grid" id="diaryScores"></div>
+          <div class="diary-core-analysis" id="diaryCoreAnalysis"></div>
+        </div>
+
+        <!-- Section 2: Success Case -->
+        <div class="diary-block" id="diarySuccessBlock">
+          <div class="diary-section-num">Section 02</div>
+          <div class="diary-section-title">닮은 성공 이야기</div>
+          <div class="diary-success-card" id="diarySuccessCard"></div>
+        </div>
+
+        <!-- Section 3: Quote -->
+        <div class="diary-block" id="diaryQuoteBlock">
+          <div class="diary-section-num">Section 03</div>
+          <div class="diary-section-title">오늘의 격언</div>
+          <div class="diary-quote-block" id="diaryQuoteInner"></div>
+        </div>
+
+        <!-- Section 4: Motivation -->
+        <div class="diary-block" id="diaryMotivationBlock">
+          <div class="diary-section-num">Section 04</div>
+          <div class="diary-section-title">오늘 하루를 위한 메시지</div>
+          <div class="diary-motivation-message" id="diaryMotivationMessage"></div>
+          <div class="diary-motivation-action" id="diaryMotivationAction"></div>
+          <div class="diary-motivation-closing" id="diaryMotivationClosing"></div>
+        </div>
+
+        <div style="border-top:1px solid var(--line);padding-top:20px;margin-top:8px;font-family:'Cormorant',serif;font-size:11px;color:var(--muted);text-align:center;letter-spacing:0.2em;opacity:0.6;text-transform:uppercase;">
+          Powered by AI · Mantra Art
+        </div>
+
+        <div class="report-actions">
+          <button class="btn-action" onclick="resetApp()">새 그림 분석하기</button>
+          <button class="btn-action primary" onclick="exportDiaryPDF()">PDF 저장·공유</button>
+        </div>
       </div>
     </div>
 
@@ -2409,6 +2800,7 @@
       document.getElementById('previewContainer').style.display = 'block';
       document.getElementById('analyzeEduBtn').disabled = false;
       document.getElementById('analyzeGenBtn').disabled = false;
+      document.getElementById('analyzeDiaryBtn').disabled = false;
       document.getElementById('drawingAnalyzeWrap').style.display = 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(function() {
@@ -2420,6 +2812,14 @@
       initCanvas();
       const savedLang = localStorage.getItem('mantra_art_site_lang') || 'ko';
       switchLang(savedLang);
+
+      // 모바일에서 내보내기 버튼 레이블 변경
+      if (isMobile()) {
+        const pdfBtn = document.querySelector('[onclick="exportPDF()"]');
+        const wordBtn = document.querySelector('[onclick="exportWord()"]');
+        if (pdfBtn) pdfBtn.textContent = 'PDF 저장·공유';
+        if (wordBtn) wordBtn.textContent = 'Word 저장·공유';
+      }
     });
 
     /* ──────────────────────────────────────────
@@ -2463,6 +2863,7 @@
         document.getElementById('infoDesc').value = '';
         document.getElementById('analyzeEduBtn').disabled = false;
         document.getElementById('analyzeGenBtn').disabled = false;
+        document.getElementById('analyzeDiaryBtn').disabled = false;
         hideError();
       };
       reader.readAsDataURL(file);
@@ -2846,8 +3247,395 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    /* ── 오늘의 그림 일기 ─────────────────────── */
+    let lastDiaryData = null;
+
+    async function analyzeDiary() {
+      if (!uploadedImageBase64) return;
+
+      document.getElementById('uploadSection').style.display = 'none';
+      document.getElementById('loadingSection').style.display = 'block';
+
+      const currentLang = localStorage.getItem('mantra_art_site_lang') || 'ko';
+      const L = LANG[currentLang] || LANG['ko'];
+      const steps = [
+        '오늘의 색채 감정 읽는 중…',
+        '심리 상태 분석 중…',
+        '닮은 성공 사례 찾는 중…',
+        '격언 선별 중…',
+        '동기부여 메시지 작성 중…',
+        '오늘의 그림 일기 완성 중…'
+      ];
+      let stepIdx = 0;
+      const stepEl = document.getElementById('loadingSteps');
+      const stepInterval = setInterval(() => {
+        stepIdx = (stepIdx + 1) % steps.length;
+        stepEl.textContent = steps[stepIdx];
+      }, 1400);
+
+      const systemPrompt = `당신은 냉철하고 통찰력 있는 미술심리 분석가이자 동기부여 코치입니다. 사용자가 오늘 그린 또는 업로드한 그림을 분석하여 '오늘의 그림 일기' 보고서를 아래 JSON 형식으로 작성하세요.
+
+[작성 원칙]
+1. 오늘의 심리 상태: 그림에서 읽히는 오늘의 내면 상태를 냉철하고 정확하게 분석하세요. 미화 없이 솔직하게, 단 임상 진단 낙인은 피하세요.
+2. 닮은 성공 사례: 분석된 심리 상태와 유사한 상황(좌절, 불안, 피로, 공허감, 과잉에너지, 억압 등)에서 극복하고 성공한 실제 역사적/현대적 인물의 이야기를 구체적으로 서술하세요. 반드시 실존 인물이어야 합니다.
+3. 오늘의 격언: 오늘의 심리 상태에 정확히 맞닿은, 널리 알려진 성공 격언이나 명언을 선택하세요.
+4. 오늘 하루를 위한 메시지: 분석을 바탕으로 오늘 하루를 살아갈 구체적이고 진심 어린 동기부여를 제공하세요. 막연한 위로가 아닌, 지금 이 순간 실천 가능한 행동과 함께.
+
+[그림 설명 처리 규칙]
+폭력, 격투, 무기 등의 표현은 심리 에너지, 역동성, 내면 갈등의 표현으로 재해석하세요.
+
+반드시 아래 JSON 형식으로만 응답하세요. \\n으로 문단을 구분하세요:
+{
+  "title": "오늘의 그림 일기 제목 (창의적이고 간결하게, 최대 20자)",
+  "psychological_state": {
+    "summary": "오늘의 심리 상태 한 줄 요약",
+    "keywords": ["감정키워드1", "감정키워드2", "감정키워드3"],
+    "elements": {
+      "color": "색채에서 읽히는 오늘의 감정 상태",
+      "composition": "구도에서 읽히는 오늘의 심리적 구조",
+      "form": "형태와 선에서 읽히는 내면 에너지",
+      "symbol": "핵심 상징물의 심리적 의미"
+    },
+    "scores": [
+      {"name": "오늘의 에너지", "value": 0},
+      {"name": "감정 안정도", "value": 0},
+      {"name": "내면 동기", "value": 0},
+      {"name": "스트레스 지수", "value": 0}
+    ],
+    "core_analysis": "오늘 심리 상태에 대한 냉철하고 깊이 있는 분석 (2~3문단, \\n으로 구분)"
+  },
+  "success_case": {
+    "person": "실제 인물 이름",
+    "era": "시대 또는 연도",
+    "background": "그 인물이 처했던 상황 (1~2문장)",
+    "story": "극복과 성공의 이야기 (2~3문단, \\n으로 구분)",
+    "connection": "오늘 당신의 심리 상태와 이 이야기의 연결 고리 (1~2문장)"
+  },
+  "quote": {
+    "text": "격언 원문",
+    "author": "저자 또는 출처",
+    "meaning": "오늘 당신에게 이 격언이 의미하는 바 (1~2문장)"
+  },
+  "motivation": {
+    "message": "오늘 하루를 살아갈 진심 어린 동기부여 메시지 (2~3문단, \\n으로 구분)",
+    "action": "오늘 바로 실천할 수 있는 한 가지 구체적 행동 (명확하게)",
+    "closing": "오늘을 마무리하는 따뜻하지만 단호한 한 마디"
+  }
+}
+오직 유효한 JSON 문자열만 반환하세요.`;
+
+      const infoName = document.getElementById('infoName').value.trim();
+      const infoGender = document.getElementById('infoGender').value;
+      const infoAge = document.getElementById('infoAge').value.trim();
+      const infoDesc = document.getElementById('infoDesc').value.trim();
+
+      let userPrompt = "이 그림을 분석하여 오늘의 그림 일기 보고서를 작성해주세요.";
+      const extras = [];
+      if (infoName) extras.push(`이름: ${infoName}`);
+      if (infoGender) extras.push(`성별: ${infoGender}`);
+      if (infoAge) extras.push(`나이: ${infoAge}`);
+      if (infoDesc) extras.push(`그림 설명: ${infoDesc}`);
+      if (extras.length > 0) {
+        userPrompt += `\n\n[부가 정보]\n${extras.join('\n')}`;
+      }
+
+      const payload = {
+        model: "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: userPrompt },
+              { type: "image_url", image_url: { url: `data:${uploadedImageType};base64,${uploadedImageBase64}` } }
+            ]
+          }
+        ],
+        response_format: { type: "json_object" },
+        max_tokens: 4500,
+        temperature: 0.75
+      };
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        clearInterval(stepInterval);
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error?.message || '분석 중 오류가 발생했습니다.');
+        }
+
+        const resultData = await response.json();
+        const choice = resultData.choices && resultData.choices[0];
+        if (!choice) throw new Error("AI 응답 형식이 올바르지 않습니다.");
+
+        const finishReason = choice.finish_reason;
+        const refusal = choice.message?.refusal;
+        const resultText = choice.message?.content;
+        const provider = resultData._provider || 'unknown';
+
+        if (finishReason === 'content_filter' || (!resultText && refusal)) {
+          throw new Error(`이미지가 AI 안전 정책에 의해 분석이 차단되었습니다. 다른 이미지를 사용해 주세요. (${provider})`);
+        }
+
+        const result = robustJSONParse(resultText);
+        if (!result) throw new Error(`AI 응답 분석 실패 (${provider}). 다시 시도해 주세요.`);
+
+        lastDiaryData = result;
+        renderDiaryReport(result);
+
+      } catch (err) {
+        clearInterval(stepInterval);
+        document.getElementById('loadingSection').style.display = 'none';
+        document.getElementById('uploadSection').style.display = 'block';
+        showError('분석 중 오류가 발생했습니다: ' + err.message);
+      }
+    }
+
+    function renderDiaryReport(data) {
+      document.getElementById('loadingSection').style.display = 'none';
+
+      // Header
+      document.getElementById('diaryReportDate').textContent =
+        new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }) + ' · Mantra Art';
+      document.getElementById('diaryReportTitle').textContent = data.title || '오늘의 그림 일기';
+
+      const previewImg = document.getElementById('previewImg').src;
+      document.getElementById('diaryReportImage').src = previewImg;
+
+      const ps = data.psychological_state || {};
+
+      // Summary + Keywords
+      document.getElementById('diaryPsychSummary').innerHTML = formatText(ps.summary || '');
+      const kwEl = document.getElementById('diaryKeywords');
+      kwEl.innerHTML = (ps.keywords || []).map(k => `<span class="tag">${k}</span>`).join('');
+
+      // Elements
+      const el = ps.elements || {};
+      const elLabels = { color: '색채', composition: '구도', form: '형태·선', symbol: '상징' };
+      document.getElementById('diaryElements').innerHTML = Object.entries(elLabels).map(([key, label]) =>
+        `<div class="diary-element-item">
+          <div class="diary-element-label">${label}</div>
+          <div class="diary-element-text">${formatText(el[key] || '')}</div>
+        </div>`
+      ).join('');
+
+      // Scores
+      const scores = ps.scores || [];
+      document.getElementById('diaryScores').innerHTML = scores.map(s =>
+        `<div class="diary-score-item">
+          <div class="diary-score-name">${s.name}</div>
+          <div class="diary-score-bar-bg"><div class="diary-score-bar-fill" data-val="${s.value}" style="width:0%"></div></div>
+          <div class="diary-score-val">${s.value}</div>
+        </div>`
+      ).join('');
+
+      // Core analysis
+      document.getElementById('diaryCoreAnalysis').innerHTML = formatText(ps.core_analysis || '');
+
+      // Success case
+      const sc = data.success_case || {};
+      document.getElementById('diarySuccessCard').innerHTML =
+        `<div class="diary-success-person">${sc.person || ''}</div>
+        <div class="diary-success-era">${sc.era || ''}</div>
+        <div class="diary-success-background">${formatText(sc.background || '')}</div>
+        <div class="diary-success-story">${formatText(sc.story || '')}</div>
+        <div class="diary-success-connection">✦ ${formatText(sc.connection || '')}</div>`;
+
+      // Quote
+      const q = data.quote || {};
+      document.getElementById('diaryQuoteInner').innerHTML =
+        `<div class="diary-quote-mark">"</div>
+        <div class="diary-quote-text">${q.text || ''}</div>
+        <div class="diary-quote-author">— ${q.author || ''}</div>
+        <div class="diary-quote-meaning">${formatText(q.meaning || '')}</div>`;
+
+      // Motivation
+      const mv = data.motivation || {};
+      document.getElementById('diaryMotivationMessage').innerHTML = formatText(mv.message || '');
+      document.getElementById('diaryMotivationAction').innerHTML =
+        `<div class="diary-motivation-action-label">오늘의 실천</div>
+        <div class="diary-motivation-action-text">${formatText(mv.action || '')}</div>`;
+      document.getElementById('diaryMotivationClosing').textContent = mv.closing || '';
+
+      // Show
+      document.getElementById('diaryReportSection').style.display = 'block';
+
+      // Animate score bars
+      setTimeout(() => {
+        document.querySelectorAll('.diary-score-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.val + '%';
+        });
+      }, 400);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ── 모바일 파일 공유/저장 헬퍼 ──────────────── */
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    async function shareOrDownload(blob, filename, shareTitle) {
+      if (navigator.share && navigator.canShare) {
+        const file = new File([blob], filename, { type: blob.type });
+        try {
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({ title: shareTitle, files: [file] });
+            return;
+          }
+        } catch (e) {
+          if (e.name === 'AbortError') return;
+          // 공유 실패 시 다운로드로 폴백
+        }
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function captureAsPDF(containerEl, actionsEl, filename, shareTitle) {
+      if (actionsEl) actionsEl.style.visibility = 'hidden';
+      try {
+        const { jsPDF } = window.jspdf;
+        const canvas = await html2canvas(containerEl, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          backgroundColor: '#FFFCF9'
+        });
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
+        const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgH = (canvas.height * pageW) / canvas.width;
+        pdf.addImage(imgData, 'JPEG', 0, 0, pageW, imgH);
+        let heightLeft = imgH - pageH;
+        while (heightLeft > 0) {
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, -(imgH - heightLeft), pageW, imgH);
+          heightLeft -= pageH;
+        }
+        const blob = pdf.output('blob');
+        await shareOrDownload(blob, filename, shareTitle);
+      } finally {
+        if (actionsEl) actionsEl.style.visibility = '';
+      }
+    }
+    /* ─────────────────────────────────────────── */
+
+    async function exportDiaryPDF() {
+      if (!lastDiaryData) return;
+
+      if (isMobile()) {
+        const btn = event && event.target;
+        const origText = btn ? btn.textContent : '';
+        if (btn) { btn.textContent = '생성 중…'; btn.disabled = true; }
+        try {
+          const container = document.querySelector('#diaryReportSection .diary-report-container');
+          const actions = container.querySelector('.report-actions');
+          const filename = `MantraArt_일기_${new Date().toISOString().slice(0,10)}.pdf`;
+          await captureAsPDF(container, actions, filename, lastDiaryData.title || '오늘의 그림 일기');
+        } catch (e) {
+          alert('PDF 생성 실패: ' + e.message);
+        } finally {
+          if (btn) { btn.textContent = origText; btn.disabled = false; }
+        }
+        return;
+      }
+
+      const d = lastDiaryData;
+      const ps = d.psychological_state || {};
+      const sc = d.success_case || {};
+      const q = d.quote || {};
+      const mv = d.motivation || {};
+      const imgSrc = document.getElementById('previewImg').src;
+
+      const pw = window.open('', '_blank', 'width=900,height=1200');
+      if (!pw) { alert('팝업이 차단되었습니다. 브라우저 팝업 허용 후 다시 시도하세요.'); return; }
+
+      const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const nl = s => (s || '').replace(/\\n/g, '<br>');
+
+      pw.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">');
+      pw.document.write('<title>오늘의 그림 일기 · Mantra Art</title>');
+      pw.document.write('<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">');
+      pw.document.write('<style>@page{size:A4 portrait;margin:20mm}*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Noto Sans KR",sans-serif;font-size:13px;color:#1a1410;background:#fff;line-height:1.7}.hdr{text-align:center;border-bottom:2px solid #C4956A;padding-bottom:14px;margin-bottom:18px}.hdr h1{font-family:"Cormorant Garamond",serif;font-size:11px;letter-spacing:0.3em;color:#C4956A;text-transform:uppercase;margin-bottom:6px}.hdr h2{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:400;margin-bottom:4px}.hdr .dt{font-size:11px;color:#7a6e62}.img-wrap{text-align:center;margin-bottom:18px}.img-wrap img{max-height:160px;max-width:100%;border-radius:4px}.sec{margin-bottom:18px;page-break-inside:avoid}.sec h3{font-size:11px;font-weight:700;color:#C4956A;border-bottom:1px solid #e8d5b5;padding-bottom:4px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.1em}.sec p{font-size:12px;line-height:1.8;margin-bottom:6px}.score-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}.score-row div{font-size:12px}.score-val{color:#C4956A;font-weight:700}.success-box{border-left:3px solid #7A9E87;padding:10px 12px;margin-bottom:8px;background:#f8fbf9}.success-person{font-family:"Cormorant Garamond",serif;font-size:16px;color:#7A9E87;margin-bottom:2px}.success-era{font-size:10px;color:#7a6e62;margin-bottom:8px}.quote-box{text-align:center;border:1px solid #e8d5b5;padding:20px;margin-bottom:8px}.quote-text{font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic;color:#1a1410;margin-bottom:8px}.quote-author{font-size:11px;color:#C4956A;letter-spacing:0.15em;margin-bottom:10px}.action-box{border-left:3px solid #8B6F8E;padding:10px 12px;background:#f9f7fb;margin-bottom:10px}.closing{text-align:center;padding-top:12px;border-top:1px solid #e8d5b5;margin-top:14px;font-style:italic;color:#7a6e62;font-size:13px}@media print{@page{size:A4 portrait;margin:20mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body>');
+      pw.document.write('<div class="hdr"><h1>✦ 오늘의 그림 일기 ✦</h1>');
+      pw.document.write('<h2>' + esc(d.title || '오늘의 그림 일기') + '</h2>');
+      pw.document.write('<div class="dt">' + new Date().toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'long' }) + ' &middot; Mantra Art</div></div>');
+      pw.document.write('<div class="img-wrap"><img src="' + imgSrc + '" alt="오늘의 그림"></div>');
+      // Section 1
+      pw.document.write('<div class="sec"><h3>01 · 오늘의 심리 초상</h3>');
+      pw.document.write('<p><strong>요약:</strong> ' + esc(ps.summary || '') + '</p>');
+      pw.document.write('<p><strong>키워드:</strong> ' + (ps.keywords || []).map(k => '#' + esc(k)).join(' ') + '</p>');
+      const el2 = ps.elements || {};
+      if (el2.color) pw.document.write('<p><strong>색채 —</strong> ' + nl(esc(el2.color)) + '</p>');
+      if (el2.composition) pw.document.write('<p><strong>구도 —</strong> ' + nl(esc(el2.composition)) + '</p>');
+      if (el2.form) pw.document.write('<p><strong>형태·선 —</strong> ' + nl(esc(el2.form)) + '</p>');
+      if (el2.symbol) pw.document.write('<p><strong>상징 —</strong> ' + nl(esc(el2.symbol)) + '</p>');
+      pw.document.write('<div class="score-row">');
+      (ps.scores || []).forEach(s => pw.document.write('<div><strong>' + esc(s.name) + '</strong>: <span class="score-val">' + s.value + '</span></div>'));
+      pw.document.write('</div>');
+      pw.document.write('<p style="font-style:italic">' + nl(esc(ps.core_analysis || '')) + '</p></div>');
+      // Section 2
+      pw.document.write('<div class="sec"><h3>02 · 닮은 성공 이야기</h3>');
+      pw.document.write('<div class="success-box">');
+      pw.document.write('<div class="success-person">' + esc(sc.person || '') + '</div>');
+      pw.document.write('<div class="success-era">' + esc(sc.era || '') + '</div>');
+      if (sc.background) pw.document.write('<p style="font-style:italic;color:#7a6e62">' + nl(esc(sc.background)) + '</p>');
+      pw.document.write('<p>' + nl(esc(sc.story || '')) + '</p>');
+      if (sc.connection) pw.document.write('<p style="color:#7A9E87;padding-top:8px;border-top:1px solid #c7ddd0">✦ ' + nl(esc(sc.connection)) + '</p>');
+      pw.document.write('</div></div>');
+      // Section 3
+      pw.document.write('<div class="sec"><h3>03 · 오늘의 격언</h3>');
+      pw.document.write('<div class="quote-box">');
+      pw.document.write('<div class="quote-text">"' + esc(q.text || '') + '"</div>');
+      pw.document.write('<div class="quote-author">— ' + esc(q.author || '') + '</div>');
+      if (q.meaning) pw.document.write('<p style="font-size:12px;color:#7a6e62">' + nl(esc(q.meaning)) + '</p>');
+      pw.document.write('</div></div>');
+      // Section 4
+      pw.document.write('<div class="sec"><h3>04 · 오늘 하루를 위한 메시지</h3>');
+      pw.document.write('<p>' + nl(esc(mv.message || '')) + '</p>');
+      if (mv.action) {
+        pw.document.write('<div class="action-box"><p style="font-size:10px;color:#8B6F8E;letter-spacing:0.15em;margin-bottom:4px">오늘의 실천</p><p><strong>' + nl(esc(mv.action)) + '</strong></p></div>');
+      }
+      pw.document.write('<div class="closing">' + nl(esc(mv.closing || '')) + '</div></div>');
+      pw.document.write('<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();window.onafterprint=function(){window.close();};},800);};<\/scr' + 'ipt>');
+      pw.document.write('</body></html>');
+      pw.document.close();
+    }
+
     async function exportPDF() {
       if (!lastReportData) return;
+
+      if (isMobile()) {
+        const btn = event && event.target;
+        const origText = btn ? btn.textContent : '';
+        if (btn) { btn.textContent = '생성 중…'; btn.disabled = true; }
+        try {
+          const container = document.getElementById('reportSection');
+          const actions = container.querySelector('.report-actions');
+          const filename = `MantraArt_Report_${new Date().toISOString().slice(0,10)}.pdf`;
+          await captureAsPDF(container, actions, filename, lastReportData.title || 'Mantra Art 분석 보고서');
+        } catch (e) {
+          alert('PDF 생성 실패: ' + e.message);
+        } finally {
+          if (btn) { btn.textContent = origText; btn.disabled = false; }
+        }
+        return;
+      }
 
       const d = lastReportData;
       const el = d.elements || {};
@@ -2903,7 +3691,7 @@
       pw.document.close();
     }
 
-    function exportWord() {
+    async function exportWord() {
       if (!lastReportData) return;
 
       const d = lastReportData;
@@ -2978,22 +3766,37 @@
       const postHtml = "</body></html>";
       const html = preHtml + contentHtml + postHtml;
 
-      const blob = new Blob(['\\ufeff', html], { type: 'application/msword' });
-      const url = URL.createObjectURL(blob);
+      const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
       const filename = `MantraArt_Report_${lastReportLang}.doc`;
+      await shareOrDownload(blob, filename, lastReportData.title || 'Mantra Art 분석 보고서');
+    }
 
-      const downloadLink = document.createElement("a");
-      document.body.appendChild(downloadLink);
+    function resetApp() {
+      uploadedImageBase64 = null;
+      uploadedImageType = null;
+      lastReportData = null;
+      lastDiaryData = null;
 
-      if (navigator.msSaveOrOpenBlob) {
-        navigator.msSaveOrOpenBlob(blob, filename);
-      } else {
-        downloadLink.href = url;
-        downloadLink.download = filename;
-        downloadLink.click();
-      }
-      document.body.removeChild(downloadLink);
-      URL.revokeObjectURL(url);
+      document.getElementById('reportSection').style.display = 'none';
+      document.getElementById('diaryReportSection').style.display = 'none';
+      document.getElementById('loadingSection').style.display = 'none';
+      document.getElementById('uploadSection').style.display = 'block';
+
+      document.getElementById('uploadZone').style.display = 'block';
+      document.getElementById('previewContainer').style.display = 'none';
+      document.getElementById('previewImg').src = '';
+
+      document.getElementById('analyzeEduBtn').disabled = true;
+      document.getElementById('analyzeGenBtn').disabled = true;
+      document.getElementById('analyzeDiaryBtn').disabled = true;
+
+      document.getElementById('infoName').value = '';
+      document.getElementById('infoGender').value = '';
+      document.getElementById('infoAge').value = '';
+      document.getElementById('infoDesc').value = '';
+      hideError();
+      clearCanvas();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
 </body>
