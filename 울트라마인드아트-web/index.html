@@ -1512,15 +1512,39 @@
     }
     .swatch:hover { transform: scale(1.15); }
     .swatch.active { border-color: var(--ink); }
+    .color-picker-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+    }
+
+    .color-picker-wrap label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--c-yellow);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
     #colorPicker {
-      width: 24px;
-      height: 24px;
-      border: 1px solid var(--line);
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--c-yellow);
       padding: 0;
       cursor: pointer;
       background: none;
       border-radius: 50%;
       overflow: hidden;
+      outline: none;
+      box-shadow: 0 0 0 2px var(--c-magenta);
+      transition: transform 0.2s;
+    }
+
+    #colorPicker:hover {
+      transform: scale(1.2);
     }
     .draw-canvas-wrap {
       position: relative;
@@ -1650,7 +1674,10 @@
             <div class="swatch" data-color="#5b8ecf" style="background:#5b8ecf;" onclick="setSwatch(this)"></div>
             <div class="swatch" data-color="#e8c84a" style="background:#e8c84a;" onclick="setSwatch(this)"></div>
             <div class="swatch" data-color="#ffffff" style="background:#ffffff;border:1px solid #ddd;" onclick="setSwatch(this)"></div>
-            <input type="color" id="colorPicker" value="#1e1e2a" title="직접 선택" onchange="setCustomColor(this.value)">
+            <div class="color-picker-wrap" onclick="document.getElementById('colorPicker').click()">
+              <label>직접 선택</label>
+              <input type="color" id="colorPicker" value="#1e1e2a" title="직접 선택" onchange="setCustomColor(this.value)">
+            </div>
           </div>
           <button class="tool-btn" style="margin-left:auto;" data-i18n="clear_btn" onclick="clearCanvas()">전체 지우기</button>
           <button class="tool-btn" data-i18n="undo_btn" onclick="undoCanvas()">되돌리기</button>
